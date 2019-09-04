@@ -9,8 +9,13 @@
                 <div>
                     <Pagination/>
                 </div>
+                <Alert type="error" show-icon>
+                    无用组件（未完成）
+                    <template slot="desc">
+                        <RangeNumber v-model="m1"/>
+                    </template>
+                </Alert>
                 <div>
-                    <RangeNumber/>
                 </div>
             </div>
         </Card>
@@ -22,12 +27,25 @@
     import Pagination from '@components/Pagination';
     import RangeNumber from '@components/RangeNumber';
 
+    /**
+     * 问题组件：日期选择器、年份选择器
+     * */
     export default {
         name: "Demo",
         components: {
             UrlSearchInput,
             Pagination,
             RangeNumber,
+        },
+        data() {
+            return {
+                m1: [],
+            };
+        },
+        mounted() {
+            setTimeout(() => {
+                this.m1 = [1, 2];
+            }, 1000);
         },
     };
 </script>

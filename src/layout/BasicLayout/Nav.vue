@@ -2,13 +2,13 @@
     <section>
         <ul class="nav">
             <li v-for="(item,index) in navList" :key="index" class="nav__item">
-                <router-link v-if="!item.children" :to="item.path" class="nav__group__header link">
+                <router-link v-if="!item.children" :to="item.path" class="nav__item__header link">
                     {{item.name}}
                 </router-link>
                 <div v-else class="nav__group">
-                    <p class="nav__group__header" :class="item.className">
+                    <p class="nav__item__header" :class="item.className">
                         {{item.name}}
-                        <Icon type="ios-arrow-down" class="nav__group__header__arrow"/>
+                        <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
                     </p>
                     <ul class="hide-nav">
                         <li v-for="(item,index) in item.children" :key="index" class="hide-nav__item">
@@ -138,9 +138,15 @@
 
     .link {
         color: #fff;
+
+        &:hover, &.active {
+            color: #0000FF;
+        }
     }
 
     .nav {
+        position: relative; // fix will-change
+        z-index: 999; // fix will-change
         will-change: transform;
         font-size: 0;
     }
@@ -154,16 +160,7 @@
         color: #fff;
         cursor: pointer;
 
-        &::after {
-            content: '|';
-            position: absolute;
-            right: -3px;
-            top: 0;
-            vertical-align: middle;
-            line-height: 62px;
-        }
-
-        &:hover::after, &:last-child::after {
+        &:last-child .nav__item__header::after {
             display: none;
         }
     }
@@ -173,6 +170,7 @@
         position: relative;
     }
 
+
     .hide-nav {
         overflow: hidden;
         position: absolute;
@@ -181,6 +179,7 @@
         right: 0;
         max-height: 0;
         background-color: #358BFE;
+        text-align: center;
     }
 
     .hide-nav__item {
@@ -194,17 +193,13 @@
         &:last-child {
             border-bottom: none;
         }
-
-        &.active {
-            color: #0000FF;
-        }
     }
 
     .nav__group {
         &:hover {
             background-color: #358BFE;
 
-            .nav__group__header__arrow {
+            .nav__item__header__arrow {
                 transform: rotate(180deg);
             }
 
@@ -214,18 +209,31 @@
                 max-height: 400px;
                 padding-bottom: 12px;
             }
+
+            .nav__item__header::after {
+                display: none;
+            }
         }
     }
 
-    .nav__group__header {
+    .nav__item__header {
         padding: 0 11px 0 13px;
+
+        &::after {
+            content: '|';
+            position: absolute;
+            right: -3px;
+            top: 0;
+            vertical-align: middle;
+            line-height: 62px;
+        }
 
         &.long {
             padding: 0 16px 0 22px;
         }
     }
 
-    .nav__group__header__arrow {
+    .nav__item__header__arrow {
         transition: transform .5s;
     }
 </style>
