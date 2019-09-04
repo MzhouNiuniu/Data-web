@@ -1,0 +1,231 @@
+<template>
+    <section>
+        <ul class="nav">
+            <li v-for="(item,index) in navList" :key="index" class="nav__item">
+                <router-link v-if="!item.children" :to="item.path" class="nav__group__header link">
+                    {{item.name}}
+                </router-link>
+                <div v-else class="nav__group">
+                    <p class="nav__group__header" :class="item.className">
+                        {{item.name}}
+                        <Icon type="ios-arrow-down" class="nav__group__header__arrow"/>
+                    </p>
+                    <ul class="hide-nav">
+                        <li v-for="(item,index) in item.children" :key="index" class="hide-nav__item">
+                            <router-link :to="item.path" class="link">{{item.name}}</router-link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </section>
+</template>
+
+<script>
+    /**
+     * 仅支持2层
+     * */
+    export default {
+        name: "Nav",
+        data() {
+            const navList = [
+                {
+                    name: '城投数据',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '项目合作',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '智库平台',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '城投杂志',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '政策法规',
+                    path: '',
+                    className: 'long',
+                    children: [
+                        {
+                            name: '政策法规',
+                            path: '',
+                        },
+                        {
+                            name: '指南标准',
+                            path: '',
+                        },
+                        {
+                            name: '国务院规范性文件',
+                            path: '',
+                        },
+                        {
+                            name: '地方性规范性文件',
+                            path: '',
+                        },
+                        {
+                            name: '部门规范性文件',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '行业研究',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '新闻动态',
+                    path: '',
+                    children: [
+                        {
+                            name: 'TEST',
+                            path: '',
+                        },
+                    ],
+                },
+                {
+                    name: '关于我们',
+                    path: '',
+                },
+                {
+                    name: '组件库',
+                    path: '/demo',
+                },
+            ];
+            this.navList = navList;
+            return {};
+        },
+    };
+</script>
+
+<style lang="scss" scoped>
+    ul {
+        list-style: none;
+    }
+
+    .link {
+        color: #fff;
+    }
+
+    .nav {
+        will-change: transform;
+        font-size: 0;
+    }
+
+    .nav__item {
+        position: relative;
+        display: inline-block;
+        height: $project-nav-height;
+        line-height: $project-nav-height;
+        font-size: 15px;
+        color: #fff;
+        cursor: pointer;
+
+        &::after {
+            content: '|';
+            position: absolute;
+            right: -3px;
+            top: 0;
+            vertical-align: middle;
+            line-height: 62px;
+        }
+
+        &:hover::after, &:last-child::after {
+            display: none;
+        }
+    }
+
+
+    .nav__group {
+        position: relative;
+    }
+
+    .hide-nav {
+        overflow: hidden;
+        position: absolute;
+        top: $project-nav-height;
+        left: 0;
+        right: 0;
+        max-height: 0;
+        background-color: #358BFE;
+    }
+
+    .hide-nav__item {
+        margin: 0 12px;
+        height: 32px;
+        line-height: 32px;
+        white-space: nowrap;
+        font-size: 12px;
+        border-bottom: 1px dashed #fff;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &.active {
+            color: #0000FF;
+        }
+    }
+
+    .nav__group {
+        &:hover {
+            background-color: #358BFE;
+
+            .nav__group__header__arrow {
+                transform: rotate(180deg);
+            }
+
+            // 数字越精确，效果越好，这里假设菜单不超过400px
+            .hide-nav {
+                transition: max-height 1.2s;
+                max-height: 400px;
+                padding-bottom: 12px;
+            }
+        }
+    }
+
+    .nav__group__header {
+        padding: 0 11px 0 13px;
+
+        &.long {
+            padding: 0 16px 0 22px;
+        }
+    }
+
+    .nav__group__header__arrow {
+        transition: transform .5s;
+    }
+</style>

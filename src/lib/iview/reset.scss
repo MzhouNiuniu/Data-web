@@ -1,0 +1,14 @@
+/* 增强、重置样式 */
+
+// InputNumber
+.ivu-input-number-default {
+  &, .ivu-input-number-input-wrap {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  input {
+    height: 25px;
+    line-height: 25px;
+  }
+}

@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'PingFang-SC';
+  src: url('~@public/font/PingFang-SC-Regular.ttf');
+}
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  font-family: PingFang-SC !important;
+  background-color: $project-bg;
+}
+
+img {
+  vertical-align: middle;
+}
+
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.project-container__wrapper {
+  .project-container {
+    margin: auto;
+    max-width: $project-width;
+    height: 100%;
+  }
+}
