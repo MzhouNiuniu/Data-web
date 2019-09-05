@@ -2,6 +2,10 @@ import BasicLayout from '@/layout/BasicLayout';
 
 export default [
     {
+        path: '*',
+        redirect: '/',
+    },
+    {
         path: '/login',
         component: lazyLoad('Login')
     },
@@ -24,10 +28,16 @@ export default [
                 name: 'about',
                 component: lazyLoad('About')
             },
+            /* 项目合作 */
             {
                 path: '/projectUnion',
                 name: 'projectUnion',
                 component: lazyLoad('ProjectUnion')
+            },
+            {
+                path: '/projectUnionDetail/:id',
+                name: 'projectUnionDetail',
+                component: lazyLoad('ProjectUnion/Detail')
             },
         ],
     },

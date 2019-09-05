@@ -14,9 +14,15 @@ Router.prototype.push = function push(location) {
 
 
 Vue.use(Router);
-
-export default new Router({
+const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
 });
+router.beforeEach(function (to, from, next) {
+    const store = router.app.$options.store;
+    console.log(store);
+    store.commit('app/setDefaultBgColor');
+    next();
+});
+export default router;

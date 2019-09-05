@@ -1,9 +1,10 @@
 <template>
     <section class="basic-layout">
         <Header/>
-        <section class="project-container__wrapper">
-            <router-view class="project-container router-view" :key="$route.fullPath"/>
-        </section>
+        <!-- footer 228px -->
+        <div style="padding-bottom: 228px;">
+            <router-view :key="$route.fullPath"/>
+        </div>
         <Footer/>
     </section>
 </template>
@@ -25,9 +26,5 @@
     .basic-layout {
         position: relative;
         min-height: 100%;
-    }
-
-    .router-view {
-        padding-top: 25px;
     }
 </style>

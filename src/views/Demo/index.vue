@@ -65,7 +65,7 @@
                 m2: '',
             };
         },
-        mounted() {
+        created() {
             setTimeout(() => {
                 this.m1 = [1, 2];
             }, 1000);

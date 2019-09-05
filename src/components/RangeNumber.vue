@@ -36,7 +36,7 @@
                 this.$emit('input', [this.n1, this.n2]);
             },
         },
-        mounted() {
+        created() {
             const unwatch = this.$watch('value', value => {
                 unwatch();
                 if (!value) return;
