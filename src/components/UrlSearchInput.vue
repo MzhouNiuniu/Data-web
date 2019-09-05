@@ -11,9 +11,6 @@
 </template>
 
 <script>
-    /**
-     * 此组件使用之后，想当前url加入一个query参数，名为inputSearch
-     * */
     export default {
         name: "UrlSearchInput",
         props: {
@@ -21,20 +18,27 @@
                 type: String,
                 default: '请输入搜索内容',
             },
+            name: {
+                type: String,
+                default() {
+                    return 'inputSearch_' + this._uid;
+                },
+            },
         },
         methods: {
             handleClear() {
                 this.search(undefined);
             },
             search(val) {
-                if (this.$route.query.inputSearch === val) {
+                const fieldName = this.name;
+                if (this.$route.query[fieldName] === val) {
                     return;
                 }
                 this.$router.push({
                     path: this.$route.path,
                     query: {
                         ...this.$route.query,
-                        inputSearch: val,
+                        [fieldName]: val,
                     },
                 }).catch(e => {
                     console.log(e);
@@ -68,7 +72,8 @@
             }
 
             .ivu-input-icon-clear {
-                right: 76px;
+                width: 10px; // 减少触发范围
+                right: 90px;
                 top: 4px;
             }
         }

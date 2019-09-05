@@ -16,6 +16,8 @@
                     </template>
                 </Alert>
                 <div>
+                    <OptionButton v-model="m2" title="主体类型" :options="options1"/>
+                    {{m2}}
                 </div>
             </div>
         </Card>
@@ -26,6 +28,7 @@
     import UrlSearchInput from '@components/UrlSearchInput';
     import Pagination from '@components/Pagination';
     import RangeNumber from '@components/RangeNumber';
+    import OptionButton from '@components/OptionButton';
 
     /**
      * 问题组件：日期选择器、年份选择器
@@ -36,10 +39,30 @@
             UrlSearchInput,
             Pagination,
             RangeNumber,
+            OptionButton,
         },
         data() {
+            this.options1 = [
+                {
+                    label: 'AAA+',
+                    value: 'AAA+',
+                },
+                {
+                    label: 'AA+',
+                    value: 'AA+',
+                },
+                {
+                    label: 'AA',
+                    value: 'AA',
+                },
+                {
+                    label: '其它',
+                    value: '其它',
+                },
+            ];
             return {
                 m1: [],
+                m2: '',
             };
         },
         mounted() {

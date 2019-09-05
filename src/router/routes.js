@@ -24,6 +24,11 @@ export default [
                 name: 'about',
                 component: lazyLoad('About')
             },
+            {
+                path: '/projectUnion',
+                name: 'projectUnion',
+                component: lazyLoad('ProjectUnion')
+            },
         ],
     },
 ];

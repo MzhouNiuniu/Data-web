@@ -2,15 +2,15 @@
     <section class="basic-layout">
         <Header/>
         <section class="project-container__wrapper">
-            <router-view class="project-container"/>
+            <router-view class="project-container router-view"/>
         </section>
         <Footer/>
     </section>
 </template>
 
 <script>
-    import Header from './/Header';
-    import Footer from './/Footer';
+    import Header from './Header';
+    import Footer from './Footer';
 
     export default {
         name: "BasicLayout",
@@ -25,5 +25,9 @@
     .basic-layout {
         position: relative;
         min-height: 100%;
+    }
+
+    .router-view {
+        padding-top: 25px;
     }
 </style>

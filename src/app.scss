@@ -34,3 +34,42 @@ img {
     height: 100%;
   }
 }
+
+
+@for $i from 0 through 50 {
+  $size: #{$i}px;
+
+  .margin#{$i} {
+    margin: $size;
+  }
+  .padding#{$i} {
+    padding: $size;
+  }
+  .mt-#{$i} {
+    margin-top: $size;
+  }
+  .pt-#{$i} {
+    padding-top: $size;
+  }
+
+  .mr-#{$i} {
+    margin-right: $size;
+  }
+  .pr-#{$i} {
+    padding-right: $size;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: $size;
+  }
+  .pb-#{$i} {
+    padding-bottom: $size;
+  }
+
+  .ml-#{$i} {
+    margin-left: $size;
+  }
+  .pl-#{$i} {
+    padding-left: $size;
+  }
+}

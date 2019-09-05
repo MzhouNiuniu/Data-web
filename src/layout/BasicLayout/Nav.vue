@@ -2,17 +2,21 @@
     <section>
         <ul class="nav">
             <li v-for="(item,index) in navList" :key="index" class="nav__item">
-                <router-link v-if="!item.children" :to="item.path" class="nav__item__header link">
+                <router-link v-if="!item.children" :to="item.path" class="nav__item__header">
                     {{item.name}}
                 </router-link>
                 <div v-else class="nav__group">
-                    <p class="nav__item__header" :class="item.className">
+                    <router-link v-if="item.path" :to="item.path" class="nav__item__header" :class="item.className">
+                        {{item.name}}
+                        <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
+                    </router-link>
+                    <p v-else class="nav__item__header" :class="item.className">
                         {{item.name}}
                         <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
                     </p>
                     <ul class="hide-nav">
                         <li v-for="(item,index) in item.children" :key="index" class="hide-nav__item">
-                            <router-link :to="item.path" class="link">{{item.name}}</router-link>
+                            <router-link :to="item.path">{{item.name}}</router-link>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +45,7 @@
                 },
                 {
                     name: '项目合作',
-                    path: '',
+                    path: '/projectUnion',
                     children: [
                         {
                             name: 'TEST',
@@ -98,7 +102,7 @@
                 },
                 {
                     name: '行业研究',
-                    path: '',
+                    path: '', // 点击的同时是否可以跳转路由，例如/about
                     children: [
                         {
                             name: 'TEST',
@@ -132,10 +136,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .link {
-        color: #fff;
-    }
-
     .nav {
         position: relative; // fix will-change
         z-index: 999; // fix will-change
@@ -180,13 +180,13 @@
         line-height: 32px;
         white-space: nowrap;
         font-size: 12px;
-        border-bottom: 1px dashed #fff;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
 
         &:last-child {
             border-bottom: none;
         }
 
-        .link {
+        a {
             color: #fff;
 
             &:hover, &.active {
@@ -199,6 +199,7 @@
     .nav__item__header {
         display: block; // 没有子菜单时，是a标签
         padding: 0 11px 0 13px;
+        color: #fff;
 
         &::after {
             content: '|';

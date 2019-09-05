@@ -21,6 +21,9 @@
         name: "RangeNumber",
         props: {
             value: Array,
+
+            // events
+            // v-model
         },
         data() {
             return {
