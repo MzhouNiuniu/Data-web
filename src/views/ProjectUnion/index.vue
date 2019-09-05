@@ -192,6 +192,7 @@
         }
     }
 
+
     @media screen and (max-width: 320px) {
         .project-list {
             li {

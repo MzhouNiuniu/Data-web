@@ -13,23 +13,37 @@
             </div>
             <div class="main">
                 <div class="hr-dashed"></div>
-                <p class="content">
-                    {{detail.content}}
+                <p class="content" v-html="detail.content">
                 </p>
                 <div class="hr-dashed mt-12"></div>
+                <div class="pl-6 pr-6">
+                    <AttachmentList class="mt-18" :value="detail.accessory"/>
+                </div>
             </div>
         </div>
         <div class="footer">
-            <h1>
-                saasasdas
-            </h1>
+            <div class="qr-code">
+                <img :src="detail.Tphotos" alt="推广码">
+            </div>
+            <p class="com-name">
+                {{detail.Tcompany}}
+            </p>
+            <p class="tel">
+                <Icon type="ios-thumbs-up" class="icon"/>
+                <span class="line"></span>{{detail.Tcontact}}
+            </p>
         </div>
     </section>
 </template>
 
 <script>
+    import AttachmentList from '@components/AttachmentList';
+
     export default {
         name: "ProjectUnionDetail",
+        components: {
+            AttachmentList,
+        },
         data() {
             return {
                 id: this.$route.params.id,
@@ -41,7 +55,7 @@
                 this.detail = {
                     name: '这是一个城投新闻标题这是一个城投新闻标题这是一个城投新闻标题',
                     releaseTime: '2019-9-03 14:23',
-                    content: ` 深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中 心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位多，大于4.5M的建筑面积约有7万㎡，其中最高部位层高12.1M。 4) 土建主体工程量大，使用了超过2.6万吨钢筋(其中三级钢1.8万吨)、15万立方砼。 5) 作为商业建筑机电工程量巨大，共2.5亿元，其中电梯92部、变配电量31082KVA、空调制冷量8000RT。 6) 地下室单层建筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。 深圳华润中心一期工程于2004年12月9日投入使用以来获得业主的好评，于2005年荣获广东省优良样板工程奖和于2008年荣获香港优质建筑大奖。 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位多，大于4.5M的建筑面积约有7万㎡，其中最高部位层高12.1M。 4) 土建主体工程量大，使用了超过2.6万吨钢筋(其中三级钢1.8万吨)、15万立方砼。 5) 作为商业建筑机电工程量巨大，共2.5亿元，其中电梯92部、变配电量31082KVA、空调制冷量8000RT。 6) 地下室单层建筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。`,
+                    content: `<p>6) 地下室单层建${'<img src=\'x\' onerror=\'console.error(\"xss attack\")\'>'}筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。 深圳华润中心一期工程于2004年12月9日投入使用以来获得业主的好评，于2005年荣获广东省优良样板工程奖和于2008年荣获香港优质建筑大奖。 </p><p></p><p>1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 </p><p></p><p>2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位</p>`,
                     accessory: 'https://www.w3school.com.cn/i/eg_tulip.jpg,https://www.w3school.com.cn/i/eg_tulip.jpg',
                     Tcompany: '这是一个公司名称这是一个公司名称',
                     Tcontact: '025-8346255',
@@ -60,6 +74,10 @@
 <style lang="scss" scoped>
     .project-container__wrapper {
         background-color: #fff;
+    }
+
+    .project-container {
+        padding-bottom: 16px;
     }
 
     .caption {
@@ -102,7 +120,87 @@
     }
 
     .footer {
+        $bg: #f6fbff;
+
+        box-sizing: content-box;
+        padding-top: 20px;
+        padding-bottom: 36px;
         height: 200px;
-        background-color: #f6fbff;
+        background-color: $bg;
+        font-family: PingFang-TC;
+
+        .qr-code {
+            overflow: hidden;
+            position: relative;
+            z-index: 0;
+            margin-left: auto;
+            margin-right: auto;
+            width: 110px;
+            height: 110px;
+            padding: 10px;
+
+            img {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                height: 100%;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                z-index: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                border: 2px solid $sign-color;
+            }
+
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                z-index: 1;
+                top: -10px;
+                right: -10px;
+                bottom: -10px;
+                left: -10px;
+                background: $bg;
+                transform: rotate(45deg);
+            }
+        }
+
+        .com-name {
+            margin-top: 15px;
+            line-height: 18px;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            color: rgba(88, 96, 102, 1);
+        }
+
+        .tel {
+            margin-top: 15px;
+            line-height: 24px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            color: rgba(5, 103, 255, 1);
+
+            .icon {
+                line-height: 18px;
+                vertical-align: -1px;
+            }
+
+            .line {
+                display: inline-block;
+                margin: 0 10px;
+                width: 1px;
+                height: 19px;
+                background: $sign-color;
+                vertical-align: -1px;
+            }
+        }
     }
 </style>

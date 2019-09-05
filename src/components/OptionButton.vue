@@ -150,7 +150,7 @@
 
     .whole-btn {
         position: relative;
-        margin-right: 16px;
+        margin-right: 23px;
 
         &::after {
             content: "";

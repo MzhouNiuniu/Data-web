@@ -1,8 +1,8 @@
 <template>
     <section class="basic-layout">
         <Header/>
-        <!-- footer 228px -->
-        <div style="padding-bottom: 228px;">
+        <!-- footer 108px，不计算溢出的logo 20px -->
+        <div style="padding-bottom: 108px;">
             <router-view :key="$route.fullPath"/>
         </div>
         <Footer/>
