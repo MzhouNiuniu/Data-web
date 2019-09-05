@@ -13,6 +13,10 @@ html, body, #app {
   background-color: $project-bg;
 }
 
+ul, ol {
+  list-style: none;
+}
+
 img {
   vertical-align: middle;
 }

@@ -27,6 +27,9 @@
                 this.search(undefined);
             },
             search(val) {
+                if (this.$route.query.inputSearch === val) {
+                    return;
+                }
                 this.$router.push({
                     path: this.$route.path,
                     query: {
@@ -51,10 +54,17 @@
                 font-size: 14px;
             }
 
+
             .ivu-input-search {
-                font-size: 18px;
                 padding-left: 19px !important;
                 padding-right: 20px !important;
+                background-color: $primary-color !important;
+                border-color: $primary-color !important;
+                font-size: 18px;
+
+                &:hover {
+                    background-color: $primary-color-light !important;
+                }
             }
 
             .ivu-input-icon-clear {

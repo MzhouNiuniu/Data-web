@@ -132,16 +132,8 @@
 </script>
 
 <style lang="scss" scoped>
-    ul {
-        list-style: none;
-    }
-
     .link {
         color: #fff;
-
-        &:hover, &.active {
-            color: #0000FF;
-        }
     }
 
     .nav {
@@ -193,6 +185,37 @@
         &:last-child {
             border-bottom: none;
         }
+
+        .link {
+            color: #fff;
+
+            &:hover, &.active {
+                color: $primary-color;
+            }
+        }
+    }
+
+
+    .nav__item__header {
+        display: block; // 没有子菜单时，是a标签
+        padding: 0 11px 0 13px;
+
+        &::after {
+            content: '|';
+            position: absolute;
+            right: -3px;
+            top: 0;
+            vertical-align: middle;
+            line-height: 62px;
+        }
+
+        &.long {
+            padding: 0 16px 0 22px;
+        }
+    }
+
+    .nav__item__header__arrow {
+        transition: transform .5s;
     }
 
     .nav__group {
@@ -216,24 +239,4 @@
         }
     }
 
-    .nav__item__header {
-        padding: 0 11px 0 13px;
-
-        &::after {
-            content: '|';
-            position: absolute;
-            right: -3px;
-            top: 0;
-            vertical-align: middle;
-            line-height: 62px;
-        }
-
-        &.long {
-            padding: 0 16px 0 22px;
-        }
-    }
-
-    .nav__item__header__arrow {
-        transition: transform .5s;
-    }
 </style>
