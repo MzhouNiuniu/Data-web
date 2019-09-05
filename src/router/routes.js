@@ -25,6 +25,11 @@ export default [
                 component: lazyLoad('About')
             },
             {
+                path: '/news',
+                name: 'news',
+                component: lazyLoad('News/index.vue')
+            },
+            {
                 path: '/projectUnion',
                 name: 'projectUnion',
                 component: lazyLoad('ProjectUnion')
