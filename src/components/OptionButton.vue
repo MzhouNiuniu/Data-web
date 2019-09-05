@@ -34,12 +34,7 @@
             value: {
                 default: undefined,
             },
-            name: {
-                type: String,
-                default() {
-                    return 'buttonSearch_' + this._uid;
-                },
-            },
+
             // 控制全部按钮
             required: {
                 type: Boolean,
@@ -98,10 +93,11 @@
                 };
             },
             handleChange(e) {
-                const index = Number(e.target.getAttribute('index'));
+                let index = e.target.getAttribute('index');
                 if (index === null) {
                     return;
                 }
+                index = Number(index);
 
                 const value = index < 0 ? undefined : this.options[index].value;
                 this.$emit('input', value);

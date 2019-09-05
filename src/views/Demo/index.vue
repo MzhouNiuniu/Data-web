@@ -4,7 +4,7 @@
             <p slot="title">本项目用到的所有组件</p>
             <div class="demo-list">
                 <div>
-                    <UrlSearchInput/>
+                    <SearchInput/>
                 </div>
                 <div>
                     <Pagination/>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import UrlSearchInput from '@components/UrlSearchInput';
+    import SearchInput from '@components/SearchInput';
     import Pagination from '@components/Pagination';
     import RangeNumber from '@components/RangeNumber';
     import OptionButton from '@components/OptionButton';
@@ -36,7 +36,7 @@
     export default {
         name: "Demo",
         components: {
-            UrlSearchInput,
+            SearchInput,
             Pagination,
             RangeNumber,
             OptionButton,

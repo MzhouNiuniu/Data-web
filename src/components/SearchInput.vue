@@ -1,5 +1,6 @@
 <template>
     <Input
+            :value="value"
             class="url-search-input"
             clearable
             size="large"
@@ -12,37 +13,26 @@
 
 <script>
     export default {
-        name: "UrlSearchInput",
+        name: "SearchInput",
         props: {
+            value: String,
+
             placeholder: {
                 type: String,
                 default: '请输入搜索内容',
             },
-            name: {
-                type: String,
-                default() {
-                    return 'inputSearch_' + this._uid;
-                },
-            },
+
+            // events
+            // v-model
+            // @change
         },
         methods: {
             handleClear() {
                 this.search(undefined);
             },
             search(val) {
-                const fieldName = this.name;
-                if (this.$route.query[fieldName] === val) {
-                    return;
-                }
-                this.$router.push({
-                    path: this.$route.path,
-                    query: {
-                        ...this.$route.query,
-                        [fieldName]: val,
-                    },
-                }).catch(e => {
-                    console.log(e);
-                });
+                this.$emit('input', val);
+                this.$emit('change', val);
             },
         },
     };

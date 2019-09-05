@@ -1,26 +1,39 @@
 <template>
     <section>
-        <UrlSearchInput name="projectName"/>
+        <SearchInput
+                v-model="searchParams.projectName"
+                @change="query()"
+        />
         <OptionButton
                 class="mt-30"
                 title="项目名称"
                 v-model="searchParams.projectType"
                 :options="options"
-                @change="query"
+                @change="query()"
         />
         <div class="hr"></div>
+        <ul class="project-list mt-30">
+            <li>ProjectCard</li>
+        </ul>
+        <Pagination
+                class="mt-20"
+                v-bind="pagination"
+                @change="handlePageChange"
+        />
     </section>
 </template>
 
 <script>
-    import UrlSearchInput from '@components/UrlSearchInput';
+    import SearchInput from '@components/SearchInput';
     import OptionButton from '@components/OptionButton';
+    import Pagination from '@components/Pagination';
 
     export default {
         name: "ProjectUnion",
         components: {
-            UrlSearchInput,
+            SearchInput,
             OptionButton,
+            Pagination,
         },
         data() {
             this.options = [
@@ -43,22 +56,47 @@
             ];
             return {
                 searchParams: this.getSearchParams(),
+                pagination: this.getPagination(),
             };
         },
         methods: {
             getSearchParams() {
                 const { query } = this.$route;
                 return {
-                    projectName: query.inputSearch,
+                    projectName: query.projectName,
                     projectType: query.projectType,
                 };
             },
-            query() {
-                this.$router.push({
-                    path: this.$route.path,
-                    query: this.searchParams,
+            getPagination() {
+                const { query } = this.$route;
+                return {
+                    current: query.current || 1,
+                    size: query.size || 10,
+                    total: 0,
+                };
+            },
+            handlePageChange({ page, size }) {
+                this.pagination.current = page;
+                this.pagination.size = size;
+                this.query({
+                    current: page,
+                    size,
                 });
             },
+            query(otherParams) {
+                this.$router.push({
+                    path: this.$route.path,
+                    query: {
+                        ...this.searchParams,
+                        ...otherParams,
+                    },
+                });
+            },
+        },
+        mounted() {
+            setTimeout(() => {
+                this.pagination.total = 230;
+            }, 1000);
         },
     };
 </script>

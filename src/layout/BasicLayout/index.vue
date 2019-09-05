@@ -2,7 +2,7 @@
     <section class="basic-layout">
         <Header/>
         <section class="project-container__wrapper">
-            <router-view class="project-container router-view"/>
+            <router-view class="project-container router-view" :key="$route.fullPath"/>
         </section>
         <Footer/>
     </section>
