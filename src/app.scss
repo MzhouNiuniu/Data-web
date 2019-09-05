@@ -97,7 +97,7 @@ img {
   line-height: 24px;
   font-size: 24px;
   font-weight: 600;
-  color: rgba(5, 103, 255, 1); // todo sass var
+  color: $sign-color;
 
   &::before {
     content: '';

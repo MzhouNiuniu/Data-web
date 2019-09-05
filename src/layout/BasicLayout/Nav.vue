@@ -112,13 +112,7 @@
                 },
                 {
                     name: '新闻动态',
-                    path: '',
-                    children: [
-                        {
-                            name: 'TEST',
-                            path: '',
-                        },
-                    ],
+                    path: '/news',
                 },
                 {
                     name: '关于我们',

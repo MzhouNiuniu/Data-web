@@ -30,6 +30,11 @@ export default [
             },
             /* 项目合作 */
             {
+                path: '/news',
+                name: 'news',
+                component: lazyLoad('News/index.vue')
+            },
+            {
                 path: '/projectUnion',
                 name: 'projectUnion',
                 component: lazyLoad('ProjectUnion')
