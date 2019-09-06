@@ -3,9 +3,9 @@
         <section class="basic-layout__header clearfix project-container">
             <div class="project-info">
                 <router-link to="/" class="name">
-                    中国城投数据
+                     <img class="logo" src="./logo.png" >
                 </router-link>
-                <!-- <img class="logo" >-->
+
             </div>
             <Nav class="nav"/>
         </section>
@@ -24,6 +24,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .logo{
+        width: 182px;
+    }
     .project-container__wrapper {
         background-color: $primary-color;
     }
