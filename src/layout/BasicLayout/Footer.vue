@@ -3,7 +3,10 @@
         <section class="basic-layout__footer project-container">
             <div class="left">
                 <div class="logo">
-
+                    <img src="~@public/logo.png" alt="logo" width="80">
+                    <p>
+                        南京橙红科技
+                    </p>
                 </div>
             </div>
             <div class="right">
@@ -192,7 +195,13 @@
     }
 
     .logo {
+        padding-top: 36px;
         height: 128px;
+        line-height: 36px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(249, 249, 249, 1);
         background: rgba(0, 0, 255, 1);
     }
 

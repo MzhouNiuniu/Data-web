@@ -39,6 +39,27 @@ export default [
                 name: 'projectUnionDetail',
                 component: lazyLoad('ProjectUnion/Detail')
             },
+            /* 库 */
+            {
+                path: '/organizationRepo',
+                name: 'organizationRepo',
+                component: lazyLoad('Repo/Organization')
+            },
+            {
+                path: '/organizationDetail/:id',
+                name: 'organizationDetail',
+                component: lazyLoad('Repo/OrganizationDetail')
+            },
+            {
+                path: '/expertRepo',
+                name: 'expertRepo',
+                component: lazyLoad('Repo/Expert')
+            },
+            {
+                path: '/expertDetail/:id',
+                name: 'expertDetail',
+                component: lazyLoad('Repo/ExpertDetail')
+            },
             // 新闻
             {
                 path: '/news',
@@ -48,12 +69,12 @@ export default [
             {
                 path: '/newsDetail/:id',
                 name: 'newsDetail',
-                component:lazyLoad('News/detail')
+                component: lazyLoad('News/detail')
             },
             {
                 path: '/newsMoreList/:index',
                 name: 'newsMoreList',
-                component:lazyLoad('News/moreList'),
+                component: lazyLoad('News/moreList'),
             },
             // 行业研究
             {

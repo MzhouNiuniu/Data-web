@@ -58,8 +58,12 @@
                     path: '',
                     children: [
                         {
-                            name: 'TEST',
-                            path: '',
+                            name: '机构库',
+                            path: '/organizationRepo',
+                        },
+                        {
+                            name: '专家库',
+                            path: '/expertRepo',
                         },
                     ],
                 },
@@ -116,7 +120,7 @@
                 },
                 {
                     name: '关于我们',
-                    path: '',
+                    path: '/about',
                 },
                 {
                     name: '组件库',

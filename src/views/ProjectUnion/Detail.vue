@@ -1,12 +1,12 @@
 <template>
-    <section class="project-container__wrapper mt-30">
+    <section class="project-container__wrapper">
         <div class="project-container">
             <p class="page-title-1 pt-20">项目合作 </p>
             <div class="hr-slide-style-2 mt-28"></div>
             <div class="caption">
                 <h1>{{detail.name}}</h1>
                 <div class="info">
-                    <p class="date">
+                    <p class="text-tag yellow">
                         {{detail.releaseTime}}
                     </p>
                 </div>
@@ -29,7 +29,7 @@
                 {{detail.Tcompany}}
             </p>
             <p class="tel">
-                <Icon type="ios-thumbs-up" class="icon"/>
+                <img src="~@public/icon/tel.png" alt="" class="icon">
                 <span class="line"></span>{{detail.Tcontact}}
             </p>
         </div>
@@ -73,6 +73,7 @@
 
 <style lang="scss" scoped>
     .project-container__wrapper {
+        margin-top: 30px;
         background-color: #fff;
     }
 
@@ -94,16 +95,6 @@
         .info {
             margin-top: 15px;
             text-align: right;
-
-            .date {
-                display: inline-block;
-                padding: 4px 10px;
-                line-height: 12px;
-                font-size: 12px;
-                font-weight: 600;
-                color: #FED754;
-                border: 1px solid #FED754;
-            }
         }
     }
 
@@ -124,8 +115,6 @@
 
         box-sizing: content-box;
         padding-top: 20px;
-        padding-bottom: 36px;
-        height: 200px;
         background-color: $bg;
         font-family: PingFang-TC;
 
@@ -189,13 +178,13 @@
             color: rgba(5, 103, 255, 1);
 
             .icon {
-                line-height: 18px;
-                vertical-align: -1px;
+                width: 20px;
+                vertical-align: 0;
             }
 
             .line {
                 display: inline-block;
-                margin: 0 10px;
+                margin: 0 9px;
                 width: 1px;
                 height: 19px;
                 background: $sign-color;

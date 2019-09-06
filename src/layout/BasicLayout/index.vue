@@ -3,7 +3,9 @@
         <Header/>
         <!-- footer 108px，不计算溢出的logo 20px -->
         <div style="padding-bottom: 160px;">
+
             <router-view :key="$route.fullPath"/>
+            <div class="fix-footer-logo" :style="bgStyle"></div>
         </div>
         <Footer/>
     </section>
@@ -19,6 +21,13 @@
             Header,
             Footer,
         },
+        computed: {
+            bgStyle() {
+                return {
+                    backgroundColor: this.$store.state.app.bgColor,
+                };
+            },
+        },
     };
 </script>
 
@@ -26,5 +35,9 @@
     .basic-layout {
         position: relative;
         min-height: 100%;
+    }
+
+    .fix-footer-logo {
+        height: 148 - 2px;
     }
 </style>
