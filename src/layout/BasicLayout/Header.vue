@@ -3,7 +3,7 @@
         <section class="basic-layout__header clearfix project-container">
             <div class="project-info">
                 <router-link to="/" class="name">
-                    <img src="~@public/logo.png" alt="logo" class="logo" width="150">
+                    <img class="logo" src="./logo.png">
                 </router-link>
             </div>
             <Nav class="nav"/>
@@ -23,6 +23,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .logo {
+        width: 152px;
+    }
+
     .project-container__wrapper {
         background-color: $primary-color;
     }

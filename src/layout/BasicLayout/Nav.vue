@@ -120,7 +120,7 @@
                 },
                 {
                     name: '关于我们',
-                    path: '',
+                    path: '/about',
                 },
                 {
                     name: '组件库',
@@ -146,7 +146,7 @@
         display: inline-block;
         height: $project-nav-height;
         line-height: $project-nav-height;
-        font-size: 15px;
+        font-size: 16px;
         color: #fff;
         cursor: pointer;
 
