@@ -142,7 +142,7 @@
         display: inline-block;
         height: $project-nav-height;
         line-height: $project-nav-height;
-        font-size: 15px;
+        font-size: 16px;
         color: #fff;
         cursor: pointer;
 

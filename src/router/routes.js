@@ -30,11 +30,6 @@ export default [
             },
             /* 项目合作 */
             {
-                path: '/news',
-                name: 'news',
-                component: lazyLoad('News/index.vue')
-            },
-            {
                 path: '/projectUnion',
                 name: 'projectUnion',
                 component: lazyLoad('ProjectUnion')
@@ -43,6 +38,22 @@ export default [
                 path: '/projectUnionDetail/:id',
                 name: 'projectUnionDetail',
                 component: lazyLoad('ProjectUnion/Detail')
+            },
+            // 新闻
+            {
+                path: '/news',
+                name: 'news',
+                component: lazyLoad('News/index')
+            },
+            {
+                path: '/newsDetail/:id',
+                name: 'newsDetail',
+                component:lazyLoad('News/detail')
+            },
+            {
+                path: '/newsMoreList/:index',
+                name: 'newsMoreList',
+                component:lazyLoad('News/moreList'),
             },
         ],
     },
