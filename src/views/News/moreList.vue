@@ -112,6 +112,11 @@
                 })
                 this.$set(this.navTitle[index],'class','active')
                 this.title = this.navTitle[index].name
+                this.getList(index)
+            },
+            getList(keyWords){
+                let res = this.http.get(this.api.getNewsList,{limit:8,page:this.page,keyWords})
+                console.log(res)
             }
         }
     }
