@@ -28,12 +28,12 @@ export default [
                 name: 'about',
                 component: lazyLoad('About')
             },
-            /* 项目合作 */
             {
                 path: '/news',
                 name: 'news',
                 component: lazyLoad('News/index.vue')
             },
+            /* 项目合作 */
             {
                 path: '/projectUnion',
                 name: 'projectUnion',
@@ -43,6 +43,27 @@ export default [
                 path: '/projectUnionDetail/:id',
                 name: 'projectUnionDetail',
                 component: lazyLoad('ProjectUnion/Detail')
+            },
+            /* 库 */
+            {
+                path: '/organizationRepo',
+                name: 'organizationRepo',
+                component: lazyLoad('Repo/Organization')
+            },
+            {
+                path: '/organizationDetail/:id',
+                name: 'organizationDetail',
+                component: lazyLoad('Repo/OrganizationDetail')
+            },
+            {
+                path: '/expertRepo',
+                name: 'expertRepo',
+                component: lazyLoad('Repo/Expert')
+            },
+            {
+                path: '/expertDetail/:id',
+                name: 'expertDetail',
+                component: lazyLoad('Repo/ExpertDetail')
             },
         ],
     },

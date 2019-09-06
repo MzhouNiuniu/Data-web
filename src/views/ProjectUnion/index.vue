@@ -16,11 +16,11 @@
             <ul class="project-list mt-10">
                 <li v-for="item in 30" :key="item">
                     <div class="main">
-                        <p class="title">
+                        <router-link tag="p" class="title" to="/projectUnionDetail/111">
                             这是一个项目标题这是 一个项目标题
-                        </p>
+                        </router-link>
                         <p class="timestamp">
-                            <Icon type="ios-clock-outline" class="icon"/>
+                            <img src="~@public/icon/clock.png" alt="" class="icon">
                             2019-9-03 14:23
                         </p>
                     </div>
@@ -129,8 +129,23 @@
             position: relative;
             overflow: hidden;
             /*display: inline-block;*/
-            background: linear-gradient(314deg, rgba(252, 214, 56, 1) 0%, rgba(255, 206, 86, 1) 100%);
             border-radius: 5px;
+            background: no-repeat scroll top left / cover;
+
+            // 默认使用其他项目
+            background-image: url("./image/qtxm.png");
+
+            &.gcxm {
+                background-image: url("./image/gcxm.png");
+            }
+
+            &.rzxm {
+                background-image: url("./image/rzxm.png");
+            }
+
+            &.tzxm {
+                background-image: url("./image/tzxm.png");
+            }
         }
 
         .title {
@@ -138,6 +153,7 @@
             height: 18px;
             font-size: 18px;
             color: #fff;
+            cursor: pointer;
         }
 
         .timestamp {
@@ -148,10 +164,9 @@
             color: #fff;
 
             .icon {
-                margin-top: -3px;
-                padding-right: 4px;
-                font-size: 14px;
-                line-height: 14px;
+                margin-right: 8px;
+                width: 14px;
+                vertical-align: -2px;
             }
         }
     }

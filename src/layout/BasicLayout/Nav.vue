@@ -58,8 +58,12 @@
                     path: '',
                     children: [
                         {
-                            name: 'TEST',
-                            path: '',
+                            name: '机构库',
+                            path: '/organizationRepo',
+                        },
+                        {
+                            name: '专家库',
+                            path: '/expertRepo',
                         },
                     ],
                 },

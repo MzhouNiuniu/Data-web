@@ -3,9 +3,8 @@
         <section class="basic-layout__header clearfix project-container">
             <div class="project-info">
                 <router-link to="/" class="name">
-                    中国城投数据
+                    <img src="~@public/logo.png" alt="logo" class="logo" width="150">
                 </router-link>
-                <!-- <img class="logo" >-->
             </div>
             <Nav class="nav"/>
         </section>
