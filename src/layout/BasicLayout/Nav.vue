@@ -102,7 +102,7 @@
                 },
                 {
                     name: '行业研究',
-                    path: '', // 点击的同时是否可以跳转路由，例如/about
+                    path: '/research', // 点击的同时是否可以跳转路由，例如/about
                     children: [
                         {
                             name: 'TEST',

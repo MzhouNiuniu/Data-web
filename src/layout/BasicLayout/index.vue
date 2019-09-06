@@ -2,7 +2,7 @@
     <section class="basic-layout">
         <Header/>
         <!-- footer 108px，不计算溢出的logo 20px -->
-        <div style="padding-bottom: 108px;">
+        <div style="padding-bottom: 160px;">
             <router-view :key="$route.fullPath"/>
         </div>
         <Footer/>

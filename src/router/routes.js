@@ -55,6 +55,12 @@ export default [
                 name: 'newsMoreList',
                 component:lazyLoad('News/moreList'),
             },
+            // 行业研究
+            {
+                path: '/research',
+                name: 'research',
+                component: lazyLoad('Research/index')
+            },
         ],
     },
 ];
