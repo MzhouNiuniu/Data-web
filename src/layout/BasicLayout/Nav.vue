@@ -200,12 +200,13 @@
         color: #fff;
 
         &::after {
-            content: '|';
+            content: '';
             position: absolute;
             right: -3px;
-            top: 0;
+            top: 22px; // (60 / 2 - 16 / 2)
+            height: 16px;
+            border-right:1px solid #fff;
             vertical-align: middle;
-            line-height: 62px;
         }
 
         &.long {

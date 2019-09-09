@@ -195,9 +195,9 @@
     }
 
     .logo {
-        padding-top: 36px;
+        padding-top: 34px;
         height: 128px;
-        line-height: 36px;
+        line-height: 38px;
         text-align: center;
         font-size: 14px;
         font-weight: 500;
@@ -229,10 +229,12 @@
             color: rgba(255, 255, 255, 1);
 
             &::after {
-                content: '|';
+                content: '';
                 position: absolute;
                 right: 0;
                 top: 0;
+                height: 16px;
+                border-right: 1px solid #fff;
                 vertical-align: middle;
             }
         }

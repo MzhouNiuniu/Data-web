@@ -82,6 +82,17 @@ export default [
                 name: 'research',
                 component: lazyLoad('Research/index')
             },
+            /* 城投数据 */
+            {
+                path: '/CityInvest',
+                name: 'CityInvest',
+                component: lazyLoad('CityInvest/List')
+            },
+            {
+                path: '/CityInvest/Map',
+                name: 'CityInvestMap',
+                component: lazyLoad('CityInvest/MapList')
+            },
         ],
     },
 ];

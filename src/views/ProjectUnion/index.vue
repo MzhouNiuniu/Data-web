@@ -152,16 +152,38 @@
             // 默认使用其他项目
             background-image: url("./image/qtxm.png");
 
+            transition: box-shadow .2s;
+            @function getBoxShadow($color) {
+                @return 0 3px 10px 0 $color;
+            }
+
+            &:hover {
+                box-shadow: getBoxShadow(#FF7C59);
+            }
+
+
             &.gcxm {
                 background-image: url("./image/gcxm.png");
+
+                &:hover {
+                    box-shadow: getBoxShadow(#4A38FF);
+                }
             }
 
             &.rzxm {
                 background-image: url("./image/rzxm.png");
+
+                &:hover {
+                    box-shadow: getBoxShadow(#40DCC6);
+                }
             }
 
             &.tzxm {
                 background-image: url("./image/tzxm.png");
+
+                &:hover {
+                    box-shadow: getBoxShadow(#FFCE56);
+                }
             }
         }
 

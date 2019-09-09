@@ -24,6 +24,7 @@
 
 <style lang="scss" scoped>
     .logo {
+        margin-top: -2px;
         width: 152px;
     }
 

@@ -19,6 +19,7 @@
                     <OptionButton v-model="m2" title="主体类型" :options="options1"/>
                     {{m2}}
                 </div>
+                <ChinaMap style="width: 704px;height: 585px;" @change="handleMapChange"/>
             </div>
         </Card>
     </section>
@@ -29,6 +30,7 @@
     import Pagination from '@components/Pagination';
     import RangeNumber from '@components/RangeNumber';
     import OptionButton from '@components/OptionButton';
+    import ChinaMap from '@components/ChinaMap';
 
     /**
      * 问题组件：日期选择器、年份选择器
@@ -40,6 +42,7 @@
             Pagination,
             RangeNumber,
             OptionButton,
+            ChinaMap,
         },
         data() {
             this.options1 = [
@@ -64,6 +67,11 @@
                 m1: [],
                 m2: '',
             };
+        },
+        methods: {
+            handleMapChange(geoInfo) {
+                console.log(geoInfo);
+            },
         },
         created() {
             setTimeout(() => {

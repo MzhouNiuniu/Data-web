@@ -18,9 +18,9 @@
                         <span class="text-tag tiny sex">
                            {{detail.sex}}
                         </span>
-                        <!--                        <span class="text-tag info small">-->
-                        <!--                            {{detail.direction}}-->
-                        <!--                        </span>-->
+                        <!--                                                <span class="text-tag info small">-->
+                        <!--                                                    {{detail.direction}}-->
+                        <!--                                                </span>-->
                     </p>
                     <p class="introduce mt-10">
                         {{detail.current}}

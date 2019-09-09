@@ -146,6 +146,8 @@
             $padding-right: 19px;
 
             .main {
+                transition: box-shadow .2s;
+
                 &:hover {
                     box-shadow: 0 4px 16px rgba(163, 163, 208, 0.62);
                 }

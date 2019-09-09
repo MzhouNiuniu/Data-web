@@ -29,10 +29,10 @@
                         <span class="left">发布时间</span>
                         <span class="right">{{item.releaseTime}}</span>
                     </p>
-                    <router-link tag="p" class="title" :to="`/OrganizationDetail/${item._id}`">
+                    <router-link tag="a" class="title ue-link" :to="`/OrganizationDetail/${item._id}`">
                         {{item.name}}
                     </router-link>
-                    <p class="location mt-16">
+                    <p class="location mt-14">
                         <img src="~@public/icon/location.png" alt="" class="icon">
                         {{item.province}}
                     </p>
@@ -128,12 +128,12 @@
 
     .organization-list {
         width: 1200px;
-        background: #F6FBFF;
 
         li {
             position: relative;
             padding: 16px 18px 14px 20px;
             margin-bottom: 14px;
+            background: #F6FBFF;
 
             &:last-child {
                 margin-bottom: 0;

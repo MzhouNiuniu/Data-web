@@ -13,6 +13,11 @@
   word-break: break-all;
 }
 
+// fix braft-editor富文本
+.media-wrap.image-wrap img.media-wrap.image-wrap {
+  max-width: 100%;
+}
+
 html, body, #app {
   width: 100%;
   height: 100%;
@@ -141,13 +146,12 @@ img {
     margin: 0 10px;
 
     &:not(:last-child)::after {
-      content: "|";
+      content: '';
       position: absolute;
       top: -1px;
-      right: -13px; // border + padding + margin + 2px偏移
-      line-height: 16px;
-      font-size: 16px;
-      color: #EEEEEE;
+      right: -12px;
+      height: 16px;
+      border-right: 1px solid #EEEEEE;
     }
   }
 }
@@ -192,3 +196,11 @@ img {
     border-color: $info;
   }
 }
+
+
+.ue-link {
+  &:hover {
+    color: $sign-color !important;
+  }
+}
+
