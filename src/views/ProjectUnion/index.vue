@@ -5,23 +5,16 @@
                     v-model="searchParams.projectName"
                     @change="query()"
             />
-            <OptionButton
-                    class="mt-30"
-                    title="项目名称"
-                    v-model="searchParams.projectType"
-                    :options="options"
-                    @change="query()"
-            />
-            <div class="hr-slide-style-1 mt-16"></div>
-            <ul class="project-list mt-10">
-                <li v-for="item in 30" :key="item">
-                    <div class="main">
-                        <router-link tag="p" class="title" to="/projectUnionDetail/111">
-                            这是一个项目标题这是 一个项目标题
+            <div class="hr-slide-style-1 mt-30"></div>
+            <ul class="project-list pt-10">
+                <li v-for="(item,key) in list" :key="key">
+                    <div class="main" :class="getItemClassName(item)">
+                        <router-link tag="p" class="title" :to="`/projectUnionDetail/${item._id}`">
+                            {{item.name}}
                         </router-link>
                         <p class="timestamp">
                             <img src="~@public/icon/clock.png" alt="" class="icon">
-                            2019-9-03 14:23
+                            {{item.releaseTime}}
                         </p>
                     </div>
                 </li>
@@ -37,14 +30,12 @@
 
 <script>
     import SearchInput from '@components/SearchInput';
-    import OptionButton from '@components/OptionButton';
     import Pagination from '@components/Pagination';
 
     export default {
         name: "ProjectUnion",
         components: {
             SearchInput,
-            OptionButton,
             Pagination,
         },
         data() {
@@ -66,6 +57,15 @@
                     value: '其它项目',
                 },
             ];
+            this.list = [];
+            this.projectTypeMap = {
+                // '工程项目': {
+                //     className:'',
+                // },
+                '工程项目': 'gcxm',
+                '投资项目': 'tzxm',
+                '融资项目': 'rzxm',
+            };
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -76,23 +76,22 @@
                 const { query } = this.$route;
                 return {
                     projectName: query.projectName,
-                    projectType: query.projectType,
                 };
             },
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
-                    size: query.size || 10,
+                    page: query.page || 1,
+                    limit: query.limit || 20,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
                 this.query({
-                    current: page,
-                    size,
+                    page: page,
+                    limit,
                 });
             },
             query(otherParams) {
@@ -104,11 +103,28 @@
                     },
                 });
             },
+            loadList() {
+                this.http.get(this.api.projectUnion.list, {
+                    ...this.searchParams,
+                    ...this.pagination,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return [];
+                    }
+
+                    const { pagination } = this;
+                    const data = res.data;
+                    this.list = data.docs;
+
+                    pagination.total = data.total;
+                });
+            },
+            getItemClassName(item) {
+                return `${this.projectTypeMap[item.type] || ''}`;
+            },
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.loadList();
         },
     };
 </script>

@@ -6,7 +6,7 @@
             size="small"
             @on-change="handlePageChange"
             @on-page-size-change="handlePageSizeChange"
-            v-bind="$attrs"
+            v-bind="composeAttrs"
     />
 </template>
 
@@ -14,20 +14,43 @@
     export default {
         name: "Pagination",
         props: {
+            pageKey: {
+                type: String,
+                default: 'page',
+            },
+            sizeKey: {
+                type: String,
+                default: 'limit',
+            },
+
             // events
             // @change
+        },
+        computed: {
+            composeAttrs() {
+                const attrs = { ...this.$attrs };
+                if (this.pageKey !== 'page') {
+                    attrs.page = attrs[this.pageKey];
+                    delete attrs[this.pageKey];
+                }
+                if (this.sizeKey !== 'pageSize') {
+                    attrs.pageSize = attrs[this.sizeKey];
+                    delete attrs[this.pageKey];
+                }
+                return attrs;
+            },
         },
         methods: {
             handlePageChange(page) {
                 this.$emit('change', {
-                    page,
-                    size: this.$attrs.size,
+                    [this.pageKey]: page,
+                    [this.sizeKey]: this.$attrs.pageSize,
                 });
             },
-            handlePageSizeChange(size) {
+            handlePageSizeChange(pageSize) {
                 this.$emit('change', {
-                    size,
-                    page: this.$attrs.page,
+                    [this.sizeKey]: pageSize,
+                    [this.pageKey]: this.$attrs.page,
                 });
             },
         },
