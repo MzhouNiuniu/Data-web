@@ -51,22 +51,34 @@
             };
         },
         methods: {
-            getDetail() {
-                this.detail = {
-                    name: '这是一个城投新闻标题这是一个城投新闻标题这是一个城投新闻标题',
-                    releaseTime: '2019-9-03 14:23',
-                    content: `<p>6) 地下室单层建${'<img src=\'x\' onerror=\'console.error(\"xss attack\")\'>'}筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。 深圳华润中心一期工程于2004年12月9日投入使用以来获得业主的好评，于2005年荣获广东省优良样板工程奖和于2008年荣获香港优质建筑大奖。 </p><p></p><p>1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 </p><p></p><p>2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位</p>`,
-                    accessory: 'https://www.w3school.com.cn/i/eg_tulip.jpg,https://www.w3school.com.cn/i/eg_tulip.jpg',
-                    Tcompany: '这是一个公司名称这是一个公司名称',
-                    Tcontact: '025-8346255',
-                    Tphotos: 'https://www.w3school.com.cn/i/eg_tulip.jpg',
-                };
+            loadDetail() {
+                return this.http.get(this.api.projectUnion.detail, {
+                    id: this.id,
+                }).then(res => {
+                    const formData = res.data && res.data[0];
+                    if (!formData) {
+                        this.$router.replace('/projectUnion');
+                        alert('数据不存在');
+                        return;
+                    }
+
+                    this.detail = formData;
+                    // this.detail = {
+                    //     name: '这是一个城投新闻标题这是一个城投新闻标题这是一个城投新闻标题',
+                    //     releaseTime: '2019-9-03 14:23',
+                    //     content: `<p>6) 地下室单层建${'<img src=\'x\' onerror=\'console.error(\"xss attack\")\'>'}筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。 深圳华润中心一期工程于2004年12月9日投入使用以来获得业主的好评，于2005年荣获广东省优良样板工程奖和于2008年荣获香港优质建筑大奖。 </p><p></p><p>1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 </p><p></p><p>2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位</p>`,
+                    //     accessory: 'https://www.w3school.com.cn/i/eg_tulip.jpg,https://www.w3school.com.cn/i/eg_tulip.jpg',
+                    //     Tcompany: '这是一个公司名称这是一个公司名称',
+                    //     Tcontact: '025-8346255',
+                    //     Tphotos: 'https://www.w3school.com.cn/i/eg_tulip.jpg',
+                    // };
+                });
             },
         },
         created() {
             this.$store.commit('app/setBgColor1');
 
-            this.getDetail();
+            this.loadDetail();
         },
     };
 </script>
