@@ -9,7 +9,7 @@
             <div class="more-wrapper" @click="toMore(0)">了解更多</div>
         </div>
         <ul class="trade-list project-container">
-            <li @click="toDetail(item.id)" v-for="(item,index) in ideaDynamic" :key="index">
+            <li @click="toDetail(item._id,'行业')" v-for="(item,index) in ideaDynamic" :key="index">
                 <div class="circle"></div>
                 <p>{{item.title}}</p>
                 <div>
@@ -27,7 +27,7 @@
             <div class="more-wrapper" @click="toMore(1)">了解更多</div>
         </div>
         <div class="city-list project-container">
-            <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item.id)">
+            <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id,'城投')">
                 <img :src="item.cover?item.cover:require('../../../public/image/noData.png')" alt="">
                 <div>
                     <p class="city-title">{{item.title}}</p>
@@ -49,7 +49,7 @@
             <div class="more-wrapper" @click="toMore(2)">了解更多</div>
         </div>
         <ul class="trade-list project-container">
-            <li @click="toDetail(item.id)" v-for="(item,index) in industryDynamic" :key="index">
+            <li @click="toDetail(item._id,'智库')" v-for="(item,index) in industryDynamic" :key="index">
                 <div class="circle"></div>
                 <p>{{item.title}}</p>
                 <div>
@@ -67,7 +67,7 @@
             <div class="more-wrapper" @click="toMore(3)">了解更多</div>
         </div>
         <div class="city-list project-container">
-            <div class="city-item" v-for="(item,index) in projectDynamic" :key="index" @click="toDetail(item.id)">
+            <div class="city-item" v-for="(item,index) in projectDynamic" :key="index" @click="toDetail(item._id,'项目')">
                 <img :src="item.cover?item.cover:require('../../../public/image/noData.png')" alt="">
                 <div>
                     <p class="city-title">{{item.title}}</p>
@@ -106,8 +106,9 @@
                 this.industryDynamic = res.data.industryDynamic
                 this.projectDynamic = res.data.projectDynamic
             },
-            toDetail(id){
-                this.$router.push({path:`/newsDetail/${id}`})
+            toDetail(id,type){
+                console.log(id)
+                this.$router.push({path:`/newsDetail/${id}`,query:{type}})
             },
             toMore(index){
                 this.$router.push({path:`/newsMoreList/${index}`})
@@ -263,6 +264,10 @@
                     overflow: hidden;
                     line-height: 22px;
                     margin-top: 15px;
+
+                    & img{
+                        width: 100%;
+                    }
                 }
             }
         }
