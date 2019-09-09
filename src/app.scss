@@ -8,6 +8,10 @@
   src: url('~@public/font/PingFang-TC-Regular.ttf');
 }
 
+// 如果样式有冲突，先注释
+* {
+  word-break: break-all;
+}
 
 html, body, #app {
   width: 100%;

@@ -24,29 +24,23 @@
                 </p>
             </div>
             <ul class="expert-list">
-                <li v-for="item in 10" :key="item">
+                <li v-for="(item,index) in list" :key="index">
                     <div class="main">
-
-                        <div class="avatar" @click="$router.push('/ExpertDetail/111')">
-                            <router-link to="/ExpertDetail/111">
-                                <img
-                                        src="https://lanhuapp.com/web/static/favicon_beta.png"
-                                        alt="expert-avatar"
-                                >
-                            </router-link>
-                        </div>
+                        <router-link tag="div" class="avatar" :to="`/ExpertDetail/${item._id}`">
+                            <img :src="item.photos" alt="expert-avatar">
+                        </router-link>
                         <div class="detail">
                             <div class="info">
                                 <span class="name">
-                                    李毅
+                                    {{item.name}}
                                 </span>
                                 <span class="text-tag tiny sex">
-                                    男
+                                    {{item.sex}}
                                 </span>
                             </div>
                             <div class="hr-dashed mt-10"></div>
                             <p class="brief">
-                                这是一段个人介绍这是一段个人 介绍这是一段个人介绍…
+                                {{item.current}}
                             </p>
                         </div>
                     </div>
@@ -72,6 +66,7 @@
             Pagination,
         },
         data() {
+            this.list = [];
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -87,17 +82,17 @@
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
-                    size: query.size || 10,
+                    page: query.page || 1,
+                    limit: query.limit || 10,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
                 this.query({
-                    current: page,
-                    size,
+                    page: page,
+                    limit,
                 });
             },
             query(otherParams) {
@@ -109,11 +104,25 @@
                     },
                 });
             },
+            loadList() {
+                this.http.get(this.api.repo.expert.list, {
+                    ...this.searchParams,
+                    ...this.pagination,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return [];
+                    }
+
+                    const { pagination } = this;
+                    const data = res.data;
+                    this.list = data.docs;
+
+                    pagination.total = data.total; // this.$forceUpdate
+                });
+            },
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.loadList();
         },
     };
 </script>
@@ -128,6 +137,7 @@
 
         li {
             display: inline-block;
+            vertical-align: top;
             width: 20%;
             margin-top: 15px;
             padding-right: 15px;

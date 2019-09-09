@@ -116,7 +116,7 @@
                     const data = res.data;
                     this.list = data.docs;
 
-                    pagination.total = data.total;
+                    pagination.total = data.total; // this.$forceUpdate
                 });
             },
             getItemClassName(item) {
@@ -136,6 +136,7 @@
 
         li {
             display: inline-block;
+            vertical-align: top;
             margin-top: 20px;
             padding-right: 20px;
             width: 20%;

@@ -18,6 +18,9 @@ const TIME_OUT = 1800000;
 //     return Promise.resolve(error.response)
 // })
 
+// 跨域携带cookie
+axios.defaults.withCredentials = true
+
 function checkStatus(response) {
     // 如果http状态码正常，则直接返回数 据
     if (response && (response.status === 401 || response.data.code === 201 || response.data.code === 410)) { // 201, token失效（根据最新后端的代码）

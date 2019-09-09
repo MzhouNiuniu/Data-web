@@ -24,22 +24,21 @@
                 </p>
             </div>
             <ul class="organization-list mt-12">
-                <li v-for="item in 10" :key="item">
+                <li v-for="(item,key) in list" :key="key">
                     <p class="date">
                         <span class="left">发布时间</span>
-                        <span class="right">2019-08-12 14:22</span>
+                        <span class="right">{{item.releaseTime}}</span>
                     </p>
-                    <router-link tag="p" class="title" to="/OrganizationDetail/111">
-                        这是一个机构名称这是一个机构名称这是一个机构名称
+                    <router-link tag="p" class="title" :to="`/OrganizationDetail/${item._id}`">
+                        {{item.name}}
                     </router-link>
                     <p class="location mt-16">
                         <img src="~@public/icon/location.png" alt="" class="icon">
-                        北京市
+                        {{item.province}}
                     </p>
                     <div class="hr-dashed mt-10"></div>
                     <p class="content mt-10">
-                        这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一
-                        段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机…
+                        {{item.intro}}
                     </p>
                 </li>
             </ul>
@@ -63,6 +62,7 @@
             Pagination,
         },
         data() {
+            this.list = [];
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -78,17 +78,17 @@
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
-                    size: query.size || 10,
+                    page: query.page || 1,
+                    limit: query.limit || 10,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
                 this.query({
-                    current: page,
-                    size,
+                    page: page,
+                    limit,
                 });
             },
             query(otherParams) {
@@ -100,11 +100,25 @@
                     },
                 });
             },
+            loadList() {
+                this.http.get(this.api.repo.organization.list, {
+                    ...this.searchParams,
+                    ...this.pagination,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return [];
+                    }
+
+                    const { pagination } = this;
+                    const data = res.data;
+                    this.list = data.docs;
+
+                    pagination.total = data.total; // this.$forceUpdate
+                });
+            },
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.loadList();
         },
     };
 </script>
@@ -129,7 +143,7 @@
                 position: absolute;
                 top: 12px;
                 right: 12px;
-                width: 205px;
+                width: 215px; // 原205px，因为时间单位精确到秒，所以加了10px
                 background-color: #358BFE;
 
                 .left, .right {

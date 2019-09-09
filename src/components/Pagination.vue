@@ -29,14 +29,15 @@
         computed: {
             composeAttrs() {
                 const attrs = { ...this.$attrs };
-                if (this.pageKey !== 'page') {
-                    attrs.page = Number(attrs[this.pageKey] || 1);
+                if (this.pageKey !== 'current') {
+                    attrs.current = Number(attrs[this.pageKey] || 1);
                     delete attrs[this.pageKey];
                 }
                 if (this.sizeKey !== 'pageSize') {
                     attrs.pageSize = Number(attrs[this.sizeKey] || 10);
-                    delete attrs[this.pageKey];
+                    delete attrs[this.sizeKey];
                 }
+
                 return attrs;
             },
         },

@@ -52,7 +52,7 @@
         },
         methods: {
             loadDetail() {
-                return this.http.get(this.api.projectUnion.detail, {
+                this.http.get(this.api.projectUnion.detail, {
                     id: this.id,
                 }).then(res => {
                     const formData = res.data && res.data[0];
