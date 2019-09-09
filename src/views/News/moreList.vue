@@ -5,26 +5,25 @@
                 <div class="detail-top pt-20 pb-20">
                     <p class="detail-top-title pl-15">{{title}}</p>
                 </div>
-                <!--<router-view :key="$route.fullPath"/>-->
-                <div class="content-wrapper">
+                <div class="content-wrapper" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title.slice(0,2))">
                     <img src="./img/right.png" alt="">
                     <div class="content">
-                        <p>这是一个城投新闻标题这是一个城投新闻标题</p>
+                        <p>{{item.title}}</p>
                         <div>
                             <div>
                                 <img src="./img/classify.png" alt="">
-                                <span>城投</span>
+                                <span>{{title.slice(0,2)}}</span>
                             </div>
                             <div>
                                 <img src="./img/come.png" alt="">
-                                <span>央视网</span>
+                                <span>{{item.source}}</span>
                             </div>
                             <div>
                                 <img src="./img/time.png" alt="">
-                                <span>2019-09-04 12:43</span>
+                                <span>{{item.releaseTime}}</span>
                             </div>
                         </div>
-                        <p>这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新 闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新 闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新 闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新 闻主要内容这是一段新闻主要内容</p>
+                        <div v-html="item.content"></div>
                     </div>
                 </div>
             </div>
@@ -59,52 +58,45 @@
             return {
                 navTitle:[{
                     name:'行业动态',
-                    // navigate:'/newsMoreList/trade',
                     class:'unActive'
                 },{
                     name:'城投新闻',
-                    // navigate:'/newsMoreList/city',
                     class:'unActive'
                 },{
                     name:'智库动态',
-                    // navigate:'/newsMoreList/intelligence',
                     class:'unActive'
                 },{
                     name:'项目动态',
-                    // navigate:'/newsMoreList/project',
                     class:'unActive'
                 },],
                 title:'行业动态',
                 pagination: this.getPagination(),
+                newsType:0,
+                data:[]
             }
         },
         components: {
             Pagination,
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.setActiveAttr(this.$route.params.index)
         },
         mounted(){
-            this.setActiveAttr(this.$route.params.index)
+
         },
         methods:{
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
+                    page: query.page || 1,
                     size: query.size || 10,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
-                this.query({
-                    current: page,
-                    size,
-                });
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.size = limit;
+                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
             },
             setActiveAttr(index){
                 this.navTitle.forEach((item)=>{
@@ -112,12 +104,17 @@
                 })
                 this.$set(this.navTitle[index],'class','active')
                 this.title = this.navTitle[index].name
-                this.getList(index)
+                this.newsType = index
+                this.getList(10,1,index)
             },
-            getList(keyWords){
-                let res = this.http.get(this.api.getNewsList,{limit:8,page:this.page,keyWords})
-                console.log(res)
-            }
+            async getList(size,current,type){
+                let res = await this.http.get(this.api.getNewsList,{limit:size,page:current,keyWords:'',type})
+                this.pagination.total = res.data.total
+                this.data = res.data.docs
+            },
+            toDetail(id,type){
+                this.$router.push({path:`/newsDetail/${id}`,query:{type}})
+            },
         }
     }
 </script>
@@ -183,7 +180,7 @@
                             }
                         }
                     }
-                    & > p:last-child{
+                    & > div:last-child{
                         color: #586066;
                         font-size: 14px;
                         display: -webkit-box;

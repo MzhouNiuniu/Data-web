@@ -48,6 +48,10 @@ img {
   text-align: left;
 }
 
+.media-wrap.image-wrap img{   //富文本中图片样式
+  width: 100%;
+}
+
 .project-container__wrapper {
 
 }
@@ -56,6 +60,7 @@ img {
   margin: auto;
   max-width: $project-width;
   height: 100%;
+  width: 100%;
 }
 
 
