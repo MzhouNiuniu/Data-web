@@ -92,6 +92,16 @@ export default [
                 name: 'studyList',
                 component: lazyLoad('Research/studyDetail')
             },
+            {
+                path: '/classicList',
+                name: 'studyList',
+                component: lazyLoad('Research/classicList')
+            },
+            {
+                path: '/classicDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/classicDetail')
+            }
         ],
     },
 ];

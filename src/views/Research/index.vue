@@ -44,7 +44,7 @@
             </div>
             <div class="title-wrap">
                 <div class="title">经典案例</div>
-                <span class="more-wrapper">了解更多</span>
+                <span class="more-wrapper" @click="toMore('/classicList')">了解更多</span>
             </div>
             <div class="last-list">
                 <ul class="trade-list">
@@ -70,8 +70,12 @@
         },
         methods: {
             toMore(path,index){
-                console.log(`${path}${index}`)
-                this.$router.push({path:`${path}${index}`})
+                if(typeof(index) != 'undefined'){
+                    this.$router.push({path:`${path}${index}`})
+                }else{
+                    this.$router.push({path:`${path}`})
+                }
+
             }
         },
         created() {
