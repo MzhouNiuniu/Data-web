@@ -117,6 +117,10 @@
                 -moz-border-radius: 5px;
                 border-radius: 5px;
             }
+            .button:hover{
+                background: $sign-color;
+                color: #fff;
+            }
         }
     }
 </style>

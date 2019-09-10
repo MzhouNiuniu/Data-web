@@ -227,6 +227,10 @@
                 border: 1px solid;
                 padding: 2px 10px;
             }
+            .more-wrapper:hover{
+                background: $sign-color;
+                color: #fff;
+            }
         }
     }
 </style>
