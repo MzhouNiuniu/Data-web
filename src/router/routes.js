@@ -82,6 +82,16 @@ export default [
                 name: 'research',
                 component: lazyLoad('Research/index')
             },
+            {
+                path: '/studyList/:index',
+                name: 'studyList',
+                component: lazyLoad('Research/studyList')
+            },
+            {
+                path: '/studyDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/studyDetail')
+            },
         ],
     },
 ];
