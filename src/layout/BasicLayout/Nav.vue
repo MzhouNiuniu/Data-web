@@ -38,8 +38,12 @@
                     path: '',
                     children: [
                         {
-                            name: 'TEST',
-                            path: '',
+                            name: '列表模式',
+                            path: '/CityInvest',
+                        },
+                        {
+                            name: '地图模式',
+                            path: '/CityInvest/Map',
                         },
                     ],
                 },
@@ -205,7 +209,7 @@
             right: -3px;
             top: 22px; // (60 / 2 - 16 / 2)
             height: 16px;
-            border-right:1px solid #fff;
+            border-right: 1px solid #fff;
             vertical-align: middle;
         }
 

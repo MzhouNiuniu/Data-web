@@ -45,6 +45,7 @@
             color: rgba(5, 103, 255, 1);
             border-radius: 5px;
             cursor: pointer;
+            user-select: none;
 
             .icon {
                 width: 20px;

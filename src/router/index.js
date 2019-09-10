@@ -21,7 +21,6 @@ const router = new Router({
 });
 router.beforeEach(function (to, from, next) {
     const store = router.app.$options.store;
-    console.log(store);
     store.commit('app/setDefaultBgColor');
     next();
 });

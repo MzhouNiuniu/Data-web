@@ -26,6 +26,10 @@
             // events
             // @change
         },
+        data() {
+            this.pageSize = Number(this.$attrs[this.sizeKey] || 10); // fix 页码改变也会触发分页变化事件
+            return {};
+        },
         computed: {
             composeAttrs() {
                 const attrs = { ...this.$attrs };
@@ -34,7 +38,7 @@
                     delete attrs[this.pageKey];
                 }
                 if (this.sizeKey !== 'pageSize') {
-                    attrs.pageSize = Number(attrs[this.sizeKey] || 10);
+                    attrs.pageSize = this.pageSize;
                     delete attrs[this.sizeKey];
                 }
 
@@ -45,14 +49,11 @@
             handlePageChange(page) {
                 this.$emit('change', {
                     [this.pageKey]: page,
-                    [this.sizeKey]: this.$attrs.pageSize,
+                    [this.sizeKey]: this.pageSize,
                 });
             },
             handlePageSizeChange(pageSize) {
-                this.$emit('change', {
-                    [this.sizeKey]: pageSize,
-                    [this.pageKey]: this.$attrs.page,
-                });
+                this.pageSize = pageSize;
             },
         },
     };
