@@ -6,11 +6,11 @@
                 <span class="more-wrapper" @click="toMore(0)">了解更多</span>
             </div>
             <div class="first-list">
-                <div class="item" @click="toDetail(item._id,'行业')" v-for="(item,index) in ideaDynamic" :key="index">
+                <div class="item" @click="toDetail(item._id)" v-for="(item,index) in ideaDynamic" :key="index" >
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
-                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环 境基础设施建设的指导意见》</p>
-                    <p class="time">发布时间：2019-09-13 14:23</p>
-                    <p class="content">这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一 段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一段新闻 摘要这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要</p>
+                    <p class="title">{{item.title}}</p>
+                    <p class="time">发布时间：{{item.releaseTime}}</p>
+                    <p class="content" v-html="item.content"></p>
                 </div>
             </div>
             <div class="title-wrap">
@@ -18,12 +18,12 @@
                 <span class="more-wrapper" @click="toMore(1)">了解更多</span>
             </div>
             <div class="city-list">
-                <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item.id)" v-if="index<2">
+                <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id)" v-if="index<2">
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
                     <div class="content">
                         <p class="city-title">{{item.title}}</p>
-                        <p class="source">来源：新华网</p>
-                        <p class="time">发布时间：2019-09-13 14:23</p>
+                        <p class="source">来源：{{item.source}}</p>
+                        <p class="time">发布时间：{{item.releaseTime}}</p>
                         <div class="city-content" v-html="item.content"></div>
                     </div>
                 </div>
@@ -33,15 +33,12 @@
                 <span class="more-wrapper" @click="toMore(2)">了解更多</span>
             </div>
             <div class="smart-wrap">
-                <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}">
-                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环境 基础设施建设的指导意见》</p>
-                </div>
-                <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}">
-                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环境 基础设施建设的指导意见》</p>
+                <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in industryDynamic" :key="index" v-if="index < 2" @click="toDetail(item._id)">
+                    <p class="title">{{item.title}}</p>
                 </div>
                 <ul>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    <li v-for="(item,index) in industryDynamic" :key="index" v-if="index > 1 &&index < 6" @click="toDetail(item._id)">
+                        <p>{{item.title}}</p>
                     </li>
                 </ul>
             </div>
@@ -51,29 +48,17 @@
             </div>
             <div class="project-wrap">
                 <ul>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
-                    </li>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
-                    </li>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
-                    </li>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
-                    </li>
-                    <li>
-                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    <li v-for="(item,index) in projectDynamic" :key="index" v-if="index < 5" @click="toDetail(item._id)">
+                        <p>{{item.title}}</p>
                     </li>
                 </ul>
-                <div>
-                    <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}"></div>
+                <div v-if="projectDynamic[5]"  @click="toDetail(projectDynamic[5]._id)">
+                    <div class="noData" :style="{backgroundImage:`url(${projectDynamic[5].cover ? projectDynamic[5].cover : require('../../../public/image/noData.png')})`}"></div>
                     <div>
-                        <p class="title">湖南省住房和城乡建设厅解读《关 于推进城乡环境基础设施建设的</p>
-                        <p class="source">来源：新华网</p>
-                        <p class="time">发布时间：2019-09-13 14:23</p>
-                        <p class="content">这是一段新闻摘要这是一段新闻摘要这是一段 新闻摘要这是一段新闻摘要这是一段新闻摘要 这是一段新闻摘要这是一段新闻摘要这是一</p>
+                        <p class="title">{{projectDynamic[5].title}}</p>
+                        <p class="source">来源：{{projectDynamic[5].source}}</p>
+                        <p class="time">发布时间：{{projectDynamic[5].releaseTime}}</p>
+                        <p class="content" v-html="projectDynamic[5].content"></p>
                     </div>
                 </div>
             </div>
@@ -137,6 +122,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
+            width: 100%;
             height: 67px;
             background: rgba(0,0,0,.5);
             display: -webkit-box;

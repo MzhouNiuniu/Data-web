@@ -7,11 +7,7 @@
             <section class="content-wrapper pl-20 pr-20">
                 <div class="content-title pt-25 pb-15">
                     <p>{{data.title}}</p>
-                    <div>
-                        <span>{{type}}</span>
-                        <span>{{data.source}}</span>
-                        <span>{{data.releaseTime}}</span>
-                    </div>
+                    <p>{{data.releaseTime}}</p>
                 </div>
                 <p class="content" v-html="data.content"></p>
             </section>
@@ -58,37 +54,16 @@
         .content-title{
             border-bottom: 1px solid #BFC5CA;
             & > p{
-                color: $list-title-color;
+                color: #333;
+                text-align: center;
+            }
+            & > p:first-child{
                 font-size: 18px;
                 font-weight: bold;
-                text-align: center;
-                margin-bottom: 25px;
+                margin-bottom: 20px;
             }
-            & > div{
-                text-align: right;
-                
-                & > span{
-                    display: inline-block;
-                    border: 1px solid;
-                    font-size: 12px;
-                    padding: 0 20px;
-                    margin-left: 20px;
-                    -webkit-border-radius: 2px;
-                    -moz-border-radius: 2px;
-                    border-radius: 2px;
-                }
-                & > span:first-child{
-                    color: $sign-color;
-                    border-color: $sign-color;
-                }
-                & > span:nth-of-type(2){
-                    color: #FD882A;
-                    border-color: #FD882A;
-                }
-                & > span:last-child{
-                    color: #FEC400;
-                    border-color: #FEC400;
-                }
+            & > p:last-child{
+                font-size: 14px;
             }
         }
         .content{

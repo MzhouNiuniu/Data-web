@@ -3,26 +3,12 @@
         <section class="project-container">
             <div class="left-wrapper">
                 <div class="detail-top pt-20 pb-20">
-                    <p class="detail-top-title pl-15">{{title}}</p>
+                    <p class="detail-top-title pl-15">新闻动态</p>
                 </div>
                 <div class="content-wrapper" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title.slice(0,2))">
                     <img src="./img/right.png" alt="">
                     <div class="content">
                         <p>{{item.title}}</p>
-                        <div>
-                            <div>
-                                <img src="./img/classify.png" alt="">
-                                <span>{{title.slice(0,2)}}</span>
-                            </div>
-                            <div>
-                                <img src="./img/come.png" alt="">
-                                <span>{{item.source}}</span>
-                            </div>
-                            <div>
-                                <img src="./img/time.png" alt="">
-                                <span>{{item.releaseTime}}</span>
-                            </div>
-                        </div>
                         <div v-html="item.content"></div>
                     </div>
                 </div>
@@ -163,23 +149,6 @@
                     }
                     & > div{
                         margin-bottom: 20px;
-
-                        & >div{
-                            display: inline-block;
-                            margin-right: 20px;
-
-                            &>img{
-                                width: 16px;
-                                height: 16px;
-                                margin-right: 10px;
-                            }
-                            &>span{
-                                color: #A8ACAF;
-                                font-size: 12px;
-                            }
-                        }
-                    }
-                    & > div:last-child{
                         color: #586066;
                         font-size: 14px;
                         display: -webkit-box;
