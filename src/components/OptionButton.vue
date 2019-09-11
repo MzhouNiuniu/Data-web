@@ -3,25 +3,30 @@
         <p ref="title" class="title" :titleStyle="titleStyle">
             {{title}}：
         </p>
-        <div class="buttons" :style="rightStyle" @click="handleChange">
-            <!-- 为内容、按钮都添加index -->
-            <template v-if="!required">
-                <Button
-                        class="whole-btn"
-                        v-bind="getButtonStyle(undefined)"
-                        index="-1"
+        <div class="right" :style="rightStyle" @click="handleChange">
+            <div class="buttons">
+                <!-- 为内容、按钮都添加index -->
+                <template v-if="wholeBtn">
+                    <p
+                            class="whole-btn"
+                            :class="getActiveClass(undefined)"
+                            index="-1"
+                    >
+                        <span index="-1">全部</span>
+                    </p>
+                </template>
+                <p
+                        v-for="(item,index) in options"
+                        :key="index"
+                        :class="getActiveClass(item.value)"
+                        :index="index"
                 >
-                    <span index="-1">全部</span>
-                </Button>
-            </template>
-            <Button
-                    v-for="(item,index) in options"
-                    :key="index"
-                    v-bind="getButtonStyle(item.value)"
-                    :index="index"
-            >
-                <span :index="index">{{item.label}}</span>
-            </Button>
+                    <span :index="index">{{item.label}}</span>
+                </p>
+
+            </div>
+            <!-- slot -->
+            <slot/>
         </div>
     </section>
 </template>
@@ -36,9 +41,9 @@
             },
 
             // 控制全部按钮
-            required: {
+            wholeBtn: {
                 type: Boolean,
-                default: false,
+                default: true,
             },
             options: {
                 type: Array,
@@ -65,32 +70,22 @@
         computed: {
             rightStyle() {
                 return {
-                    paddingLeft: this.titleWidth
+                    marginLeft: this.titleWidth
                 };
             },
         },
         methods: {
-            getButtonStyle(value) {
+            getActiveClass(value) {
                 // active style
                 if (
                     (value === undefined && !this.value && this.value !== 0) // 是否假值
                     ||
                     (value === this.value)
                 ) {
-                    return {
-                        type: 'primary',
-                        shape: 'circle',
-                        size: 'small',
-                        style: {
-                            color: '#fff',
-                        },
-                    };
+                    return 'active';
                 }
 
-                return {
-                    shape: 'circle',
-                    type: 'text',
-                };
+                return '';
             },
             handleChange(e) {
                 let index = e.target.getAttribute('index');
@@ -115,37 +110,18 @@
 </script>
 
 <style lang="scss" scoped>
+    $line-height: 35px;
     .option-button {
         overflow: hidden;
+        font-size: 14px;
     }
 
     .title {
         float: left;
+        line-height: $line-height;
         font-size: 16px;
         font-weight: bold;
         color: rgba(0, 0, 52, 1);
-    }
-
-    .ivu-btn {
-        padding: 1px 7px 1px !important;
-        font-size: 14px;
-        color: #586066;
-
-        &:hover {
-            color: #57a3f3;
-        }
-
-        /*&.active {*/
-        /*    color: #fff;*/
-        /*}*/
-    }
-
-    .ivu-btn-text {
-        box-shadow: none !important;
-
-        &:hover {
-            background-color: transparent;
-        }
     }
 
     .whole-btn {
@@ -155,9 +131,31 @@
         &::after {
             content: "";
             position: absolute;
+            margin-top: -2px;
             height: 26px;
             right: -16px;
-            border-right: 1px solid rgb(238, 238, 238);;
+            border-right: 1px solid #BFC5CA;
+        }
+    }
+
+    .buttons {
+        display: inline-block;
+        line-height: $line-height;
+
+        p {
+            display: inline-block;
+            padding: 0 10px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            cursor: pointer;
+
+            &:hover, &.active {
+                font-weight: 600;
+                color: $sign-color;
+                border-color: $sign-color;
+            }
         }
     }
 </style>

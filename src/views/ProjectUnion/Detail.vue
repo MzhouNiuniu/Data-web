@@ -1,15 +1,14 @@
 <template>
     <section class="project-container__wrapper">
         <div class="project-container">
-            <p class="page-title-1 pt-20">项目合作 </p>
-            <div class="hr-slide-style-2 mt-28"></div>
+            <p class="detail-page-caption">
+                <span>项目合作</span>
+            </p>
             <div class="caption">
                 <h1>{{detail.name}}</h1>
-                <div class="info">
-                    <p class="text-tag yellow">
-                        {{detail.releaseTime}}
-                    </p>
-                </div>
+                <p class="date">
+                    发布时间：{{detail.releaseTime}}
+                </p>
             </div>
             <div class="main">
                 <div class="hr-dashed"></div>
@@ -22,15 +21,12 @@
             </div>
         </div>
         <div class="footer">
-            <div class="qr-code">
-                <img :src="detail.Tphotos" alt="推广码">
-            </div>
+            <img :src="detail.Tphotos" alt="推广码" class="qr-code">
             <p class="com-name">
                 {{detail.Tcompany}}
             </p>
             <p class="tel">
-                <img src="~@public/icon/tel.png" alt="" class="icon">
-                <span class="line"></span>{{detail.Tcontact}}
+                {{detail.Tcontact}}
             </p>
         </div>
     </section>
@@ -86,33 +82,35 @@
 <style lang="scss" scoped>
     .project-container__wrapper {
         margin-top: 30px;
-        background-color: #fff;
     }
 
     .project-container {
         padding-bottom: 16px;
+        background-color: #fff;
     }
 
     .caption {
-        padding-top: 20px;
+        padding-top: 30px;
 
         h1 {
-            line-height: 18px;
-            font-size: 18px;
-            font-weight: bold;
+            line-height: 32px;
             text-align: center;
-            color: rgba(0, 0, 52, 1);
+            font-size: 32px;
+            font-weight: bold;
+            color: $sign-color;
         }
 
-        .info {
-            margin-top: 15px;
-            text-align: right;
+        .date {
+            margin-top: 20px;
+            text-align: center;
+            line-height: 14px;
+            font-size: 14px;
+            color: rgba(51, 51, 51, 1);
         }
     }
 
     .main {
-        margin-top: 15px;
-        padding: 0 20px 0;
+        padding: 20px 20px 0;
         line-height: 28px;
         font-size: 14px;
         color: #586066;
@@ -124,84 +122,30 @@
 
     .footer {
         $bg: #f6fbff;
-
-        box-sizing: content-box;
-        padding-top: 20px;
+        padding-top: 30px;
         background-color: $bg;
-        font-family: PingFang-TC;
+        text-align: center;
 
         .qr-code {
-            overflow: hidden;
-            position: relative;
-            z-index: 0;
-            margin-left: auto;
-            margin-right: auto;
-            width: 110px;
-            height: 110px;
-            padding: 10px;
-
-            img {
-                position: relative;
-                z-index: 2;
-                width: 100%;
-                height: 100%;
-            }
-
-            &::before {
-                content: '';
-                position: absolute;
-                z-index: 0;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                border: 2px solid $sign-color;
-            }
-
-            &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                z-index: 1;
-                top: -10px;
-                right: -10px;
-                bottom: -10px;
-                left: -10px;
-                background: $bg;
-                transform: rotate(45deg);
-            }
+            /*display: block;*/
+            /*margin: auto;*/
+            width: 100px;
+            height: 100px;
         }
 
         .com-name {
-            margin-top: 15px;
-            line-height: 18px;
-            font-size: 18px;
-            font-weight: 500;
-            text-align: center;
-            color: rgba(88, 96, 102, 1);
+            margin-top: 20px;
+            line-height: 14px;
+            font-size: 14px;
+            color: #333333;
         }
 
         .tel {
             margin-top: 15px;
-            line-height: 24px;
-            font-size: 24px;
-            font-weight: 600;
-            text-align: center;
-            color: rgba(5, 103, 255, 1);
-
-            .icon {
-                width: 20px;
-                vertical-align: 0;
-            }
-
-            .line {
-                display: inline-block;
-                margin: 0 9px;
-                width: 1px;
-                height: 19px;
-                background: $sign-color;
-                vertical-align: -1px;
-            }
+            line-height: 14px;
+            height: 14px;
+            font-size: 14px;
+            color: #333333;
         }
     }
 </style>

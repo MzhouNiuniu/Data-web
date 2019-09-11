@@ -2,9 +2,10 @@
     <section class="basic-layout">
         <Header/>
         <!-- footer 108px，不计算溢出的logo 20px -->
-        <div style="padding-bottom: 160px;">
-
+        <div>
             <router-view :key="$route.fullPath"/>
+
+            <!-- 使用padding会有问题，参见 项目合作->详情页 底部-->
             <div class="fix-footer-logo" :style="bgStyle"></div>
         </div>
         <Footer/>
@@ -38,6 +39,6 @@
     }
 
     .fix-footer-logo {
-        height: 148 - 2px;
+        height: 158px;
     }
 </style>

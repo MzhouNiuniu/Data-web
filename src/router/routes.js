@@ -84,14 +84,19 @@ export default [
             },
             /* 城投数据 */
             {
-                path: '/CityInvest',
-                name: 'CityInvest',
-                component: lazyLoad('CityInvest/List')
+                path: '/InvestCom',
+                name: 'InvestCom',
+                component: lazyLoad('InvestCom/List')
             },
             {
-                path: '/CityInvest/Map',
-                name: 'CityInvestMap',
-                component: lazyLoad('CityInvest/MapList')
+                path: '/InvestCom/Map',
+                name: 'InvestComMap',
+                component: lazyLoad('InvestCom/MapList')
+            },
+            {
+                path: '/InvestComDetail/:id',
+                name: 'InvestComDetail',
+                component: lazyLoad('InvestCom/Detail')
             },
         ],
     },

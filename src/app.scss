@@ -53,7 +53,7 @@ img {
   text-align: left;
 }
 
-.media-wrap.image-wrap img{   //富文本中图片样式
+.media-wrap.image-wrap img { //富文本中图片样式
   width: 100%;
 }
 
@@ -118,12 +118,45 @@ img {
   background: rgba(5, 103, 255, 0.51);
 }
 
+.hr-slide-style-3 {
+  height: 1px;
+  background-color: #eee;
+}
+
 .hr-dashed {
   height: 1px;
   background-image: linear-gradient(to right, rgb(224, 232, 235) 0%, rgb(224, 232, 235) 70%, transparent 100%);
   background-size: 11px 1px;
   background-repeat: repeat-x;
   // https://segmentfault.com/q/1010000002442556/a-1020000012861824
+}
+
+.detail-page-caption {
+  position: relative;
+  height: 52px;
+  padding-left: 20px;
+  border-bottom: 1px solid #BFC5CA;
+
+  & > span {
+    display: inline-block;
+    position: relative;
+    height: 52px;
+    line-height: 52px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(34, 34, 34, 1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: $sign-color;
+    }
+  }
+
 }
 
 .page-title-1 {
@@ -204,6 +237,8 @@ img {
 
 
 .ue-link {
+  cursor: pointer;
+
   &:hover {
     color: $sign-color !important;
   }

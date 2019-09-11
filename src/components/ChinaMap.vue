@@ -31,12 +31,6 @@
             this.chart = null;
             // 只需要动态修改mapType，然后使用原生setOption
             this.option = {
-                grid: {
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    bottom: 0
-                },
                 // title: {
                 //     text: '标题文本',
                 //     textAlign: 'center',
@@ -74,7 +68,7 @@
                             color: 'white',
                         }
                     },
-                    zoom: 1.28,
+                    // zoom: 1.28,
                     itemStyle: {
                         normal: {
                             borderWidth: 1,
@@ -87,7 +81,11 @@
                     },
                     tooltip: {
                         show: false
-                    }
+                    },
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                 },
                 series: [
                     {
@@ -144,19 +142,26 @@
                 return axios.get('/geo-json/' + code + '_full.json').then(res => res.data);
             },
             loadGeoData(code) {
+                const set = () => {
+                    if (!this.isRoot) {
+                        this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 'auto';
+                    } else {
+                        this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 0;
+                    }
+                    this.option.geo.map = code;
+                    this.chart.setOption(this.option);
+                };
+
                 if (echarts.getMap(code)) {
                     this.$nextTick(() => {
-                        // 临时拷贝
-                        this.option.geo.map = code;
-                        this.chart.setOption(this.option);
+                        set();
                     });
                     return;
                 }
 
                 this.getGeoData(code).then(data => {
                     echarts.registerMap(code, data);
-                    this.option.geo.map = code;
-                    this.chart.setOption(this.option);
+                    set();
                 });
             },
             handleChartClick(params) {
@@ -167,6 +172,10 @@
                 // 获取地图
                 const currentBlockData = echarts.getMap(this.currentCode).geoJson;
                 const targetBlock = currentBlockData.features.find(item => item.properties.name === params.name);
+                if (!targetBlock) {
+                    return;
+                }
+
                 this.$emit('change', targetBlock);
 
                 // childNum、id 兼容老数据

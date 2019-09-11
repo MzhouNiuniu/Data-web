@@ -39,11 +39,11 @@
                     children: [
                         {
                             name: '列表模式',
-                            path: '/CityInvest',
+                            path: '/InvestCom',
                         },
                         {
                             name: '地图模式',
-                            path: '/CityInvest/Map',
+                            path: '/InvestCom/Map',
                         },
                     ],
                 },

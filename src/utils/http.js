@@ -81,6 +81,7 @@ function checkCode(res) {
     return res
 }
 export default {
+    base:axios,
     exportRate(downUrl,data) {
         return axios({
             url: downUrl,
