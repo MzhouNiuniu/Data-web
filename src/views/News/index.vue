@@ -1,82 +1,80 @@
 <template>
     <section class="project-container__wrapper">
-        <div class="project-container sign-wrapper ">
-            <div></div>
-            <div>
-                <span>行业</span>
-                <span>动态</span>
+        <div class="project-container">
+            <div class="title-wrap">
+                <div class="title">行业动态</div>
+                <span class="more-wrapper" @click="toMore(0)">了解更多</span>
             </div>
-            <div class="more-wrapper" @click="toMore(0)">了解更多</div>
-        </div>
-        <ul class="trade-list project-container">
-            <li @click="toDetail(item._id,'行业')" v-for="(item,index) in ideaDynamic" :key="index">
-                <div class="circle"></div>
-                <p>{{item.title}}</p>
-                <div>
-                    <img src="./img/time.png"/>
-                    <span>{{item.releaseTime}}</span>
+            <div class="first-list">
+                <div class="item" @click="toDetail(item._id,'行业')" v-for="(item,index) in ideaDynamic" :key="index">
+                    <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
+                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环 境基础设施建设的指导意见》</p>
+                    <p class="time">发布时间：2019-09-13 14:23</p>
+                    <p class="content">这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一 段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一段新闻 摘要这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要</p>
                 </div>
-            </li>
-        </ul>
-        <div class="sign-wrapper project-container">
-            <div></div>
-            <div>
-                <span>城投</span>
-                <span>新闻</span>
             </div>
-            <div class="more-wrapper" @click="toMore(1)">了解更多</div>
-        </div>
-        <div class="city-list project-container">
-            <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id,'城投')">
-                <img :src="item.cover?item.cover:require('../../../public/image/noData.png')" alt="">
-                <div>
-                    <p class="city-title">{{item.title}}</p>
-                    <div class="city-sign">
-                        <div>城投</div>
-                        <div>{{item.source}}</div>
-                        <div>{{item.releaseTime}}</div>
+            <div class="title-wrap">
+                <div class="title">城投新闻</div>
+                <span class="more-wrapper" @click="toMore(1)">了解更多</span>
+            </div>
+            <div class="city-list">
+                <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item.id)" v-if="index<2">
+                    <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
+                    <div class="content">
+                        <p class="city-title">{{item.title}}</p>
+                        <p class="source">来源：新华网</p>
+                        <p class="time">发布时间：2019-09-13 14:23</p>
+                        <div class="city-content" v-html="item.content"></div>
                     </div>
-                    <p class="city-content" v-html="item.content"></p>
                 </div>
             </div>
-        </div>
-        <div class="sign-wrapper project-container">
-            <div></div>
-            <div>
-                <span>智库</span>
-                <span>动态</span>
+            <div class="title-wrap">
+                <div class="title">智库动态</div>
+                <span class="more-wrapper" @click="toMore(2)">了解更多</span>
             </div>
-            <div class="more-wrapper" @click="toMore(2)">了解更多</div>
-        </div>
-        <ul class="trade-list project-container">
-            <li @click="toDetail(item._id,'智库')" v-for="(item,index) in industryDynamic" :key="index">
-                <div class="circle"></div>
-                <p>{{item.title}}</p>
-                <div>
-                    <img src="./img/time.png"/>
-                    <span>{{item.releaseTime}}</span>
+            <div class="smart-wrap">
+                <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}">
+                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环境 基础设施建设的指导意见》</p>
                 </div>
-            </li>
-        </ul>
-        <div class="sign-wrapper project-container">
-            <div></div>
-            <div>
-                <span>项目</span>
-                <span>动态</span>
+                <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}">
+                    <p class="title">湖南省住房和城乡建设厅解读《关于推进城乡环境 基础设施建设的指导意见》</p>
+                </div>
+                <ul>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                </ul>
             </div>
-            <div class="more-wrapper" @click="toMore(3)">了解更多</div>
-        </div>
-        <div class="city-list project-container">
-            <div class="city-item" v-for="(item,index) in projectDynamic" :key="index" @click="toDetail(item._id,'项目')">
-                <img :src="item.cover?item.cover:require('../../../public/image/noData.png')" alt="">
+            <div class="title-wrap">
+                <div class="title">项目动态</div>
+                <span class="more-wrapper" @click="toMore(3)">了解更多</span>
+            </div>
+            <div class="project-wrap">
+                <ul>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                    <li>
+                        <p>湖南省住房和城乡建设厅解读《关于推进城乡环境基础设施 建设的指导意见》</p>
+                    </li>
+                </ul>
                 <div>
-                    <p class="city-title">{{item.title}}</p>
-                    <div class="city-sign">
-                        <div>项目</div>
-                        <div>{{item.source}}</div>
-                        <div>{{item.releaseTime}}</div>
+                    <div class="noData" :style="{backgroundImage:'url('+require('../../../public/image/noData.png')+')'}"></div>
+                    <div>
+                        <p class="title">湖南省住房和城乡建设厅解读《关 于推进城乡环境基础设施建设的</p>
+                        <p class="source">来源：新华网</p>
+                        <p class="time">发布时间：2019-09-13 14:23</p>
+                        <p class="content">这是一段新闻摘要这是一段新闻摘要这是一段 新闻摘要这是一段新闻摘要这是一段新闻摘要 这是一段新闻摘要这是一段新闻摘要这是一</p>
                     </div>
-                    <p class="city-content" v-html="item.content"></p>
                 </div>
             </div>
         </div>
@@ -118,157 +116,238 @@
 </script>
 
 <style lang="scss" scoped>
-    .sign-wrapper{
-        margin-top: 25px;
-        margin-bottom: 30px;
-        display: flex;
+    .more-wrapper {
+        color: $sign-color;
+        font-size: 14px;
+        font-weight: bold;
+        float: right;
+    }
+    .more-wrapper:after{
+        content:'+';
+        font-size: 18px;
+        margin-left: 10px;
+    }
+    .noData{
+        background:no-repeat center;
+        -webkit-background-size: cover;
+        background-size: cover;
+        position: relative;
 
-        & > div {
-            flex: 1;
-            height:64px;
+        & > .title{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 67px;
+            background: rgba(0,0,0,.5);
+            display: -webkit-box;
+            word-break: break-all;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: #fff;
+            font-size: 15px;
+            line-height: 28px;
+            padding: 5px 15px;
+            display: none;
         }
-        & > div:first-child {
-            border-top: 2px solid #eee;
-        }
-        & > div:nth-of-type(2) {
-            flex: 0 1 auto;
-            width: 197px;
-            height:64px;
-            background: url("./img/sign.png") no-repeat center;
-            background-size:cover;
-            display: flex;
-            padding: 0 20px;
-
-            & > span {
-                flex:1;
-                text-align: center;
-                font-size: 24px;
-                color:#fff;
-                line-height: 75px;
-            }
-            & > span:first-child{
-                color: #3D95FE;
-            }
-        }
-        .more-wrapper {
-            border-bottom: 2px solid #eee;
-            text-align: right;
-            line-height: 80px;
+    }
+    .title-wrap {
+        line-height: 45px;
+        border-bottom: 1px solid #EEEEEE;
+        margin: 20px 0;
+        .title {
+            display: inline-block;
+            font-size: 24px;
             color: $sign-color;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .more-wrapper:after{
-            content:'+';
-            font-size: 18px;
-            margin-left: 10px;
+            font-weight: 600;
+            border-bottom: 4px solid $primary-color;
+            padding-bottom: 10px;
         }
     }
-    .trade-list{
-        & >li{
-            display: flex;
-            border-bottom: 1px solid #eee;
-            padding: 20px 0;
-            font-size: 18px;
-            align-items:center;
+    .first-list{
+        border-bottom: 1px solid #BFC5CA;
+        padding-bottom: 20px;
+        .item{
+            display: inline-block;
+            width: 32%;
+            margin-right: 2%;
 
-            & > .circle{
-                width: 10px;
-                height: 10px;
-                background: $sign-color;
-                -webkit-border-radius: 10px;
-                -moz-border-radius: 10px;
-                border-radius: 10px;
-                margin-right: 15px;
+            .noData{
+                width: 100%;
+                height: 200px;
             }
-            & >p{
-                flex: 1;
-                color: $list-title-color;
+            .title{
+                font-size: 18px;
+                color: #333;
                 font-weight: bold;
+                margin:20px 0;
+                display: -webkit-box;
+                word-break: break-all;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
                 overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                margin-right: 10px;
             }
-            & > div{
-                & > img {
-                    width: 16px;
-                    height: 16px;
-                    margin-right: 10px;
-                }
-                & > span {
-                    color: #586066;
-                    font-size: 14px;
-                    font-weight: bold;
-                }
+            .time{
+                font-size: 14px;
+                color: #666;
+                padding-bottom: 15px;
+                margin: 20px 0;
+                border-bottom: 1px solid #BFC5CA;
+            }
+            .content{
+                display: -webkit-box;
+                word-break: break-all;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                font-size: 15px;
+                color: #333;
             }
         }
+        .item:last-child{
+            margin-right: 0;
+        }
     }
-    .city-list{
-        & > .city-item{
-            background: #F6FBFF;
-            padding: 15px 20px;
+    .city-list {
+        & > .city-item {
+            padding: 20px 0;
             display: flex;
-            margin-bottom: 15px;
-            & > img{
-                width: 300px;
-                height: 140px;
+
+            border-bottom: 1px dashed #BFC5CA;
+            .noData {
+                width: 386px;
+                height: 200px;
             }
-            & > div {
+            .content {
                 flex: 1;
-                width: calc(100% - 360px );
+                width: calc(100% - 400px);
                 margin-left: 20px;
 
-                & > .city-title{
-                    color: $list-title-color;
+                & > .city-title {
+                    color: #333;
                     font-size: 18px;
                     font-weight: bold;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                 }
-                & > .city-sign{
-                    margin-top: 15px;
-
-                    & > div{
-                        display: inline-block;
-                        font-size: 12px;
-                        height: 20px;
-                        line-height: 20px;
-                        padding: 0 20px;
-                        -webkit-border-radius: 20px;
-                        -moz-border-radius: 20px;
-                        border-radius: 20px;
-                        margin-right: 20px;
-                    }
-                    & > div:first-child{
-                        background: rgba(5,103,255,.2);
-                        color: $sign-color;
-                    }
-                    & > div:nth-of-type(2){
-                        background: rgba(253,136,42,.2);
-                        color: #FD882A;
-                    }
-                    & > div:last-child{
-                        background: rgba(254,209,74,.1);
-                        color: #DCAF00;
-                    }
-                }
-                & > .city-content{
-                    color: #586066;
+                .source , .time{
+                    color: #666;
                     font-size: 14px;
+                    margin: 15px 0;
+                }
+                & > .city-content {
+                    color: #333;
+                    font-size: 15px;
+                    display: -webkit-box;
+                    word-break: break-all;
+                    -webkit-line-clamp: 4;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    line-height: 22px;
+                    margin-top: 15px;
+                }
+            }
+        }
+        .city-item:last-child {
+            border-bottom-style: solid ;
+        }
+    }
+    .smart-wrap{
+        padding-bottom: 20px;
+        border-bottom: 1px solid #BFC5CA;
+        & > div{
+            display: inline-block;
+            width: 32%;
+            height: 200px;
+            margin-right: 20px;
+        }
+        & > div:hover .title{
+            display: block;
+        }
+        & > ul{
+            float: right;
+            width: 31%;
+            height: 200px;
+            list-style-type: square;
+
+            li{
+                color: #BFC5CA;
+                font-size: 20px;
+                & >p{
+                    font-size: 15px;
+                    color: #333;
+                    display: -webkit-box;
+                    word-break: break-all;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+            }
+        }
+    }
+    .project-wrap{
+        overflow: hidden;
+        ul {
+            float: left;
+            width: calc(40% - 30px);
+            height: 200px;
+            margin-left: 20px;
+            list-style-type: square;
+            li{
+                color: #BFC5CA;
+                font-size: 20px;
+                margin-bottom: 15px;
+                & >p{
+                    font-size: 15px;
+                    color: #333;
+                    display: -webkit-box;
+                    word-break: break-all;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+            }
+        }
+        & > div{
+            float: right;
+            width: 60%;
+
+            &>div{
+                display: inline-block;
+
+                .title{
+                    font-size: 18px;
+                    color: #333;
+                    display: -webkit-box;
+                    word-break: break-all;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+                .source , .time{
+                    color: #666;
+                    font-size: 14px;
+                    margin: 10px 0;
+                }
+                .content{
                     display: -webkit-box;
                     word-break: break-all;
                     -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
-                    line-height: 22px;
-                    margin-top: 15px;
-
-                    & img{
-                        width: 100%;
-                    }
+                    font-size: 15px;
+                    color: #333;
                 }
+            }
+            &>div:last-child{
+                width: calc(100% - 400px);
+                margin-left: 14px;
+            }
+            .noData{
+                width: 386px;
+                height: 200px;
             }
         }
     }
