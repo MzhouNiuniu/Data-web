@@ -1,15 +1,15 @@
 <template>
     <section class="project-container__wrapper">
-        <section class="project-container">
+        <div class="project-container">
             <div class="left-wrapper">
                 <div class="detail-top pt-20 pb-20">
-                    <p class="detail-top-title pl-15">新闻动态</p>
+                    <p class="detail-top-title pl-15">{{title}}</p>
                 </div>
-                <div class="content-wrapper" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title.slice(0,2))">
+                <div class="content-wrapper" @click="toDetail()">
                     <img src="./img/right.png" alt="">
                     <div class="content">
-                        <p>{{item.title}}</p>
-                        <div v-html="item.content"></div>
+                        <p>这是一个定期报告标题这是一个定期报告标题这是一个定期报告标题</p>
+                        <div >这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主 要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一</div>
                     </div>
                 </div>
             </div>
@@ -23,54 +23,32 @@
                     </li>
                 </ul>
             </div>
-        </section>
-        <section class="project-container">
-            <Pagination
-                    class="mt-20"
-                    v-bind="pagination"
-                    @change="handlePageChange"
-            />
-        </section>
-
+        </div>
     </section>
 </template>
 
 <script>
-    import Pagination from '@components/Pagination';
-
     export default {
-        name: "more-list",
+        name: "study",
         data(){
             return {
                 navTitle:[{
-                    name:'行业动态',
+                    name:'专题报告',
                     class:'unActive'
                 },{
-                    name:'城投新闻',
+                    name:'定期报告',
                     class:'unActive'
-                },{
-                    name:'智库动态',
-                    class:'unActive'
-                },{
-                    name:'项目动态',
-                    class:'unActive'
-                },],
-                title:'行业动态',
+                }],
+                title:'专题报告',
                 pagination: this.getPagination(),
                 newsType:0,
                 data:[]
             }
         },
-        components: {
-            Pagination,
-        },
         created() {
             this.setActiveAttr(this.$route.params.index)
         },
-        mounted(){
-
-        },
-        methods:{
+        methods: {
             getPagination() {
                 const { query } = this.$route;
                 return {
@@ -79,27 +57,17 @@
                     total: 0,
                 };
             },
-            handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.size = limit;
-                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
-            },
-            setActiveAttr(index){
-                this.navTitle.forEach((item)=>{
-                    this.$set(item,'class','unActive')
+            setActiveAttr(index) {
+                this.navTitle.forEach((item) => {
+                    this.$set(item, 'class', 'unActive')
                 })
-                this.$set(this.navTitle[index],'class','active')
+                this.$set(this.navTitle[index], 'class', 'active')
                 this.title = this.navTitle[index].name
                 this.newsType = index
-                this.getList(10,1,index)
+                // this.getList(10, 1, index)
             },
-            async getList(size,current,type){
-                let res = await this.http.get(this.api.getNewsList,{limit:size,page:current,keyWords:'',type})
-                this.pagination.total = res.data.total
-                this.data = res.data.docs
-            },
-            toDetail(id,type){
-                this.$router.push({path:`/newsDetail/${id}`,query:{type}})
+            toDetail(id){
+                this.$router.push({path:`/studyDetail/${123}`})
             },
         }
     }
@@ -112,7 +80,6 @@
 
         .left-wrapper{
             flex: 1;
-            background: #F6FBFF;
             margin-right: 30px;
 
             .detail-top{
@@ -149,6 +116,23 @@
                     }
                     & > div{
                         margin-bottom: 20px;
+
+                        & >div{
+                            display: inline-block;
+                            margin-right: 20px;
+
+                            &>img{
+                                width: 16px;
+                                height: 16px;
+                                margin-right: 10px;
+                            }
+                            &>span{
+                                color: #A8ACAF;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                    & > div:last-child{
                         color: #586066;
                         font-size: 14px;
                         display: -webkit-box;
@@ -163,7 +147,7 @@
         .right-wrapper{
             flex: 0 1 200px;
             width: 200px;
-            height: 311px;
+            height: 194px;
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
             border-radius: 10px;
@@ -212,5 +196,4 @@
             }
         }
     }
-
 </style>

@@ -53,21 +53,11 @@ img {
   text-align: left;
 }
 
-.media-wrap.image-wrap img { //富文本中图片样式
-  width: 100%;
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
-.project-container__wrapper {
-
-}
-
-.project-container {
-  margin: auto;
-  max-width: $project-width;
-  height: 100%;
-  width: 100%;
-}
-
 
 @for $i from 0 through 50 {
   $size: #{$i}px;
@@ -107,6 +97,95 @@ img {
   }
 }
 
+
+.media-wrap.image-wrap img { //富文本中图片样式
+  width: 100%;
+}
+
+.project-container__wrapper {
+
+}
+
+.project-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $project-width;
+  height: 100%;
+  width: 100%;
+}
+
+
+.project-scroll {
+  // overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background: rgba(216, 216, 216, 1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(53, 139, 254, 1);
+    border-radius: 5px;
+  }
+}
+
+.project-ivu-table {
+  td, th {
+    text-align: center !important;
+  }
+
+  .ivu-table-stripe .ivu-table-row:nth-child(2n) td {
+    background-color: #f6fbff;
+  }
+
+  .ivu-table-header {
+    th {
+      height: 44px;
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      background-color: #ddecff;
+    }
+  }
+
+  .ivu-table-tbody {
+    td {
+      height: 46px;
+      font-size: 16px;
+      color: rgba(51, 51, 51, 1);
+    }
+  }
+
+  .ivu-table-overflowY, .ivu-table-overflowX {
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+      background: rgba(191, 197, 202, 1);
+    }
+
+    //&::-webkit-scrollbar-corner {
+    //  background: rgba(191, 197, 202, 1);
+    //}
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(5, 103, 255, 1);
+      border-radius: 5px;
+    }
+  }
+
+  /* 此样式，有Y轴滚动条时无效 */
+  &.cool-scroll {
+    .ivu-table {
+      margin-bottom: 3px;
+    }
+
+    .ivu-table-overflowY, .ivu-table-overflowX {
+      table {
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
 
 .hr-slide-style-1 {
   height: 1px;
@@ -236,6 +315,7 @@ img {
 }
 
 
+// 用户体验相关
 .ue-link {
   cursor: pointer;
 
@@ -243,4 +323,3 @@ img {
     color: $sign-color !important;
   }
 }
-

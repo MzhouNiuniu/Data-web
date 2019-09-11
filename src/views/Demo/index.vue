@@ -4,7 +4,11 @@
             <p slot="title">本项目用到的所有组件</p>
             <div class="demo-list">
                 <div style="width: 288px">
-                    <TextEllipsis value="这是一段企业概况这是一asdakasjdkajsljjjlk段企业概况这是一段企业概这 131545465464645555555555555555555555555555555555555555555" :rows="3"/>
+                    <textarea v-model="m3" id="" cols="30" rows="10"></textarea>
+                    <TextEllipsis
+                            :rows="3"
+                            :value="m3"
+                    />
                 </div>
                 <div>
                     <SearchInput/>
@@ -73,6 +77,8 @@
             return {
                 m1: [],
                 m2: '',
+                m3: '这是一段企业概况这是一asdakasjdkajsljjjlk段企业概况这是一段企业概这\n' +
+                    '                            131545465464645555555555555555555555555555555555555555555',
             };
         },
         methods: {

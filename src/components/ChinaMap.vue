@@ -82,10 +82,10 @@
                     tooltip: {
                         show: false
                     },
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
+                    // top: 0,
+                    // bottom: 0,
+                    // left: 0,
+                    // right: 0,
                 },
                 series: [
                     {
@@ -143,11 +143,11 @@
             },
             loadGeoData(code) {
                 const set = () => {
-                    if (!this.isRoot) {
-                        this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 'auto';
-                    } else {
-                        this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 0;
-                    }
+                    // if (!this.isRoot) {
+                    //     this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 'auto';
+                    // } else {
+                    //     this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 0;
+                    // }
                     this.option.geo.map = code;
                     this.chart.setOption(this.option);
                 };
@@ -211,8 +211,8 @@
     .back {
         position: absolute;
         z-index: 2;
-        top: 4px;
-        left: 0;
+        top: 30px;
+        right: 30px;
         line-height: 20px;
         cursor: pointer;
 
@@ -223,19 +223,19 @@
 
         .text {
             padding-left: 16px;
-            font-size: 14px;
-            color: rgba(88, 96, 102, 1);
+            font-size: 16px;
+            color: rgba(51, 51, 51, 1);
         }
     }
 
     .caption {
         position: absolute;
         z-index: 1;
-        top: 0;
+        top: 30px;
         left: 0;
         width: 100%;
         text-align: center;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
         color: rgba(153, 153, 153, 1);
     }

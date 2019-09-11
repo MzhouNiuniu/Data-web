@@ -28,6 +28,32 @@ export default [
                 name: 'about',
                 component: lazyLoad('About')
             },
+            /* 城投数据 */
+            {
+                path: '/InvestCom',
+                name: 'InvestCom',
+                component: lazyLoad('InvestCom/List')
+            },
+            {
+                path: '/InvestCom/Map',
+                name: 'InvestComMap',
+                component: lazyLoad('InvestCom/MapList')
+            },
+            {
+                path: '/InvestComDetail/:id',
+                name: 'InvestComDetail',
+                component: lazyLoad('InvestCom/Detail')
+            },
+            {
+                path: '/BondRecordList/:id',
+                name: 'BondRecordList',
+                component: lazyLoad('InvestCom/BondRecordList')
+            },
+            {
+                path: '/BondRecordDetail/:id',
+                name: 'BondRecordDetail',
+                component: lazyLoad('InvestCom/BondRecordDetail')
+            },
             /* 项目合作 */
             {
                 path: '/projectUnion',
@@ -82,21 +108,25 @@ export default [
                 name: 'research',
                 component: lazyLoad('Research/index')
             },
-            /* 城投数据 */
             {
-                path: '/InvestCom',
-                name: 'InvestCom',
-                component: lazyLoad('InvestCom/List')
+                path: '/studyList/:index',
+                name: 'studyList',
+                component: lazyLoad('Research/studyList')
             },
             {
-                path: '/InvestCom/Map',
-                name: 'InvestComMap',
-                component: lazyLoad('InvestCom/MapList')
+                path: '/studyDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/studyDetail')
             },
             {
-                path: '/InvestComDetail/:id',
-                name: 'InvestComDetail',
-                component: lazyLoad('InvestCom/Detail')
+                path: '/classicList',
+                name: 'studyList',
+                component: lazyLoad('Research/classicList')
+            },
+            {
+                path: '/classicDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/classicDetail')
             },
         ],
     },

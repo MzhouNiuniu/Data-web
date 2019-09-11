@@ -1,79 +1,60 @@
 <template>
     <section class="project-container__wrapper">
         <div class="project-container">
-            <p class="page-title-1 pt-24">机构信息</p>
-            <div class="brief mt-20">
-                <p class="title">
+            <p class="detail-page-caption">
+                <span>机构信息</span>
+            </p>
+            <div class="brief">
+                <h1 class="title">
                     {{detail.name}}
-                </p>
-                <table class="prop-table" cellpadding="0" width="100%">
-                    <tr>
-                        <td>
-                            <p class="label">
-                                机构网址：
-                            </p>
-                        </td>
-                        <td>
+                </h1>
+                <ul class="info-list">
+                    <li>
+                        <p class="label">
+                            机构网址：
+                        </p>
+                        <p class="value">
                             {{detail.website}}
-                            <div class="hr-dashed"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="label">
-                                所在地：
-                            </p>
-                        </td>
-                        <td>
+                        </p>
+                        <div class="hr-dashed"></div>
+                    </li>
+                    <li>
+                        <p class="label">
+                            所在地：
+                        </p>
+                        <p class="value">
                             {{detail.province}}{{detail.city}}{{detail.district}} ，{{detail.address}}
-                            <div class="hr-dashed"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="label">
-                                经营范围：
-                            </p>
-                        </td>
-                        <td>
+                        </p>
+                        <div class="hr-dashed"></div>
+                    </li>
+                    <li>
+                        <p class="label">
+                            经营范围：
+                        </p>
+                        <p class="value">
                             {{detail.scope}}
-                            <div class="hr-dashed"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="label">
-                                专业领域：
-                            </p>
-                        </td>
-                        <td>
+                        </p>
+                        <div class="hr-dashed"></div>
+                    </li>
+                    <li>
+                        <p class="label">
+                            专业领域：
+                        </p>
+                        <p class="value">
                             投融资领域、工程领域
-                            <div class="hr-dashed"></div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="hr-dashed mt-14"></div>
+                        </p>
+                    </li>
+                </ul>
+                <div class="hr-slide-style-1 ml-20 mr-20" style="margin-top: 15px;"></div>
                 <p class="introduce">
                     {{detail.intro}}
                 </p>
             </div>
-            <div class="hr-slide-style-1 mt-20"></div>
-            <!-- 服务内容 -->
-            <div class="mt-20">
-                <p class="card-title_arrow">
-                    服务内容/<span class="letter">Service</span>
-                </p>
-                <p class="mt-14 card-content">
-                    {{detail.service}}
-                </p>
-            </div>
-            <div class="hr-dashed ml-20 mr-20 mt-14"></div>
-            <!-- 合作经验 -->
-            <div class="mt-14 cooperation">
-                <p class="card-title_arrow">
-                    合作经验/<span class="letter">Cooperation</span>
-                </p>
-                <ul class="mt-14 list">
+            <div class="hr-dashed ml-20 mr-20" style="margin-top: 23px;"></div>
+            <UIDescription title="服务内容" class="mt-20" :text="detail.service"/>
+            <div class="hr-dashed ml-20 mr-20 mt-30"></div>
+            <UIDescription title="合作经验" class="mt-20">
+                <ul class="cooperation-list">
                     <li v-for="(item,index) in detail.experience" :key="index">
                         <p class="order-num">
                             {{getOrderNum(index)}}
@@ -84,14 +65,20 @@
                         <div class="hr-dashed"></div>
                     </li>
                 </ul>
-            </div>
+            </UIDescription>
+            <div class="hr-slide-style-1 mt-20"></div>
         </div>
     </section>
 </template>
 
 <script>
+    import UIDescription from '@ui/Description';
+
     export default {
         name: "OrganizationDetail",
+        components: {
+            UIDescription,
+        },
         data() {
             return {
                 id: this.$route.params.id,
@@ -146,84 +133,60 @@
     }
 
     .brief {
-        padding: 0 20px;
-        background: #F6FBFF;
+        margin-top: 30px;
 
         .title {
-            padding: 20px 0 14px 0;
-            line-height: 20px;
-            font-size: 20px;
-            font-weight: 800;
-            color: rgba(0, 0, 0, 1);
-
+            line-height: 24px;
             text-align: center;
-            border-bottom: 1px solid rgba(5, 103, 255, 0.5);
+            font-size: 24px;
+            color: rgba(34, 34, 34, 1);
         }
 
-        .prop-table {
-            margin-top: 15px;
+        .info-list {
+            $label-width: 90px;
+            margin-top: 10px;
+            line-height: 26px;
 
-            td {
-                padding: 0;
+            li {
+                padding-top: 15px;
             }
 
-            tr {
+            .hr-dashed {
+                margin-left: $label-width;
+                margin-top: 15px;
+            }
 
-                td:nth-child(1) {
-                    display: block;
-                    padding-top: 15px;
-                    white-space: nowrap;
+            .label {
+                float: left;
+                padding-top: 5px;
+                width: $label-width;
+                line-height: 18px;
+                font-size: 18px;
+                color: #666666;
+            }
 
-                    .label {
-                        padding: 7px 0 7px 10px;
-                        line-height: 16px;
-                        font-size: 16px;
-                        font-weight: 800;
-                        color: rgba(5, 103, 255, 1);
-                        background: rgba(236, 241, 255, 1);
-                        border-radius: 2px;
-                    }
-                }
-
-                td:nth-child(2) {
-                    min-height: 100%; // 让table自动处理溢出内容
-                    padding-top: 20px;
-                    padding-left: 15px;
-                    line-height: 18px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    color: rgba(0, 0, 52, 1);
-                }
-
-                .hr-dashed {
-                    margin-top: 20px;
-                }
-
-                &:last-child {
-                    .hr-dashed {
-                        display: none;
-                    }
-                }
+            .value {
+                margin-left: $label-width;
+                font-size: 16px;
+                color: #333333;
             }
         }
 
         .introduce {
-            // 20 - (26-14)/2
-            padding: 14px 0;
-            line-height: 26px;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(0, 0, 52, 1);
+            margin-top: 23px;
+            line-height: 30px;
+            font-size: 16px;
+            color: rgba(51, 51, 51, 1);
         }
     }
 
 
-    .cooperation {
-        .list li {
+    .cooperation-list {
+        li {
             position: relative;
 
             .card-content {
-                padding-top: 15px;
+                padding: 20px;
             }
 
             .order-num {

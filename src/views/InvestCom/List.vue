@@ -1,6 +1,6 @@
 <template>
     <section class="project-container">
-        <div class="search-bar mt-24 clearfix">
+        <div class="search-bar clearfix">
             <SearchInput class="search-input" placeholder="请输入企业名称"/>
             <router-link tag="div" class="mode-btn" to="/InvestCom/Map">
                 <img src="~@public/icon/china.png" alt="" class="icon">
@@ -100,7 +100,11 @@
                         </p>
                     </div>
                     <p class="intro mt-10">
-                        这是一段企业概况这是一段企业概况这是一段企业概这 是一段企业概况这是一段企业概况…
+                        <TextEllipsis
+                                fill
+                                :rows="2"
+                                value="这是一段企业概况这是一段企业概况这是一段企业概这-这是一段企业概况这是一段企业概况这是一段企业概这-这是一段企业概况这是一段企业概况这是一段企业概这"
+                        />
                     </p>
                 </div>
             </Col>
@@ -117,6 +121,8 @@
     import SearchInput from '@components/SearchInput';
     import Pagination from '@components/Pagination';
     import OptionButton from '@components/OptionButton';
+    import TextEllipsis from '@components/TextEllipsis';
+
 
     let provinceList = null;
 
@@ -126,6 +132,7 @@
             SearchInput,
             Pagination,
             OptionButton,
+            TextEllipsis,
         },
         data() {
             this.searchOptions = {
@@ -333,38 +340,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .search-bar {
-        .search-input {
-            float: left;
-            padding-right: 240px;
-        }
-
-        .mode-btn {
-            position: relative;
-            z-index: 1;
-            float: left;
-            margin-left: -210px;
-            padding-top: 4px;
-            padding-bottom: 2px;
-            width: 76px;
-            background: rgba(236, 241, 255, 1);
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(5, 103, 255, 1);
-            border-radius: 5px;
-            cursor: pointer;
-            user-select: none;
-
-            .icon {
-                width: 20px;
-            }
-
-            .text {
-                margin-top: 2px;
-            }
-        }
-    }
+    @import "./search-bar";
 
     .search-panel {
         ::v-deep {
@@ -501,7 +477,7 @@
             .intro {
                 line-height: 30px;
                 font-size: 14px;
-                color: rgba(51, 51, 51, 1);
+                color: #333;
             }
         }
     }

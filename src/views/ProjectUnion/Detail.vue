@@ -105,7 +105,7 @@
             text-align: center;
             line-height: 14px;
             font-size: 14px;
-            color: rgba(51, 51, 51, 1);
+            color: #333;
         }
     }
 

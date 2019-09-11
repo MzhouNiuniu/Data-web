@@ -1,37 +1,32 @@
 <template>
-    <section class="project-container">
-        <div class="search-bar mt-30 clearfix">
-            <SearchInput class="search-input" placeholder="请输入地区/发行人"/>
-            <router-link tag="div" class="mode-btn" to="/InvestCom">
-                <img src="~@public/icon/list.png" alt="" class="icon">
-                <p class="text">
-                    列表模式
-                </p>
-            </router-link>
-        </div>
-        <div class="year-select">
+    <section>
+        <div class="project-container">
+            <div class="search-bar clearfix">
+                <SearchInput class="search-input" placeholder="请输入地区/发行人"/>
+                <router-link tag="div" class="mode-btn" to="/InvestCom">
+                    <img src="~@public/icon/list.png" alt="" class="icon">
+                    <p class="text">
+                        列表模式
+                    </p>
+                </router-link>
+            </div>
+            <div class="year-select">
                 <span class="label">
                     年份：
                 </span>
-            <DatePicker size="large" type="year" style="width: 185px"/>
-        </div>
-        <div class="hr-slide-style-3 mt-20"></div>
-        <div class="map-container">
-            <div class="left">
-                <ChinaMap class="map" @change="handleMapChange"/>
+                <DatePicker size="large" type="year" style="width: 185px"/>
             </div>
-            <div class="right">
-                <ul class="info-list">
-                    <div class="caption">
-                        <p class="left">
-                            <img src="~@public/icon/location3.png" alt="" class="icon">
-                            当前数据地
-                        </p>
-                        <p class="right">
+        </div>
+        <div class="project-container__wrapper map-container__wrapper">
+            <div class="project-container">
+                <div class="map-container">
+                    <div class="left">
+                        <ChinaMap class="map" @change="handleMapChange"/>
+                    </div>
+                    <ul class="right detail">
+                        <p class="caption">
                             北京市
                         </p>
-                    </div>
-                    <div class="pl-30 pr-30">
                         <li class="item">
                             <p class="label">
                                 行政级别：
@@ -39,6 +34,7 @@
                             <p class="value">
                                 省级
                             </p>
+                            <div class="hr-dashed"></div>
                         </li>
                         <li class="item">
                             <p class="label">
@@ -47,6 +43,7 @@
                             <p class="value">
                                 500
                             </p>
+                            <div class="hr-dashed"></div>
                         </li>
                         <li class="item">
                             <p class="label">
@@ -55,6 +52,7 @@
                             <p class="value">
                                 1400.00
                             </p>
+                            <div class="hr-dashed"></div>
                         </li>
                         <li class="item">
                             <p class="label">
@@ -63,18 +61,29 @@
                             <p class="value">
                                 500.00
                             </p>
+                            <div class="hr-dashed"></div>
                         </li>
                         <li class="item">
                             <p class="label">
-                                人口（亿人）：
+                                人口（千万）：
                             </p>
                             <p class="value">
-                                30
+                                30.12
                             </p>
+                            <div class="hr-dashed"></div>
                         </li>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
             </div>
+        </div>
+        <div class="project-container mt-30">
+            <Table class="project-ivu-table" stripe :columns="columns" :data="list"/>
+
+            <Pagination
+                    class="mt-30 text-right"
+                    v-bind="pagination"
+                    @change="handlePageChange"
+            />
         </div>
     </section>
 </template>
@@ -82,55 +91,72 @@
 <script>
     import SearchInput from '@components/SearchInput';
     import ChinaMap from '@components/ChinaMap';
+    import Pagination from '@components/Pagination';
+
 
     export default {
         name: "MapList",
         components: {
             SearchInput,
             ChinaMap,
+            Pagination,
+        },
+        data() {
+            this.columns = [
+                {
+                    title: '序号',
+                    key: 'name',
+                },
+                {
+                    title: '企业名称',
+                    key: 'name',
+                },
+                {
+                    title: '总资产规模（亿元）',
+                    key: 'name',
+                },
+                {
+                    title: '评级数据',
+                    key: 'name',
+                },
+                {
+                    title: '主体类型',
+                    key: 'name',
+                },
+            ];
+
+            this.list = [];
+            return {
+                // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
+                pagination: {
+                    page: 1,
+                    limit: 10,
+                    total: 0,
+                },
+            };
         },
         methods: {
             handleMapChange() {
                 console.log(arguments);
             },
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
+                this.loadList();
+            },
+            loadList() {
+                this.pagination.total = 100;
+                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) });
+            },
+        },
+        created() {
+            this.loadList();
         },
     };
 </script>
 
 <style lang="scss" scoped>
-    .search-bar {
-        .search-input {
-            float: left;
-            padding-right: 240px;
-        }
-
-        .mode-btn {
-            position: relative;
-            z-index: 1;
-            float: left;
-            margin-left: -210px;
-            padding-top: 4px;
-            padding-bottom: 2px;
-            width: 76px;
-            background: rgba(236, 241, 255, 1);
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(5, 103, 255, 1);
-            border-radius: 5px;
-            cursor: pointer;
-            user-select: none;
-
-            .icon {
-                width: 20px;
-            }
-
-            .text {
-                margin-top: 2px;
-            }
-        }
-    }
-
+    @import "./search-bar";
 
     .year-select {
         margin-top: 30px;
@@ -138,109 +164,71 @@
         .label {
             line-height: 16px;
             font-size: 16px;
-            font-weight: bold;
             color: rgba(0, 0, 52, 1);
         }
     }
 
+    .map-container__wrapper {
+        margin-top: 30px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        background-color: #f6fbff;
+    }
+
     .map-container {
-        $left-width: 704px;
+        $left-width: 950px;
 
 
         overflow: hidden;
-        margin-top: 28px;
 
-        & > .left {
+        .left .map {
             float: left;
             width: $left-width;
-
-            .map {
-                height: 585px;
-            }
+            height: 725px;
+            background-color: #fff;
         }
 
-        & > .right {
-            margin-top: 6px;
-            margin-left: $left-width + 42px;
+        .right.detail {
+            overflow: hidden;
+            margin-left: $left-width + 28px;
+            background-color: #fff;
+            text-align: center;
+            border-radius: 5px;
 
-            .info-list {
-                border: 1px solid rgba(238, 238, 238, 1);
+            .caption {
+                line-height: 60px;
+                font-size: 24px;
+                color: rgba(51, 51, 51, 1);
+                background: rgba(191, 197, 202, 1);
+                border-radius: 5px 5px 0 0;
+            }
 
-                .caption {
-                    line-height: 60px;
-                    color: #fff;
-                    box-shadow: 0px 4px 10px 0px rgba(0, 0, 255, 0.08);
+            .item {
+                padding-top: 36px;
 
-                    .left, .right {
-                        display: inline-block;
-                        width: 50%;
-                        vertical-align: middle;
-                    }
-
-                    .left {
-                        padding-left: 30px;
-                        background: rgba(0, 0, 255, 0.76);
-                        font-size: 20px;
-
-
-                        .icon {
-                            height: 24px;
-                            margin-right: 12px;
-                            vertical-align: sub;
-                        }
-                    }
-
-                    .right {
-                        $bg: #358BFE;
-                        position: relative;
-                        background-color: $bg;
-
-                        text-align: center;
-                        font-size: 30px;
-
-                        &::after {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            left: -30px;
-
-                            width: 0;
-                            height: 0;
-                            border-bottom: 60px solid $bg;
-                            border-left: 30px solid transparent;
-                        }
-                    }
+                .label {
+                    line-height: 1;
+                    font-size: 16px;
+                    color: rgba(51, 51, 51, 1);
                 }
 
-                .item {
-                    overflow: hidden;
-                    padding: 40px 0;
-                    line-height: 24px;
-
-                    &:not(:last-child) {
-                        border-bottom: 1px solid #EEEEEE;
-                    }
-
-                    &:last-child {
-                        padding-top: 39px;
-                        padding-bottom: 30px;
-                    }
-
-                    .label {
-                        float: left;
-
-                        font-size: 20px;
-                        color: rgba(88, 96, 102, 1);
-                    }
-
-                    .value {
-                        text-align: right;
-                        font-size: 24px;
-                        font-weight: 800;
-                        color: rgba(0, 0, 0, 1);
-                    }
+                .value {
+                    margin-top: 20px;
+                    line-height: 1;
+                    font-size: 24px;
+                    font-weight: 600;
+                    color: $sign-color;
                 }
 
+                .hr-dashed {
+                    margin-top: 36px;
+                }
+
+                &:last-child {
+                    .hr-dashed {
+                        opacity: 0;
+                    }
+                }
             }
         }
     }

@@ -18,36 +18,33 @@
                     />
                 </ul>
             </div>
-            <div class="text-right pt-14">
-                <p class="text-tag">
-                    默认首字母排序
-                </p>
-            </div>
-            <ul class="expert-list">
-                <li v-for="(item,index) in list" :key="index">
-                    <div class="main">
-                        <router-link tag="div" class="avatar" :to="`/ExpertDetail/${item._id}`">
-                            <img :src="item.photos" alt="expert-avatar">
-                        </router-link>
-                        <div class="detail">
-                            <div class="info">
-                                <span class="name">
+            <div class="expert-list__wrapper">
+                <div class="hr-dashed"></div>
+                <ul class="expert-list">
+                    <li v-for="(item,index) in list" :key="index">
+                        <div class="main">
+                            <router-link tag="div" class="avatar" :to="`/ExpertDetail/${item._id}`">
+                                <img :src="item.photos" alt="expert-avatar">
+                            </router-link>
+                            <div class="detail">
+                                <div class="name text-ellipsis">
                                     {{item.name}}
-                                </span>
-                                <span class="text-tag tiny sex">
-                                    {{item.sex}}
-                                </span>
+                                </div>
+                                <div class="hr-dashed mt-10"></div>
+                                <p class="brief">
+                                    <TextEllipsis
+                                            fill
+                                            :rows="2"
+                                            :value="item.current"
+                                    />
+                                </p>
                             </div>
-                            <div class="hr-dashed mt-10"></div>
-                            <p class="brief">
-                                {{item.current}}
-                            </p>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
             <Pagination
-                    class="mt-20"
+                    class="mt-20 text-right"
                     v-bind="pagination"
                     @change="handlePageChange"
             />
@@ -58,12 +55,15 @@
 <script>
     import SearchInput from '@components/SearchInput';
     import Pagination from '@components/Pagination';
+    import TextEllipsis from '@components/TextEllipsis';
+
 
     export default {
         name: "Expert",
         components: {
             SearchInput,
             Pagination,
+            TextEllipsis,
         },
         data() {
             this.list = [];
@@ -130,9 +130,13 @@
 <style lang="scss" scoped>
     @import "./public";
 
+    .expert-list__wrapper {
+        padding: 0 20px;
+        background: #F6FBFF;
+    }
+
     .expert-list {
         font-size: 0;
-        margin-top: -3px;
         margin-right: -15px;
 
         li {
@@ -141,6 +145,7 @@
             width: 20%;
             margin-top: 15px;
             padding-right: 15px;
+            background-color: #fff;
 
             $padding-left: 15px;
             $padding-right: 19px;
@@ -158,7 +163,6 @@
             .detail {
                 overflow: hidden;
                 padding: 15px 19px 8px 15px;
-                background-color: #F6FBFF;
             }
 
             .avatar {
@@ -172,20 +176,11 @@
                 }
             }
 
-            .info {
-                .name {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #000034;
-                }
-
-                .sex {
-                    margin-left: 30px;
-                    color: rgba(255, 255, 255, 1);
-                    background: rgba(53, 139, 254, 1);
-                    border-color: rgba(53, 139, 254, 1);
-                    vertical-align: 1px;
-                }
+            .name {
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                color: #000034;
             }
 
             .brief {

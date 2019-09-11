@@ -1,74 +1,56 @@
 <template>
-    <p ref="container" :style="containerStyle" class="container">
-        {{value}}
-    </p>
+    <section class="component__text-ellipsis">
+        <p ref="content" class="content">
+            {{value}}
+        </p>
+    </section>
 </template>
 
 <script>
-    // 未完成
+    /**
+     * 字符串长度算法比较麻烦，只支持webkit
+     * */
     export default {
         name: "TextEllipsis",
         props: {
-            value: {
-                type: String,
-                default: '',
-            },
-            rows: {
-                type: Number,
-                default: 2,
-            },
-        },
-        data() {
-            return {
-                showValue: '',
-                containerHeight: 'auto',
-            };
-        },
-        computed: {
-            containerStyle() {
-                return {
-                    height: this.containerHeight,
-                };
-            },
+            value: String,
+            rows: Number,
+            fill: Boolean, // 字段名待修改
         },
         methods: {
-            getShowValue() {
-                // ssr
-                if (!window) {
-                    return this.value;
+            updateView() {
+                if (this.rows === undefined) {
+                    return;
                 }
-                const elContainer = this.$refs.container;
-                const currentStyle = window.getComputedStyle(elContainer);
-                console.log(elContainer.style.lineHeight);
-                console.log(currentStyle.lineHeight);
-                return this.value;
+                const elContent = this.$refs.content;
+                let { lineHeight } = window.getComputedStyle(elContent);
+                lineHeight = parseFloat(lineHeight);
+                if (this.fill) {
+                    elContent.style.height = lineHeight * this.rows + 'px';
+                } else {
+                    elContent.style.maxHeight = lineHeight * this.rows + 'px';
+                }
+                elContent.style['-webkit-line-clamp'] = this.rows;
+            },
+        },
+        watch: {
+            value() {
+                this.$nextTick(this.updateView);
             },
         },
         mounted() {
-            const elContainer = this.$refs.container;
-            const currentStyle = window.getComputedStyle(elContainer);
-            let { lineHeight, height, width, fontSize } = currentStyle;
-            lineHeight = parseFloat(currentStyle.lineHeight);
-            height = parseFloat(currentStyle.height);
-            const currentRow = ~~(height / lineHeight);
-            if (currentRow <= this.rows) {
-                return;
-            }
-
-            width = parseFloat(width);
-            fontSize = parseFloat(fontSize);
-
-            // 向下取整，会少1 - 2个字
-            const newLength = ~~(width / fontSize) * this.rows;
-
-            console.log(this.value.slice(0, newLength));
-            // this.containerHeight = lineHeight * this.rows + 'px';
+            this.updateView();
         },
     };
 </script>
 
 <style lang="scss" scoped>
-    .container {
-        overflow: hidden;
+    .component__text-ellipsis {
+        .content {
+            overflow: hidden;
+            display: -webkit-box;
+            /*-webkit-line-clamp: 3;*/
+            -webkit-box-orient: vertical;
+        }
     }
 </style>

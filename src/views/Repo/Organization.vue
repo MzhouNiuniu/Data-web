@@ -18,30 +18,28 @@
                     />
                 </ul>
             </div>
-            <div class="text-right pt-14">
-                <p class="text-tag">
-                    默认发布时间排序
-                </p>
+            <div class="organization-list__wrapper">
+                <div class="hr-dashed"></div>
+                <ul class="organization-list">
+                    <li v-for="(item,key) in list" :key="key">
+                        <p class="date">
+                            <span class="left">发布时间</span>
+                            <span class="right">{{item.releaseTime}}</span>
+                        </p>
+                        <router-link tag="a" class="title ue-link" :to="`/OrganizationDetail/${item._id}`">
+                            {{item.name}}
+                        </router-link>
+                        <p class="location mt-14">
+                            <img src="~@public/icon/location.png" alt="" class="icon">
+                            {{item.province}}
+                        </p>
+                        <div class="hr-dashed mt-10"></div>
+                        <p class="content mt-10">
+                            {{item.intro}}
+                        </p>
+                    </li>
+                </ul>
             </div>
-            <ul class="organization-list mt-12">
-                <li v-for="(item,key) in list" :key="key">
-                    <p class="date">
-                        <span class="left">发布时间</span>
-                        <span class="right">{{item.releaseTime}}</span>
-                    </p>
-                    <router-link tag="a" class="title ue-link" :to="`/OrganizationDetail/${item._id}`">
-                        {{item.name}}
-                    </router-link>
-                    <p class="location mt-14">
-                        <img src="~@public/icon/location.png" alt="" class="icon">
-                        {{item.province}}
-                    </p>
-                    <div class="hr-dashed mt-10"></div>
-                    <p class="content mt-10">
-                        {{item.intro}}
-                    </p>
-                </li>
-            </ul>
             <Pagination
                     class="mt-20"
                     v-bind="pagination"
@@ -126,12 +124,15 @@
 <style lang="scss" scoped>
     @import "./public";
 
-    .organization-list {
-        width: 1200px;
+    .organization-list__wrapper {
+        padding: 0 20px;
+        background: #F6FBFF;
+    }
 
+    .organization-list {
         li {
             position: relative;
-            padding: 16px 18px 14px 20px;
+            padding: 16px 0 14px 0;
             margin-bottom: 14px;
             background: #F6FBFF;
 
@@ -142,7 +143,7 @@
             .date {
                 position: absolute;
                 top: 12px;
-                right: 12px;
+                right: 0;
                 width: 215px; // 原205px，因为时间单位精确到秒，所以加了10px
                 background-color: #358BFE;
 
