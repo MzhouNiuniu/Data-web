@@ -59,6 +59,14 @@ img {
   white-space: nowrap;
 }
 
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
 @for $i from 0 through 50 {
   $size: #{$i}px;
 

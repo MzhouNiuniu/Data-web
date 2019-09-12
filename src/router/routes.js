@@ -32,7 +32,7 @@ export default [
             {
                 path: '/InvestCom',
                 name: 'InvestCom',
-                component: lazyLoad('InvestCom/List')
+                component: lazyLoad('InvestCom')
             },
             {
                 path: '/InvestCom/Map',
@@ -64,6 +64,27 @@ export default [
                 path: '/projectUnionDetail/:id',
                 name: 'projectUnionDetail',
                 component: lazyLoad('ProjectUnion/Detail')
+            },
+            {
+                path: '/projectUnionDetail/:id',
+                name: 'projectUnionDetail',
+                component: lazyLoad('ProjectUnion/Detail')
+            },
+            /* 政策法规 */
+            {
+                path: '/policy',
+                name: 'policy',
+                component: lazyLoad('Policy')
+            },
+            {
+                path: '/policyMore/:id',
+                name: 'policyMore',
+                component: lazyLoad('Policy/More')
+            },
+            {
+                path: '/policyDetail/:id',
+                name: 'policyDetail',
+                component: lazyLoad('Policy/Detail')
             },
             /* 库 */
             {

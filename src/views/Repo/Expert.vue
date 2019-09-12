@@ -6,9 +6,11 @@
                     <li class="active">
                         专家库
                     </li>
-                    <router-link tag="li" to="organizationRepo">
-                        机构库
-                    </router-link>
+                    <li>
+                        <router-link to="organizationRepo">
+                            机构库
+                        </router-link>
+                    </li>
                 </ul>
                 <ul class="tab-body">
                     <SearchInput
@@ -23,7 +25,7 @@
                 <ul class="expert-list">
                     <li v-for="(item,index) in list" :key="index">
                         <div class="main">
-                            <router-link tag="div" class="avatar" :to="`/ExpertDetail/${item._id}`">
+                            <router-link class="avatar block" :to="`/ExpertDetail/${item._id}`">
                                 <img :src="item.photos" alt="expert-avatar">
                             </router-link>
                             <div class="detail">

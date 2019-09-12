@@ -1,11 +1,17 @@
 <template>
     <section class="project-container">
-        <p class="detail-page-caption">
-            <span>城投数据</span>
-        </p>
-        <Table class="project-ivu-table mt-30" stripe :columns="columns" :data="list"/>
+        <div class="search-bar mt-24 clearfix">
+            <SearchInput class="search-input" placeholder="请输入企业名称"/>
+            <router-link  class="mode-btn" to="/CityInvest/Map">
+                <img src="~@public/icon/china.png" alt="" class="icon">
+                <p class="text">
+                    地图模式
+                </p>
+            </router-link>
+        </div>
+        {{list}}
         <Pagination
-                class="mt-30"
+                class="mt-20"
                 v-bind="pagination"
                 @change="handlePageChange"
         />
@@ -13,58 +19,16 @@
 </template>
 
 <script>
+    import SearchInput from '@components/SearchInput';
     import Pagination from '@components/Pagination';
 
     export default {
-        name: "BondRecordDetail",
+        name: "PolicyMore",
         components: {
+            SearchInput,
             Pagination,
         },
         data() {
-            this.columns = [
-                {
-                    title: '债券简称',
-                    key: 'name',
-                },
-                {
-                    title: '成交日期',
-                    key: 'name',
-                },
-                {
-                    width: 180,
-                    title: '成交金额（亿元）',
-                    key: 'name',
-                },
-                {
-                    title: '剩余期限',
-                    key: 'name',
-                },
-                {
-                    title: '成交利率',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '偏离（BP）',
-                    key: 'name',
-                },
-                {
-                    width: 200,
-                    title: '相关文件',
-                    key: 'name',
-                    render() {
-                        return (
-                            <div>
-                                这是一个相关文件名称
-                            </div>
-                        );
-                    },
-                },
-                {
-                    title: '其他',
-                    key: 'name',
-                },
-            ];
             this.list = [];
             return {
                 searchParams: this.getSearchParams(),
@@ -105,7 +69,7 @@
             },
             loadList() {
                 this.pagination.total = 100;
-                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) });
+                this.list = Array(10).fill({ 'name': Math.random() });
             },
         },
         created() {
@@ -115,5 +79,36 @@
 </script>
 
 <style lang="scss" scoped>
+    .search-bar {
+        .search-input {
+            float: left;
+            padding-right: 240px;
+        }
 
+        .mode-btn {
+            position: relative;
+            z-index: 1;
+            float: left;
+            margin-left: -210px;
+            padding-top: 4px;
+            padding-bottom: 2px;
+            width: 76px;
+            background: rgba(236, 241, 255, 1);
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(5, 103, 255, 1);
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+
+            .icon {
+                width: 20px;
+            }
+
+            .text {
+                margin-top: 2px;
+            }
+        }
+    }
 </style>

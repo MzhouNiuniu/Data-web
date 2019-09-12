@@ -31,87 +31,31 @@
             this.chart = null;
             // 只需要动态修改mapType，然后使用原生setOption
             this.option = {
-                // title: {
-                //     text: '标题文本',
-                //     textAlign: 'center',
-                //     textStyle: {
-                //         width: '100%',
-                //         //文字颜色
-                //         color: '#999999',
-                //         //字体风格,'normal','italic','oblique'
-                //         fontStyle: 'normal',
-                //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                //         fontWeight: 'bold',
-                //         //字体系列
-                //         fontFamily: 'PingFang-SC',
-                //         //字体大小
-                //         fontSize: 24,
-                //     },
-                // },
-                tooltip: {
-                    trigger: 'item',
-                },
-                // dataRange: {
-                //     // orient: 'horizontal',
-                //     min: 0,
-                //     max: 55000,
-                //     text: ['高', '低'], // 文本，默认为数值文本
-                //     calculable: true, // 是否可拖动计算
-                //     // selectedMode: true,
-                //     color: ['#2d70d6', '#80b5e9', '#e6feff'],
-                // },
-                geo: {
-                    map: CN_CODE,
-                    label: {
-                        show: true,
-                        emphasis: {
-                            color: 'white',
-                        }
-                    },
-                    // zoom: 1.28,
-                    itemStyle: {
-                        normal: {
-                            borderWidth: 1,
-                            borderColor: '#fff',
-                            areaColor: '#358BFE'
-                        },
-                        emphasis: {
-                            areaColor: 'rgba(56,141,255,0.78)'
-                        }
-                    },
-                    tooltip: {
-                        show: false
-                    },
-                    // top: 0,
-                    // bottom: 0,
-                    // left: 0,
-                    // right: 0,
-                },
+                animation: true,
                 series: [
                     {
                         name: 'map',
                         type: 'map',
-                        // mapType:'',
-                        mapLocation: {
-                            x: 'left',
+                        mapType: CN_CODE,
+                        label: {
+                            show: true,
+                            emphasis: {
+                                color: 'white',
+                            }
                         },
-                        // selectedMode: 'multiple',
                         itemStyle: {
                             normal: {
-                                label: {
-                                    show: true,
-                                    color: '#358BFE',
-                                },
-                                borderWidth: 0,
+                                borderWidth: 1,
+                                borderColor: '#fff',
+                                areaColor: '#358BFE'
                             },
-                            // emphasis: { label: { show: true } },
-                            // borderWidth: 0,
-                            // borderColor: '#eee',
+                            emphasis: {
+                                areaColor: 'rgba(56,141,255,0.78)'
+                            }
                         },
                         data: [],
                     },
                 ],
-                animation: true,
             };
             return {
                 nameStack: [CN_NAME],
@@ -130,6 +74,30 @@
             },
         },
         methods: {
+            getCurrentBlockName() {
+                return this.nameStack[this.nameStack.length - 1];
+            },
+            getCurrentBlockCode() {
+                return this.codeStack[this.codeStack.length - 1];
+            },
+            getChart() {
+                return this.chart;
+            },
+            setOption(handler) {
+                // 需要传入一个函数，或者引入一个merge库。。
+                // handler 可以有返回值，推荐直接更改原对象
+                if (typeof handler !== 'function') {
+                    return;
+                }
+
+                const newOption = handler(this.option);
+                if (newOption) {
+                    this.option = newOption;
+                }
+
+                this.chart.setOption(this.option);
+                // this.$forceUpdate(); // option 非响应式数据
+            },
             back() {
                 if (this.isRoot) {
                     return;
@@ -143,12 +111,7 @@
             },
             loadGeoData(code) {
                 const set = () => {
-                    // if (!this.isRoot) {
-                    //     this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 'auto';
-                    // } else {
-                    //     this.option.geo.top = this.option.geo.right = this.option.geo.bottom = this.option.geo.left = 0;
-                    // }
-                    this.option.geo.map = code;
+                    this.option.series[0].mapType = code;
                     this.chart.setOption(this.option);
                 };
 
@@ -165,9 +128,10 @@
                 });
             },
             handleChartClick(params) {
-                if (params.componentType !== 'geo') {
+                if (params.componentType !== 'series' && params.seriesName !== 'map') {
                     return;
                 }
+
 
                 // 获取地图
                 const currentBlockData = echarts.getMap(this.currentCode).geoJson;
@@ -186,7 +150,6 @@
 
                 this.nameStack.push(targetBlock.properties.name);
 
-                console.log(targetBlock);
                 const targetCode = targetBlock.properties.adcode || targetBlock.id;
                 this.codeStack.push(targetCode);
                 this.loadGeoData(targetCode);

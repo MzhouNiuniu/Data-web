@@ -25,7 +25,7 @@
     import Pagination from '@components/Pagination';
 
     export default {
-        name: "List",
+        name: "BondRecordList",
         components: {
             Pagination,
         },

@@ -4,19 +4,19 @@
             <p class="detail-page-caption">
                 <span>项目合作</span>
             </p>
-            <div class="caption">
-                <h1>{{detail.name}}</h1>
-                <p class="date">
-                    发布时间：{{detail.releaseTime}}
-                </p>
-            </div>
             <div class="main">
-                <div class="hr-dashed"></div>
+                <div class="caption">
+                    <h1 class="mt-30">{{detail.name}}</h1>
+                    <p class="date mt-20">
+                        发布时间：{{detail.releaseTime}}
+                    </p>
+                    <div class="hr-dashed mt-20"></div>
+                </div>
                 <p class="content" v-html="detail.content">
                 </p>
                 <div class="hr-dashed mt-12"></div>
                 <div class="pl-6 pr-6">
-                    <AttachmentList class="mt-18" :value="detail.accessory"/>
+                    <AttachmentList class="mt-30" :value="detail.accessory"/>
                 </div>
             </div>
         </div>
@@ -90,27 +90,24 @@
     }
 
     .caption {
-        padding-top: 30px;
+        text-align: center;
+        color: rgba(51, 51, 51, 1);
 
         h1 {
             line-height: 32px;
-            text-align: center;
             font-size: 32px;
-            font-weight: bold;
-            color: $sign-color;
+            font-weight: 500;
         }
 
         .date {
-            margin-top: 20px;
-            text-align: center;
             line-height: 14px;
             font-size: 14px;
-            color: #333;
+            font-weight: 500;
         }
     }
 
     .main {
-        padding: 20px 20px 0;
+        padding: 0 20px;
         line-height: 28px;
         font-size: 14px;
         color: #586066;

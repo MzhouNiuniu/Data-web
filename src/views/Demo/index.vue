@@ -3,6 +3,27 @@
         <Card shadow class="card">
             <p slot="title">本项目用到的所有组件</p>
             <div class="demo-list">
+                <div>
+                    <UICard title="专题报告">
+                        <template slot="header-action">
+                            <LinkMore to="/demo" style="font-size: 14px;"/>
+                        </template>
+                    </UICard>
+                </div>
+                <div>
+                    <UICard title="国务院规范性文件" title-type="fill">
+                        <template slot="header-action">
+                            <LinkMore to="/demo" style="font-size: 14px;"/>
+                        </template>
+                    </UICard>
+                </div>
+                <div>
+                    <LinkMore to="/demo"/>
+                    <br/>
+                    <LinkMore to="/demo" style="font-size: 14px;"/>
+                    <br/>
+                    <LinkMore to="/demo" style="font-size: 14px;color:red;"/>
+                </div>
                 <div style="width: 288px">
                     <textarea v-model="m3" id="" cols="30" rows="10"></textarea>
                     <TextEllipsis
@@ -41,6 +62,8 @@
     import OptionButton from '@components/OptionButton';
     import ChinaMap from '@components/ChinaMap';
     import TextEllipsis from '@components/TextEllipsis';
+    import LinkMore from '@ui/LinkMore';
+    import UICard from '@ui/Card';
 
     /**
      * 问题组件：日期选择器、年份选择器
@@ -54,6 +77,8 @@
             OptionButton,
             ChinaMap,
             TextEllipsis,
+            LinkMore,
+            UICard,
         },
         data() {
             this.options1 = [

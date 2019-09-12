@@ -44,7 +44,7 @@
         &::after {
             content: '';
             position: absolute;
-            top: -1px;
+            top: 0;
             left: 0;
 
             width: $left-line-width;

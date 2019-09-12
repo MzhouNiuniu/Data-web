@@ -26,111 +26,12 @@
 </template>
 
 <script>
-    /**
-     * 仅支持2层
-     * */
+    import navList from '@/router/nav';
+
+    // 仅支持2层
     export default {
         name: "Nav",
         data() {
-            const navList = [
-                {
-                    name: '城投数据',
-                    path: '',
-                    children: [
-                        {
-                            name: '列表模式',
-                            path: '/InvestCom',
-                        },
-                        {
-                            name: '地图模式',
-                            path: '/InvestCom/Map',
-                        },
-                    ],
-                },
-                {
-                    name: '项目合作',
-                    path: '/projectUnion',
-                    children: [
-                        {
-                            name: 'TEST',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '智库平台',
-                    path: '',
-                    children: [
-                        {
-                            name: '机构库',
-                            path: '/organizationRepo',
-                        },
-                        {
-                            name: '专家库',
-                            path: '/expertRepo',
-                        },
-                    ],
-                },
-                {
-                    name: '城投杂志',
-                    path: '',
-                    children: [
-                        {
-                            name: 'TEST',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '政策法规',
-                    path: '',
-                    className: 'long',
-                    children: [
-                        {
-                            name: '政策法规',
-                            path: '',
-                        },
-                        {
-                            name: '指南标准',
-                            path: '',
-                        },
-                        {
-                            name: '国务院规范性文件',
-                            path: '',
-                        },
-                        {
-                            name: '地方性规范性文件',
-                            path: '',
-                        },
-                        {
-                            name: '部门规范性文件',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '行业研究',
-                    path: '/research', // 点击的同时是否可以跳转路由，例如/about
-                    children: [
-                        {
-                            name: 'TEST',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '新闻动态',
-                    path: '/news',
-                },
-                {
-                    name: '关于我们',
-                    path: '/about',
-                },
-                {
-                    name: '组件库',
-                    path: '/demo',
-                },
-            ];
             this.navList = navList;
             return {};
         },
@@ -172,7 +73,7 @@
         left: 0;
         right: 0;
         max-height: 0;
-        background-color: #358BFE;
+        background-color: rgba(0, 0, 0, 0.3);
         text-align: center;
     }
 
@@ -224,7 +125,7 @@
 
     .nav__group {
         &:hover {
-            background-color: #358BFE;
+            background-color: #050DFF;
 
             .nav__item__header__arrow {
                 transform: rotate(180deg);

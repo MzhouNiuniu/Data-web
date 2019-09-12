@@ -1,7 +1,6 @@
 <template>
     <section class="basic-layout">
         <Header/>
-        <!-- footer 108px，不计算溢出的logo 20px -->
         <div>
             <router-view :key="$route.fullPath"/>
 
@@ -39,6 +38,6 @@
     }
 
     .fix-footer-logo {
-        height: 158px;
+        height: 90px + 38px; // 20px 底部留空
     }
 </style>

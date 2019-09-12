@@ -6,16 +6,28 @@
                     @change="query()"
             />
             <div class="hr-slide-style-1 mt-30"></div>
-            <ul class="project-list pt-10">
+            <ul class="project-list mt-10">
                 <li v-for="(item,key) in list" :key="key">
-                    <div class="main" :class="getItemClassName(item)">
-                        <router-link tag="p" class="title" :to="`/projectUnionDetail/${item._id}`">
-                            {{item.name}}
+                    <div class="main">
+                        <router-link  class="title" :to="`/projectUnionDetail/${item._id}`">
+                            <TextEllipsis
+                                    fill
+                                    :rows="2"
+                                    :value="item.name"
+                            />
                         </router-link>
-                        <p class="timestamp">
-                            <img src="~@public/icon/clock.png" alt="" class="icon">
-                            {{item.releaseTime}}
-                        </p>
+                        <div class="info">
+                            {{item.type}}
+                            <span class="ml-40">
+                                发布时间：{{item.releaseTime}}
+                            </span>
+                        </div>
+                        <TextEllipsis
+                                class="content"
+                                fill
+                                :rows="3"
+                                :value="item.content"
+                        />
                     </div>
                 </li>
             </ul>
@@ -31,12 +43,14 @@
 <script>
     import SearchInput from '@components/SearchInput';
     import Pagination from '@components/Pagination';
+    import TextEllipsis from '@components/TextEllipsis';
 
     export default {
         name: "ProjectUnion",
         components: {
             SearchInput,
             Pagination,
+            TextEllipsis,
         },
         data() {
             this.options = [
@@ -58,14 +72,6 @@
                 },
             ];
             this.list = [];
-            this.projectTypeMap = {
-                // '工程项目': {
-                //     className:'',
-                // },
-                '工程项目': 'gcxm',
-                '投资项目': 'tzxm',
-                '融资项目': 'rzxm',
-            };
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -112,15 +118,24 @@
                         return [];
                     }
 
+                    /* contentFilter */
+                    const elP = document.createElement('p');
+
+                    function contentFilter(item) {
+                        elP.innerHTML = item.content;
+                        item.content = elP.innerText;
+                        return item;
+                    }
+
                     const { pagination } = this;
                     const data = res.data;
-                    this.list = data.docs;
+                    this.list = data.docs.map(contentFilter);
+
 
                     pagination.total = data.total; // this.$forceUpdate
+
+
                 });
-            },
-            getItemClassName(item) {
-                return `${this.projectTypeMap[item.type] || ''}`;
             },
         },
         created() {
@@ -136,122 +151,49 @@
 
         li {
             display: inline-block;
-            vertical-align: top;
+            width: 33.3333%;
             margin-top: 20px;
             padding-right: 20px;
-            width: 20%;
+            vertical-align: top;
         }
 
         .main {
-            position: relative;
             overflow: hidden;
-            /*display: inline-block;*/
+            padding: 22px 22px 10px 15px;
+            background: #F6FBFF;
             border-radius: 5px;
-            background: no-repeat scroll top left / cover;
-
-            // 默认使用其他项目
-            background-image: url("./image/qtxm.png");
-
             transition: box-shadow .2s;
-            @function getBoxShadow($color) {
-                @return 0 3px 10px 0 $color;
-            }
 
             &:hover {
-                box-shadow: getBoxShadow(#FF7C59);
+                box-shadow: 0 3px 10px 0 #e0e3e6;
             }
 
-
-            &.gcxm {
-                background-image: url("./image/gcxm.png");
-
-                &:hover {
-                    box-shadow: getBoxShadow(#4A38FF);
-                }
-            }
-
-            &.rzxm {
-                background-image: url("./image/rzxm.png");
-
-                &:hover {
-                    box-shadow: getBoxShadow(#40DCC6);
-                }
-            }
-
-            &.tzxm {
-                background-image: url("./image/tzxm.png");
-
-                &:hover {
-                    box-shadow: getBoxShadow(#FFCE56);
-                }
-            }
         }
 
         .title {
-            margin: 20% 22px 33.6%;
-            height: 18px;
+            line-height: 18px;
+            font-weight: 500;
             font-size: 18px;
-            color: #fff;
+            color: #333333;
             cursor: pointer;
         }
 
-        .timestamp {
-            position: absolute;
-            right: 8px;
-            bottom: 10px;
-            font-size: 12px;
-            color: #fff;
 
-            .icon {
-                margin-right: 8px;
-                width: 14px;
-                vertical-align: -2px;
-            }
+        .info {
+            margin-top: 16px;
+            line-height: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666666;
         }
-    }
 
-    @media screen and (max-width: 1100px) {
-        .project-list {
-            li {
-                width: 25%;
-            }
+        .content {
+            margin-top: 12px;
+            line-height: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(51, 51, 51, 1);
         }
-    }
 
-    @media screen and (max-width: 900px) {
-        .project-list {
-            li {
-                width: 33.333%;
-            }
-        }
-    }
-
-    @media screen and (max-width: 650px) {
-        .project-list {
-            li {
-                width: 50%;
-            }
-        }
-    }
-
-
-    @media screen and (max-width: 440px) {
-        .project-list {
-            li {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                width: 70%;
-            }
-        }
-    }
-
-
-    @media screen and (max-width: 320px) {
-        .project-list {
-            li {
-                width: 100%;
-            }
-        }
     }
 </style>

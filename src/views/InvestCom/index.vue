@@ -2,7 +2,7 @@
     <section class="project-container">
         <div class="search-bar clearfix">
             <SearchInput class="search-input" placeholder="请输入企业名称"/>
-            <router-link tag="div" class="mode-btn" to="/InvestCom/Map">
+            <router-link class="mode-btn" to="/InvestCom/Map">
                 <img src="~@public/icon/china.png" alt="" class="icon">
                 <p class="text">
                     地图模式
@@ -85,7 +85,7 @@
                     <p class="com-type">
                         城投
                     </p>
-                    <router-link tag="p" class="com-name ue-link" :to="`/InvestComDetail/1111`">
+                    <router-link class="com-name ue-link" :to="`/InvestComDetail/1111`">
                         成都投资建设有限公司
                     </router-link>
                     <p class="location">
@@ -127,7 +127,7 @@
     let provinceList = null;
 
     export default {
-        name: "List",
+        name: "Invest",
         components: {
             SearchInput,
             Pagination,

@@ -2,7 +2,7 @@
     <section class="project-container__wrapper">
         <section class="basic-layout__header clearfix project-container">
             <div class="project-info">
-                <router-link to="/" class="name">
+                <router-link  to="/" class="name">
                     <img class="logo" src="./logo.png">
                 </router-link>
             </div>
@@ -29,7 +29,7 @@
     }
 
     .project-container__wrapper {
-        background-color: $primary-color;
+        background-color: $sign-color;
     }
 
     .basic-layout__header {

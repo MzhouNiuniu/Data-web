@@ -27,12 +27,20 @@
             return {};
         },
         methods: {
+            getChart() {
+                return this.chart;
+            },
             init() {
                 this.chart = chartInstanceMap[this._uid] = echarts.init(this.$el);
                 this.chart.setOption(this.option);
             },
-            getChart() {
-                return this.chart;
+        },
+        watch: {
+            option: {
+                deep: true,
+                handler(option) {
+                    this.chart.setOption(option);
+                },
             },
         },
         mounted() {

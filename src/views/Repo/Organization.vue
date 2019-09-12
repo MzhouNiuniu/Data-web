@@ -3,9 +3,11 @@
         <div class="project-container pt-30">
             <div class="tab">
                 <ul class="tab-header">
-                    <router-link tag="li" to="expertRepo">
-                        专家库
-                    </router-link>
+                    <li>
+                        <router-link to="expertRepo">
+                            专家库
+                        </router-link>
+                    </li>
                     <li class="active">
                         机构库
                     </li>
@@ -22,29 +24,32 @@
                 <div class="hr-dashed"></div>
                 <ul class="organization-list">
                     <li v-for="(item,key) in list" :key="key">
-                        <p class="date">
-                            <span class="left">发布时间</span>
-                            <span class="right">{{item.releaseTime}}</span>
-                        </p>
-                        <router-link tag="a" class="title ue-link" :to="`/OrganizationDetail/${item._id}`">
-                            {{item.name}}
-                        </router-link>
-                        <p class="location mt-14">
-                            <img src="~@public/icon/location.png" alt="" class="icon">
-                            {{item.province}}
-                        </p>
-                        <div class="hr-dashed mt-10"></div>
-                        <p class="content mt-10">
+                        <div class="header">
+                            <router-link
+                                    class="title ue-link text-ellipsis"
+                                    :to="`/OrganizationDetail/${item._id}`"
+                            >
+                                {{item.name}}
+                            </router-link>
+                            <p class="info text-ellipsis">
+                                所在城市：成都市
+                                <span class="ml-30">
+                                   【2019-09-09 09:12:55】
+                               </span>
+                            </p>
+                        </div>
+                        <p class="content">
                             {{item.intro}}
                         </p>
+                        <div class="hr-dashed"></div>
                     </li>
                 </ul>
+                <Pagination
+                        class="mt-30 text-right"
+                        v-bind="pagination"
+                        @change="handlePageChange"
+                />
             </div>
-            <Pagination
-                    class="mt-20"
-                    v-bind="pagination"
-                    @change="handlePageChange"
-            />
         </div>
     </section>
 </template>
@@ -125,94 +130,58 @@
     @import "./public";
 
     .organization-list__wrapper {
-        padding: 0 20px;
+        padding: 0 20px 30px;
         background: #F6FBFF;
     }
 
     .organization-list {
+        margin-top: 12px;
+
         li {
             position: relative;
-            padding: 16px 0 14px 0;
-            margin-bottom: 14px;
-            background: #F6FBFF;
 
             &:last-child {
                 margin-bottom: 0;
             }
 
-            .date {
-                position: absolute;
-                top: 12px;
-                right: 0;
-                width: 215px; // 原205px，因为时间单位精确到秒，所以加了10px
-                background-color: #358BFE;
+            .header {
+                margin-top: 18px;
+                line-height: 20px;
+                font-size: 0;
 
-                .left, .right {
-                    line-height: 26px;
-                    height: 26px;
-                    font-size: 12px;
+                .title, .info {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .title {
+                    width: 60%;
+                    font-size: 20px;
                     font-weight: 500;
-                    color: rgba(255, 255, 255, 1);
+                    color: rgba(51, 51, 51, 1);
                 }
 
-
-                .left {
-                    float: left;
-                    padding-left: 10px;
-
-                }
-
-                .right {
-                    $bg: rgba(149, 195, 254, 1);
-                    position: relative;
-                    float: right;
-                    padding-right: 10px;
-                    background: $bg;
-
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        left: -20px;
-                        bottom: 0;
-                        width: 0;
-                        height: 0;
-                        border-bottom: 26px solid $bg;
-                        border-left: 20px solid transparent;
-                    }
-                }
-
-                &::after {
-                    content: '';
-                    display: block;
-                    clear: both;
+                .info {
+                    width: 40%;
+                    line-height: 14px;
+                    text-align: right;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgba(102, 102, 102, 1);
                 }
             }
 
-            .title {
-                line-height: 16px;
-                font-size: 16px;
-                font-weight: bold;
-                color: rgba(0, 0, 52, 1);
-                cursor: pointer;
-            }
-
-            .location {
-                line-height: 12px;
-                font-size: 12px;
-                font-weight: 500;
-                color: rgba(168, 172, 175, 1);
-
-                .icon {
-                    margin-right: 10px;
-                    height: 18px;
-                }
-            }
 
             .content {
+                margin-top: 11px;
                 line-height: 26px;
                 font-size: 14px;
-                font-weight: 500;
-                color: rgba(88, 96, 102, 1);
+                font-weight: 400;
+                color: rgba(51, 51, 51, 1);
+            }
+
+            .hr-dashed {
+                margin-top: 14px;
             }
         }
     }

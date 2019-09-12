@@ -127,7 +127,7 @@
     }
 
     export default {
-        name: "Detail",
+        name: "InvestDetail",
         components: {
             UIDescription,
         },
