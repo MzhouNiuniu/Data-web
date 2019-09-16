@@ -23,7 +23,7 @@
     import Pagination from '@components/Pagination';
 
     export default {
-        name: "List",
+        name: 'List',
         components: {
             SearchInput,
             Pagination,

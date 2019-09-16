@@ -1,6 +1,6 @@
 <template>
     <section class="about-container">
-        <div class="about-container-top">
+        <div class="about-container-top pb-30">
             <div class="about-header">
                 <div>
                     <p class="about-text">关</p>
@@ -9,39 +9,15 @@
                         <p>About us</p>
                     </span>
                 </div>
-            </div> 
-
-            <div class="about-content-box">
-                <span class="about-content-head">
-                    <div class="about-content-head-text"> 城投联络会</div>
-                    <div class="about-content-head-Triangle"></div>
-                </span>
-                <div class="about-content-text">
-                    {{text1}}
-                </div>
             </div>
 
-            <div class="about-content-box">
-                <span class="about-content-head">
-                    <div class="about-content-head-text"> 中国投资咨询</div>
-                    <div class="about-content-head-Triangle"></div>
-                </span>
-                <div class="about-content-text">
-                    {{text1}}
-                </div>
-            </div>
-
-            <div class="about-content-box">
-                <span class="about-content-head">
-                    <div class="about-content-head-text"> 智慧城投介绍</div>
-                    <div class="about-content-head-Triangle"></div>
-                </span>
-                <div class="about-content-text">
-                    {{text1}}
-                </div>
-            </div>
+            <UIDescription title="城投联络会" class="mt-20" :text="text1"/>
+            <div class="hr-dashed mt-20"></div>
+            <UIDescription title="中国投资咨询" class="mt-20" :text="text1"/>
+            <div class="hr-dashed mt-20"></div>
+            <UIDescription title="智慧城投介绍" class="mt-20" :text="text1"/>
         </div>
-        
+
 
         <footer class="about-container-bottom">
             <div class="about-header">
@@ -52,7 +28,7 @@
                         <p>Qualification documents</p>
                     </span>
                 </div>
-            </div> 
+            </div>
 
             <div class="about-container-bottomImgBox">
                 <div class="show-img-box">
@@ -70,8 +46,13 @@
 </template>
 
 <script>
+import UIDescription from '@ui/Description';
+
 export default {
     name: 'About',
+    components:{
+        UIDescription,
+    },
     data() {
         return {
             text1: '这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍 这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍 这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍。',
@@ -91,14 +72,30 @@ export default {
     margin: auto;
     max-width: $project-width;
 }
+.about-container-bottom{
+    position: relative;
+    &::after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 16px solid #fff;
+        border-right: 14px solid transparent;
+        border-left: 14px solid transparent;
+    }
+}
 .about-header{
-    margin: auto;
+    margin:22.5px auto 0 auto;
     width: 300px;
-    margin-top: 30px;
     border-bottom: 1px solid #0567FF;
     display: flex;
     justify-content: center;
     align-items: center;
+
     div{
         display: flex;
     }
@@ -122,7 +119,7 @@ export default {
             font-weight:bold;
             color:rgba(88,96,102,1);
             line-height:20px;
-        }   
+        }
     }
 }
 

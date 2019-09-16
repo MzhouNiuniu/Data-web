@@ -106,8 +106,4 @@ export default [
         name: '关于我们',
         path: '/about',
     },
-    {
-        name: '组件库',
-        path: '/demo',
-    },
 ];
