@@ -8,6 +8,15 @@
   src: url('~@public/font/PingFang-TC-Regular.ttf');
 }
 
+// 如果样式有冲突，先注释
+* {
+  word-break: break-all;
+}
+
+// fix braft-editor富文本
+.media-wrap.image-wrap img.media-wrap.image-wrap {
+  max-width: 100%;
+}
 
 html, body, #app {
   width: 100%;
@@ -15,6 +24,7 @@ html, body, #app {
 }
 
 #app {
+  min-width: 980px; // 20px 滚动条宽度
   font-family: PingFang-SC !important;
 }
 
@@ -44,16 +54,19 @@ img {
   text-align: left;
 }
 
-.project-container__wrapper {
-
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.project-container {
-  margin: auto;
-  max-width: $project-width;
-  height: 100%;
+.block {
+  display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
 
 @for $i from 0 through 50 {
   $size: #{$i}px;
@@ -94,6 +107,95 @@ img {
 }
 
 
+.media-wrap.image-wrap img { //富文本中图片样式
+  width: 100%;
+}
+
+.project-container__wrapper {
+
+}
+
+.project-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $project-width;
+  height: 100%;
+  width: 100%;
+}
+
+
+.project-scroll {
+  // overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background: rgba(216, 216, 216, 1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(53, 139, 254, 1);
+    border-radius: 5px;
+  }
+}
+
+.project-ivu-table {
+  td, th {
+    text-align: center !important;
+  }
+
+  .ivu-table-stripe .ivu-table-row:nth-child(2n) td {
+    background-color: #f6fbff;
+  }
+
+  .ivu-table-header {
+    th {
+      height: 44px;
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      background-color: #ddecff;
+    }
+  }
+
+  .ivu-table-tbody {
+    td {
+      height: 46px;
+      font-size: 16px;
+      color: rgba(51, 51, 51, 1);
+    }
+  }
+
+  .ivu-table-overflowY, .ivu-table-overflowX {
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+      background: rgba(191, 197, 202, 1);
+    }
+
+    //&::-webkit-scrollbar-corner {
+    //  background: rgba(191, 197, 202, 1);
+    //}
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(5, 103, 255, 1);
+      border-radius: 5px;
+    }
+  }
+
+  /* 此样式，有Y轴滚动条时无效 */
+  &.cool-scroll {
+    .ivu-table {
+      margin-bottom: 3px;
+    }
+
+    .ivu-table-overflowY, .ivu-table-overflowX {
+      table {
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
 .hr-slide-style-1 {
   height: 1px;
   background-color: #dcdee2;
@@ -104,12 +206,45 @@ img {
   background: rgba(5, 103, 255, 0.51);
 }
 
+.hr-slide-style-3 {
+  height: 1px;
+  background-color: #eee;
+}
+
 .hr-dashed {
   height: 1px;
   background-image: linear-gradient(to right, rgb(224, 232, 235) 0%, rgb(224, 232, 235) 70%, transparent 100%);
   background-size: 11px 1px;
   background-repeat: repeat-x;
   // https://segmentfault.com/q/1010000002442556/a-1020000012861824
+}
+
+.detail-page-caption {
+  position: relative;
+  height: 52px;
+  padding-left: 20px;
+  border-bottom: 1px solid #BFC5CA;
+
+  & > span {
+    display: inline-block;
+    position: relative;
+    height: 52px;
+    line-height: 52px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(34, 34, 34, 1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: $sign-color;
+    }
+  }
+
 }
 
 .page-title-1 {
@@ -137,13 +272,12 @@ img {
     margin: 0 10px;
 
     &:not(:last-child)::after {
-      content: "|";
+      content: '';
       position: absolute;
       top: -1px;
-      right: -13px; // border + padding + margin + 2px偏移
-      line-height: 16px;
-      font-size: 16px;
-      color: #EEEEEE;
+      right: -12px;
+      height: 16px;
+      border-right: 1px solid #EEEEEE;
     }
   }
 }
@@ -186,5 +320,15 @@ img {
   &.info {
     color: $info;
     border-color: $info;
+  }
+}
+
+
+// 用户体验相关
+.ue-link {
+  cursor: pointer;
+
+  &:hover {
+    color: $sign-color !important;
   }
 }

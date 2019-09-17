@@ -1,81 +1,77 @@
 <template>
     <section class="project-container__wrapper">
         <div class="project-container">
-            <p class="page-title-1 pt-24">专家信息</p>
-            <div class="hr-slide-style-2 mt-20"></div>
+            <p class="detail-page-caption">
+                <span>智库平台</span>
+            </p>
             <div class="brief mt-30 clearfix">
-                <div class="left">
-                    <div class="avatar">
-                        <img
-                                src="https://lanhuapp.com/web/static/favicon_beta.png"
-                                alt="expert-avatar"
-                        >
-                    </div>
+                <div class="left avatar">
+                    <img :src="detail.photos" alt="expert-avatar">
                 </div>
                 <div class="right">
                     <!-- expert-info -->
-                    <p class="name">
-                        李毅
+                    <p class="name text-ellipsis">
+                        {{detail.name}}
                     </p>
-                    <p class="text-tag-group mt-20">
 
-                    </p>
-                    <p class="introduce mt-10">
-                        中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、
-                        党委书记，第十二届全国政协委员，著名经济学家。中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届
-                        全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届全国政协委员，著名经济学家。
+                    <p class="introduce mt-20 project-scroll">
+                        {{detail.current}}
+
                     </p>
                 </div>
             </div>
-            <div class="hr-dashed ml-20 mr-20 mt-14"></div>
-            <!-- 个人经历 -->
-            <div class="mt-20">
-                <p class="card-title_arrow">
-                    个人经历/<span class="letter">Personal</span>
-                </p>
-                <p class="mt-14 card-content">
-                    中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届全国政协委员，
-                    著名经济学家。中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届 全国政协委员，著名经济学家。
-                </p>
-            </div>
-            <div class="hr-dashed ml-20 mr-20 mt-14"></div>
-            <!-- 研究方向 -->
-            <div class="mt-14">
-                <p class="card-title_arrow">
-                    研究方向/<span class="letter">Research</span>
-                </p>
-                <p class="mt-14 card-content">
-                    中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届全国政协委员，
-                    著名经济学家。中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届
-                    全国政协委员，著名经济学家。 </p>
-            </div>
-            <div class="hr-dashed ml-20 mr-20 mt-14"></div>
-            <!-- 研究成果 -->
-            <div class="mt-14">
-                <p class="card-title_arrow">
-                    研究成果/<span class="letter">Result</span>
-                </p>
-                <p class="mt-14 card-content">
-                    中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届全国政协委员，
-                    著名经济学家。中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、党委书记，第十二届 全国政协委员，著名经济学家。
-                </p>
-            </div>
-            <div class="hr-dashed ml-20 mr-20 mt-14"></div>
+            <div class="hr-dashed mt-30"></div>
+            <UIDescription title="个人经历" class="mt-20" :text="detail.experience"/>
+            <div class="hr-dashed mt-20"></div>
+            <UIDescription title="研究方向" class="mt-20" :text="detail.direction"/>
+            <div class="hr-dashed mt-20"></div>
+            <UIDescription title="研究成果" class="mt-20" :text="detail.achievement"/>
+            <div class="hr-dashed mt-20"></div>
         </div>
     </section>
 </template>
 
 <script>
+    import UIDescription from '@ui/Description';
+
     export default {
         name: "ExpertDetail",
+        components: {
+            UIDescription,
+        },
         data() {
             return {
+                id: this.$route.params.id,
                 detail: {},
             };
         },
         methods: {
-            getDetail() {
-                this.detail = {};
+            loadDetail() {
+                this.http.get(this.api.repo.expert.detail, {
+                    id: this.id,
+                }).then(res => {
+                    const formData = res.data && res.data[0];
+                    if (!formData) {
+                        this.$router.replace('/expertRepo');
+                        alert('数据不存在');
+                        return;
+                    }
+
+                    formData.achievement && formData.achievement[0] && (formData.achievement = formData.achievement[0]); // test
+
+                    this.detail = formData;
+
+                    // xss 攻击
+                    // this.detail = {
+                    //     name: '这是一个城投新闻标题这是一个城投新闻标题这是一个城投新闻标题',
+                    //     releaseTime: '2019-9-03 14:23',
+                    //     content: `<p>6) 地下室单层建${'<img src=\'x\' onerror=\'console.error(\"xss attack\")\'>'}筑面积3.1万㎡，长316M、宽121M，外墙总长度约851m，设计为无缝结构，属超长宽结构。 深圳华润中心一期工程于2004年12月9日投入使用以来获得业主的好评，于2005年荣获广东省优良样板工程奖和于2008年荣获香港优质建筑大奖。 </p><p></p><p>1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。 </p><p></p><p>2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术难度大。 3) 高支模部位</p>`,
+                    //     accessory: 'https://www.w3school.com.cn/i/eg_tulip.jpg,https://www.w3school.com.cn/i/eg_tulip.jpg',
+                    //     current: '这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称这是一个公司名称',
+                    //     Tcontact: '025-8346255',
+                    //     Tphotos: 'https://www.w3school.com.cn/i/eg_tulip.jpg',
+                    // };
+                });
             },
             getOrderNum(index) {
                 if (index + 1 < 10) {
@@ -86,7 +82,7 @@
         },
         created() {
             this.$store.commit('app/setBgColor1');
-            this.getDetail();
+            this.loadDetail();
         },
     };
 </script>
@@ -96,45 +92,34 @@
 
     .project-container__wrapper {
         margin-top: 30px;
-        padding-bottom: 20px;
+        padding-bottom: 32px;
         background-color: #fff;
     }
 
     .brief {
         .left {
             float: left;
-            width: 19%;
+            width: 216px;
+            height: 164px;
 
-
-            .avatar {
-                position: relative;
-                padding-bottom: 84.21%;
-
-                img {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                }
+            img {
+                width: 100%;
+                height: 100%;
             }
+
         }
 
         .right {
             margin-left: 20px;
-            padding-left: 19%;
+            padding-left: 216px;
         }
 
         // expert-info
         .name {
-            line-height: 18px;
-            font-size: 18px;
-            font-weight: bold;
-            color: rgba(0, 0, 52, 1);
-        }
-
-        .sex {
-            color: rgba(255, 255, 255, 1);
-            background: #358BFE;
-            border-color: #358BFE;
+            line-height: 24px;
+            font-size: 24px;
+            font-weight: 600;
+            color: rgba(34, 34, 34, 1);
         }
 
         .introduce {
@@ -145,6 +130,15 @@
             height: 120px;
             padding: 15px;
             border: 1px solid #BFC5CA;
+            overflow-y: auto;
+            padding: 14px 15px;
+            height: 120px;
+            line-height: 32px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid rgba(191, 197, 202, 1);
+
+
         }
     }
 </style>

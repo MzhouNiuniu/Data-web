@@ -4,9 +4,10 @@
             show-sizer
             show-elevator
             size="small"
+            :page-size-opts="[3,6,9,10,20,30]"
             @on-change="handlePageChange"
             @on-page-size-change="handlePageSizeChange"
-            v-bind="$attrs"
+            v-bind="composeAttrs"
     />
 </template>
 
@@ -14,21 +15,46 @@
     export default {
         name: "Pagination",
         props: {
+            pageKey: {
+                type: String,
+                default: 'page',
+            },
+            sizeKey: {
+                type: String,
+                default: 'limit',
+            },
+
             // events
             // @change
+        },
+        data() {
+            this.pageSize = Number(this.$attrs[this.sizeKey] || 10); // fix 页码改变也会触发分页变化事件
+            return {};
+        },
+        computed: {
+            composeAttrs() {
+                const attrs = { ...this.$attrs };
+                if (this.pageKey !== 'current') {
+                    attrs.current = Number(attrs[this.pageKey] || 1);
+                    delete attrs[this.pageKey];
+                }
+                if (this.sizeKey !== 'pageSize') {
+                    attrs.pageSize = this.pageSize;
+                    delete attrs[this.sizeKey];
+                }
+
+                return attrs;
+            },
         },
         methods: {
             handlePageChange(page) {
                 this.$emit('change', {
-                    page,
-                    size: this.$attrs.size,
+                    [this.pageKey]: page,
+                    [this.sizeKey]: this.pageSize,
                 });
             },
-            handlePageSizeChange(size) {
-                this.$emit('change', {
-                    size,
-                    page: this.$attrs.page,
-                });
+            handlePageSizeChange(pageSize) {
+                this.pageSize = pageSize;
             },
         },
     };

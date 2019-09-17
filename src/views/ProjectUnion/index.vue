@@ -5,24 +5,29 @@
                     v-model="searchParams.projectName"
                     @change="query()"
             />
-            <OptionButton
-                    class="mt-30"
-                    title="项目名称"
-                    v-model="searchParams.projectType"
-                    :options="options"
-                    @change="query()"
-            />
-            <div class="hr-slide-style-1 mt-16"></div>
+            <div class="hr-slide-style-1 mt-30"></div>
             <ul class="project-list mt-10">
-                <li v-for="item in 30" :key="item">
+                <li v-for="(item,key) in list" :key="key">
                     <div class="main">
-                        <router-link tag="p" class="title" to="/projectUnionDetail/111">
-                            这是一个项目标题这是 一个项目标题
+                        <router-link  class="title" :to="`/projectUnionDetail/${item._id}`">
+                            <TextEllipsis
+                                    fill
+                                    :rows="2"
+                                    :value="item.name"
+                            />
                         </router-link>
-                        <p class="timestamp">
-                            <img src="~@public/icon/clock.png" alt="" class="icon">
-                            2019-9-03 14:23
-                        </p>
+                        <div class="info">
+                            {{item.type}}
+                            <span class="ml-40">
+                                发布时间：{{item.releaseTime}}
+                            </span>
+                        </div>
+                        <TextEllipsis
+                                class="content"
+                                fill
+                                :rows="3"
+                                :value="item.content"
+                        />
                     </div>
                 </li>
             </ul>
@@ -37,15 +42,15 @@
 
 <script>
     import SearchInput from '@components/SearchInput';
-    import OptionButton from '@components/OptionButton';
     import Pagination from '@components/Pagination';
+    import TextEllipsis from '@components/TextEllipsis';
 
     export default {
         name: "ProjectUnion",
         components: {
             SearchInput,
-            OptionButton,
             Pagination,
+            TextEllipsis,
         },
         data() {
             this.options = [
@@ -66,6 +71,7 @@
                     value: '其它项目',
                 },
             ];
+            this.list = [];
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -76,23 +82,22 @@
                 const { query } = this.$route;
                 return {
                     projectName: query.projectName,
-                    projectType: query.projectType,
                 };
             },
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
-                    size: query.size || 10,
+                    page: query.page || 1,
+                    limit: query.limit || 20,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
                 this.query({
-                    current: page,
-                    size,
+                    page: page,
+                    limit,
                 });
             },
             query(otherParams) {
@@ -104,11 +109,37 @@
                     },
                 });
             },
+            loadList() {
+                this.http.get(this.api.projectUnion.list, {
+                    ...this.searchParams,
+                    ...this.pagination,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return [];
+                    }
+
+                    /* contentFilter */
+                    const elP = document.createElement('p');
+
+                    function contentFilter(item) {
+                        elP.innerHTML = item.content;
+                        item.content = elP.innerText;
+                        return item;
+                    }
+
+                    const { pagination } = this;
+                    const data = res.data;
+                    this.list = data.docs.map(contentFilter);
+
+
+                    pagination.total = data.total; // this.$forceUpdate
+
+
+                });
+            },
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.loadList();
         },
     };
 </script>
@@ -120,99 +151,49 @@
 
         li {
             display: inline-block;
+            width: 33.3333%;
             margin-top: 20px;
             padding-right: 20px;
-            width: 20%;
+            vertical-align: top;
         }
 
         .main {
-            position: relative;
             overflow: hidden;
-            /*display: inline-block;*/
+            padding: 22px 22px 10px 15px;
+            background: #F6FBFF;
             border-radius: 5px;
-            background: no-repeat scroll top left / cover;
+            transition: box-shadow .2s;
 
-            // 默认使用其他项目
-            background-image: url("./image/qtxm.png");
-
-            &.gcxm {
-                background-image: url("./image/gcxm.png");
+            &:hover {
+                box-shadow: 0 3px 10px 0 #e0e3e6;
             }
 
-            &.rzxm {
-                background-image: url("./image/rzxm.png");
-            }
-
-            &.tzxm {
-                background-image: url("./image/tzxm.png");
-            }
         }
 
         .title {
-            margin: 20% 22px 33.6%;
-            height: 18px;
+            line-height: 18px;
+            font-weight: 500;
             font-size: 18px;
-            color: #fff;
+            color: #333333;
             cursor: pointer;
         }
 
-        .timestamp {
-            position: absolute;
-            right: 8px;
-            bottom: 10px;
-            font-size: 12px;
-            color: #fff;
 
-            .icon {
-                margin-right: 8px;
-                width: 14px;
-                vertical-align: -2px;
-            }
+        .info {
+            margin-top: 16px;
+            line-height: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666666;
         }
-    }
 
-    @media screen and (max-width: 1100px) {
-        .project-list {
-            li {
-                width: 25%;
-            }
+        .content {
+            margin-top: 12px;
+            line-height: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(51, 51, 51, 1);
         }
-    }
 
-    @media screen and (max-width: 900px) {
-        .project-list {
-            li {
-                width: 33.333%;
-            }
-        }
-    }
-
-    @media screen and (max-width: 650px) {
-        .project-list {
-            li {
-                width: 50%;
-            }
-        }
-    }
-
-
-    @media screen and (max-width: 440px) {
-        .project-list {
-            li {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                width: 70%;
-            }
-        }
-    }
-
-
-    @media screen and (max-width: 320px) {
-        .project-list {
-            li {
-                width: 100%;
-            }
-        }
     }
 </style>

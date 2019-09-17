@@ -19,32 +19,37 @@
                 </ul>
             </div>
 
-            <ul class="organization-list ">
-                <li v-for="item in 5" :key="item">
+            <div class="organization-list__wrapper">
+                <div class="hr-dashed"></div>
+                <ul class="organization-list">
+                    <li v-for="(item,key) in list" :key="key">
+                        <div class="header">
+                            <router-link
+                                    class="title ue-link text-ellipsis"
+                                    :to="`/OrganizationDetail/${item._id}`"
+                            >
+                                {{item.name}}
+                            </router-link>
+                            <p class="info text-ellipsis">
+                                所在城市：成都市
+                                <span class="ml-30">
+                                   【2019-09-09 09:12:55】
+                               </span>
+                            </p>
+                        </div>
+                        <p class="content">
+                            {{item.intro}}
+                        </p>
+                        <div class="hr-dashed"></div>
+                    </li>
+                </ul>
+                <Pagination
+                        class="mt-30 text-right"
+                        v-bind="pagination"
+                        @change="handlePageChange"
+                />
+            </div>
 
-                    <p class="date">
-                        <span class="left">所在城市：   成都</span>
-                        <span class="right">【2019-09-11】</span>
-                        <!--<span class="left">发布时间</span>-->
-                        <!--<span class="right">2019-08-12 14:22</span>-->
-                    </p>
-                    <router-link tag="p" class="title" to="/OrganizationDetail/111">
-                        这是一个机构名称这是一个机构名称这是一个机构名称
-                    </router-link>
-
-
-                    <p class="content mt-10">
-                        这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一
-                        段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机…
-                    </p>
-                    <div class="hr-dashed mt-10"></div>
-                </li>
-            </ul>
-            <Pagination
-                    class="mt-20"
-                    v-bind="pagination"
-                    @change="handlePageChange"
-            />
         </div>
     </section>
 </template>
@@ -60,6 +65,7 @@
             Pagination,
         },
         data() {
+            this.list = [];
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
@@ -75,17 +81,17 @@
             getPagination() {
                 const { query } = this.$route;
                 return {
-                    current: query.current || 1,
-                    size: query.size || 10,
+                    page: query.page || 1,
+                    limit: query.limit || 10,
                     total: 0,
                 };
             },
-            handlePageChange({ page, size }) {
-                this.pagination.current = page;
-                this.pagination.size = size;
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.limit = limit;
                 this.query({
-                    current: page,
-                    size,
+                    page: page,
+                    limit,
                 });
             },
             query(otherParams) {
@@ -97,11 +103,25 @@
                     },
                 });
             },
+            loadList() {
+                this.http.get(this.api.repo.organization.list, {
+                    ...this.searchParams,
+                    ...this.pagination,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return [];
+                    }
+
+                    const { pagination } = this;
+                    const data = res.data;
+                    this.list = data.docs;
+
+                    pagination.total = data.total; // this.$forceUpdate
+                });
+            },
         },
         created() {
-            setTimeout(() => {
-                this.pagination.total = 230;
-            }, 1000);
+            this.loadList();
         },
     };
 </script>
@@ -109,57 +129,60 @@
 <style lang="scss" scoped>
     @import "./public";
 
-    .organization-list {
-        width: 1200px;
+    .organization-list__wrapper {
+        padding: 0 20px 30px;
         background: #F6FBFF;
+    }
+
+    .organization-list {
+        margin-top: 12px;
 
         li {
             position: relative;
-            padding: 16px 18px 14px 20px;
-            margin-bottom: 14px;
 
             &:last-child {
                 margin-bottom: 0;
             }
 
-            .date {
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                width: 246px;
-                .left {
-                    float: left;
+
+            .header {
+                margin-top: 18px;
+                line-height: 20px;
+                font-size: 0;
+
+                .title, .info {
+                    display: inline-block;
+                    vertical-align: middle;
                 }
 
-                .right {
-                    float: right;
-                 }
-            }
+                .title {
+                    width: 60%;
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: rgba(51, 51, 51, 1);
+                }
 
-            .title {
-                line-height: 16px;
-                font-size: 20px;
-                color: #333;
-                cursor: pointer;
-            }
-
-            .location {
-                line-height: 12px;
-                font-size: 12px;
-                font-weight: 500;
-                color: rgba(168, 172, 175, 1);
-
-                .icon {
-                    margin-right: 10px;
-                    height: 18px;
+                .info {
+                    width: 40%;
+                    line-height: 14px;
+                    text-align: right;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgba(102, 102, 102, 1);
                 }
             }
+
 
             .content {
+                margin-top: 11px;
                 line-height: 26px;
                 font-size: 14px;
-                font-weight: 500;
-                color: rgba(88, 96, 102, 1);
+                font-weight: 400;
+                color: rgba(51, 51, 51, 1);
+            }
+
+            .hr-dashed {
+                margin-top: 14px;
             }
         }
     }

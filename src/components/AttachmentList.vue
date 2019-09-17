@@ -42,9 +42,16 @@
                     return undefined;
                 }
                 if (Array.isArray(value)) {
-                    return value;
+                    if (!value[0]) {
+                        return undefined;
+                    }
+                    if (Object.prototype.toString.call(value[0]) === '[object Object]') {
+                        return value;
+                    }
+                } else {
+                    value = value.split(',');
                 }
-                value = value.split(',');
+
                 return value.map(item => ({
                     name: item,
                     url: item,
@@ -53,6 +60,14 @@
             download(url) {
                 alert(url);
             },
+        },
+        mounted() {
+            if (!this.value) {
+                const unwatch = this.$watch('value', () => {
+                    unwatch();
+                    this.list = this.getList();
+                });
+            }
         },
     };
 </script>
@@ -133,6 +148,11 @@
                 outline: none;
                 border: none;
                 cursor: pointer;
+
+                &:hover {
+                    color: #fff;
+                    background-color: $sign-color;
+                }
             }
 
             &:last-child {

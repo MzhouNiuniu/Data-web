@@ -38,6 +38,6 @@
     }
 
     .fix-footer-logo {
-        height: 148 - 2px;
+        height: 90px + 38px; // 20px 底部留空
     }
 </style>

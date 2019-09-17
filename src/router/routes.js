@@ -28,6 +28,32 @@ export default [
                 name: 'about',
                 component: lazyLoad('About')
             },
+            /* 城投数据 */
+            {
+                path: '/InvestCom',
+                name: 'InvestCom',
+                component: lazyLoad('InvestCom')
+            },
+            {
+                path: '/InvestCom/Map',
+                name: 'InvestComMap',
+                component: lazyLoad('InvestCom/MapList')
+            },
+            {
+                path: '/InvestComDetail/:id',
+                name: 'InvestComDetail',
+                component: lazyLoad('InvestCom/Detail')
+            },
+            {
+                path: '/BondRecordList/:id',
+                name: 'BondRecordList',
+                component: lazyLoad('InvestCom/BondRecordList')
+            },
+            {
+                path: '/BondRecordDetail/:id',
+                name: 'BondRecordDetail',
+                component: lazyLoad('InvestCom/BondRecordDetail')
+            },
             /* 项目合作 */
             {
                 path: '/projectUnion',
@@ -38,6 +64,27 @@ export default [
                 path: '/projectUnionDetail/:id',
                 name: 'projectUnionDetail',
                 component: lazyLoad('ProjectUnion/Detail')
+            },
+            {
+                path: '/projectUnionDetail/:id',
+                name: 'projectUnionDetail',
+                component: lazyLoad('ProjectUnion/Detail')
+            },
+            /* 政策法规 */
+            {
+                path: '/policy',
+                name: 'policy',
+                component: lazyLoad('Policy')
+            },
+            {
+                path: '/policyMore/:id',
+                name: 'policyMore',
+                component: lazyLoad('Policy/More')
+            },
+            {
+                path: '/policyDetail/:id',
+                name: 'policyDetail',
+                component: lazyLoad('Policy/Detail')
             },
             /* 库 */
             {
@@ -81,6 +128,26 @@ export default [
                 path: '/research',
                 name: 'research',
                 component: lazyLoad('Research/index')
+            },
+            {
+                path: '/studyList/:index',
+                name: 'studyList',
+                component: lazyLoad('Research/studyList')
+            },
+            {
+                path: '/studyDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/studyDetail')
+            },
+            {
+                path: '/classicList',
+                name: 'studyList',
+                component: lazyLoad('Research/classicList')
+            },
+            {
+                path: '/classicDetail/:id',
+                name: 'studyList',
+                component: lazyLoad('Research/classicDetail')
             },
         ],
     },
