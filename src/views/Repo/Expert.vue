@@ -18,11 +18,7 @@
                     />
                 </ul>
             </div>
-            <div class="text-right pt-14">
-                <p class="text-tag">
-                    默认首字母排序
-                </p>
-            </div>
+
             <ul class="expert-list">
                 <li v-for="item in 10" :key="item">
                     <div class="main">
@@ -40,9 +36,7 @@
                                 <span class="name">
                                     李毅
                                 </span>
-                                <span class="text-tag tiny sex">
-                                    男
-                                </span>
+
                             </div>
                             <div class="hr-dashed mt-10"></div>
                             <p class="brief">
@@ -161,6 +155,7 @@
             }
 
             .info {
+                text-align: center;
                 .name {
                     font-size: 18px;
                     font-weight: bold;

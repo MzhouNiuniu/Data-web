@@ -18,12 +18,7 @@
                         李毅
                     </p>
                     <p class="text-tag-group mt-20">
-                        <span class="text-tag tiny sex">
-                            男
-                        </span>
-                        <span class="text-tag info small">
-                            社会学
-                        </span>
+
                     </p>
                     <p class="introduce mt-10">
                         中共党员，博士研究生毕业（经济学），研究员，博士生导师。现任中国市场学会会长，第十三届全国政协委员。曾任中国社会科学院经济研究所所长、
@@ -146,7 +141,10 @@
             line-height: 26px;
             font-size: 14px;
             font-weight: 600;
-            color: rgba(88, 96, 102, 1);
+            color: #586066;
+            height: 120px;
+            padding: 15px;
+            border: 1px solid #BFC5CA;
         }
     }
 </style>

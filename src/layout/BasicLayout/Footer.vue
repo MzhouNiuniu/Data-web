@@ -1,14 +1,7 @@
 <template>
     <section class="project-container__wrapper">
         <section class="basic-layout__footer project-container">
-            <div class="left">
-                <div class="logo">
-                    <img src="~@public/logo.png" alt="logo" width="80">
-                    <p>
-                        南京橙红科技
-                    </p>
-                </div>
-            </div>
+
             <div class="right">
                 <ul class="nav">
                     <li v-for="(item,index) in navList" :key="index" class="nav__item">
@@ -179,8 +172,8 @@
 
     .basic-layout__footer {
         position: relative;
-        padding-top: 20px;
-        padding-bottom: 30px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
     .left {
@@ -208,7 +201,7 @@
     .nav {
         overflow: hidden;
         font-size: 0;
-
+        text-align: center;
         .nav__item {
             display: inline-block;
             height: 16px;
@@ -263,5 +256,6 @@
         font-weight: 500;
         text-indent: 20px;
         color: #cacaca;
+        text-align: center;
     }
 </style>

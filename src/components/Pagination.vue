@@ -36,6 +36,7 @@
 
 <style lang="scss" scoped>
     .pagination {
+        text-align:center;
         ::v-deep {
             .ivu-page-item, .ivu-page-prev, .ivu-page-next {
                 border-radius: 2px;

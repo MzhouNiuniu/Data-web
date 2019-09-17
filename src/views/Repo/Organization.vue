@@ -18,29 +18,26 @@
                     />
                 </ul>
             </div>
-            <div class="text-right pt-14">
-                <p class="text-tag">
-                    默认发布时间排序
-                </p>
-            </div>
-            <ul class="organization-list mt-12">
-                <li v-for="item in 10" :key="item">
+
+            <ul class="organization-list ">
+                <li v-for="item in 5" :key="item">
+
                     <p class="date">
-                        <span class="left">发布时间</span>
-                        <span class="right">2019-08-12 14:22</span>
+                        <span class="left">所在城市：   成都</span>
+                        <span class="right">【2019-09-11】</span>
+                        <!--<span class="left">发布时间</span>-->
+                        <!--<span class="right">2019-08-12 14:22</span>-->
                     </p>
                     <router-link tag="p" class="title" to="/OrganizationDetail/111">
                         这是一个机构名称这是一个机构名称这是一个机构名称
                     </router-link>
-                    <p class="location mt-16">
-                        <img src="~@public/icon/location.png" alt="" class="icon">
-                        北京市
-                    </p>
-                    <div class="hr-dashed mt-10"></div>
+
+
                     <p class="content mt-10">
                         这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一
                         段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机构简介这是一段机…
                     </p>
+                    <div class="hr-dashed mt-10"></div>
                 </li>
             </ul>
             <Pagination
@@ -129,55 +126,20 @@
                 position: absolute;
                 top: 12px;
                 right: 12px;
-                width: 205px;
-                background-color: #358BFE;
-
-                .left, .right {
-                    line-height: 26px;
-                    height: 26px;
-                    font-size: 12px;
-                    font-weight: 500;
-                    color: rgba(255, 255, 255, 1);
-                }
-
-
+                width: 246px;
                 .left {
                     float: left;
-                    padding-left: 10px;
-
                 }
 
                 .right {
-                    $bg: rgba(149, 195, 254, 1);
-                    position: relative;
                     float: right;
-                    padding-right: 10px;
-                    background: $bg;
-
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        left: -20px;
-                        bottom: 0;
-                        width: 0;
-                        height: 0;
-                        border-bottom: 26px solid $bg;
-                        border-left: 20px solid transparent;
-                    }
-                }
-
-                &::after {
-                    content: '';
-                    display: block;
-                    clear: both;
-                }
+                 }
             }
 
             .title {
                 line-height: 16px;
-                font-size: 16px;
-                font-weight: bold;
-                color: rgba(0, 0, 52, 1);
+                font-size: 20px;
+                color: #333;
                 cursor: pointer;
             }
 

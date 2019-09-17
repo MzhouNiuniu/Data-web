@@ -2,10 +2,10 @@
     <section class="basic-layout">
         <Header/>
         <!-- footer 108px，不计算溢出的logo 20px -->
-        <div style="padding-bottom: 160px;">
+        <div style="padding-bottom: 110px;">
 
             <router-view :key="$route.fullPath"/>
-            <div class="fix-footer-logo" :style="bgStyle"></div>
+            <!--<div class="fix-footer-logo" :style="bgStyle"></div>-->
         </div>
         <Footer/>
     </section>
