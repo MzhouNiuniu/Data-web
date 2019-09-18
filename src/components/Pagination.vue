@@ -1,7 +1,6 @@
 <template>
     <Page
             class="pagination"
-            show-sizer
             show-elevator
             size="small"
             :page-size-opts="[3,6,9,10,20,30]"

@@ -173,7 +173,7 @@
     .basic-layout__footer {
         position: relative;
         padding-top: 15px;
-        padding-bottom: 15px;
+        padding-bottom: 8px;
     }
 
     .left {
@@ -204,9 +204,9 @@
         text-align: center;
         .nav__item {
             display: inline-block;
-            height: 16px;
-            line-height: 16px;
-            font-size: 16px;
+            height: 13px;
+            line-height: 13px;
+            font-size: 13px;
 
             &:last-child {
                 .nav__item__header::after {
@@ -250,7 +250,7 @@
     }
 
     .copy-right {
-        padding-top: 30px;
+        padding-top: 13px;
         line-height: 12px;
         font-size: 12px;
         font-weight: 500;

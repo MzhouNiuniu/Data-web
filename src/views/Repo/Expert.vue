@@ -66,12 +66,13 @@
                     </li>
                 </ul>
             </div>
-            <Pagination
-                    class="mt-20"
-                    v-bind="pagination"
-                    @change="handlePageChange"
-            />
+
         </div>
+        <Pagination
+                class="mt-20"
+                v-bind="pagination"
+                @change="handlePageChange"
+        />
     </section>
 </template>
 
@@ -154,8 +155,9 @@
     @import "./public";
 
     .expert-list__wrapper {
-        padding: 0 20px;
+        padding: 0 20px 10px;
         background: #F6FBFF;
+        min-height: 587.5px;
     }
 
     .expert-list {
@@ -166,7 +168,7 @@
             display: inline-block;
             vertical-align: top;
             width: 20%;
-            margin-top: 15px;
+            margin-top: 12px;
             padding-right: 15px;
             background-color: #fff;
 

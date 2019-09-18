@@ -9,8 +9,8 @@
       vertical-align: middle;
       margin-left: 1px; // fix box-shadow
       padding: 0 44px;
-      height: 44px;
-      line-height: 44px;
+      height: 37px;
+      line-height: 37px;
       font-size: 20px;
       color: rgba(102, 102, 102, 1);
       box-shadow: 0 0 1px 1px #e0e8eb;
@@ -34,7 +34,7 @@
   }
 
   .tab-body {
-    padding: 30px 220px 30px 20px;
+    padding: 20px 220px 20px 30px;
     background: $unknown-color;
   }
 }

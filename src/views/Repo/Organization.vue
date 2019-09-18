@@ -1,6 +1,6 @@
 <template>
     <section class="project-container__wrapper">
-        <div class="project-container pt-30">
+        <div class="project-container pt-24">
             <div class="tab">
                 <ul class="tab-header">
                     <router-link tag="li" to="expertRepo">
@@ -43,12 +43,13 @@
                         <div class="hr-dashed"></div>
                     </li>
                 </ul>
-                <Pagination
-                        class="mt-30 text-right"
-                        v-bind="pagination"
-                        @change="handlePageChange"
-                />
+
             </div>
+            <Pagination
+                    class="  mt-b text-right"
+                    v-bind="pagination"
+                    @change="handlePageChange"
+            />
 
         </div>
     </section>
@@ -82,7 +83,7 @@
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    limit: query.limit || 10,
+                    limit: query.limit || 5,
                     total: 0,
                 };
             },
@@ -128,10 +129,13 @@
 
 <style lang="scss" scoped>
     @import "./public";
-
+    .mt-b{
+        margin-top: 2%;
+    }
     .organization-list__wrapper {
-        padding: 0 20px 30px;
+        padding: 0 20px 10px;
         background: #F6FBFF;
+        min-height:591px;
     }
 
     .organization-list {
@@ -177,8 +181,15 @@
                 margin-top: 11px;
                 line-height: 26px;
                 font-size: 14px;
+                word-break: break-all;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
                 font-weight: 400;
                 color: rgba(51, 51, 51, 1);
+                height: 52px;
             }
 
             .hr-dashed {
