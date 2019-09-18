@@ -22,6 +22,7 @@ Http.post('http://192.168.9.105:3000/user/login', {
 }).finally(() => {
    // 有时需要等很长时间
 });
+
 new Vue({
     router,
     store,

@@ -4,6 +4,9 @@
             <p slot="title">本项目用到的所有组件</p>
             <div class="demo-list">
                 <div>
+                    <UIMenu/>
+                </div>
+                <div>
                     <UICard title="专题报告">
                         <template slot="header-action">
                             <LinkMore to="/demo" style="font-size: 14px;"/>
@@ -56,14 +59,15 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
-    import Pagination from '@components/Pagination';
-    import RangeNumber from '@components/RangeNumber';
-    import OptionButton from '@components/OptionButton';
-    import ChinaMap from '@components/ChinaMap';
-    import TextEllipsis from '@components/TextEllipsis';
-    import LinkMore from '@ui/LinkMore';
-    import UICard from '@ui/Card';
+    import SearchInput from '@components/SearchInput'
+    import Pagination from '@components/Pagination'
+    import RangeNumber from '@components/RangeNumber'
+    import OptionButton from '@components/OptionButton'
+    import ChinaMap from '@components/ChinaMap'
+    import TextEllipsis from '@components/TextEllipsis'
+    import LinkMore from '@ui/LinkMore'
+    import UICard from '@ui/Card'
+    import UIMenu from '@ui/Menu'
 
     /**
      * 问题组件：日期选择器、年份选择器
@@ -79,6 +83,7 @@
             TextEllipsis,
             LinkMore,
             UICard,
+            UIMenu,
         },
         data() {
             this.options1 = [
@@ -98,25 +103,25 @@
                     label: '其它',
                     value: '其它',
                 },
-            ];
+            ]
             return {
                 m1: [],
                 m2: '',
                 m3: '这是一段企业概况这是一asdakasjdkajsljjjlk段企业概况这是一段企业概这\n' +
                     '                            131545465464645555555555555555555555555555555555555555555',
-            };
+            }
         },
         methods: {
             handleMapChange(geoInfo) {
-                console.log(geoInfo);
+                console.log(geoInfo)
             },
         },
         created() {
             setTimeout(() => {
-                this.m1 = [1, 2];
-            }, 1000);
+                this.m1 = [1, 2]
+            }, 1000)
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

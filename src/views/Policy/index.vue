@@ -7,7 +7,7 @@
             <Col span="12">
                 <UICard title="政策法规" title-type="fill">
                     <template slot="header-action">
-                        <LinkMore to="/demo" style="font-size: 14px;"/>
+                        <LinkMore to="/policyMore/0" style="font-size: 14px;"/>
                     </template>
                     <ul class="list small">
                         <li v-for="item in 4" :key="item">
@@ -25,7 +25,7 @@
             <Col span="12">
                 <UICard title="指南标准" title-type="fill">
                     <template slot="header-action">
-                        <LinkMore to="/demo" style="font-size: 14px;"/>
+                        <LinkMore to="/policyMore/1" style="font-size: 14px;"/>
                     </template>
                     <ul class="list small">
                         <li v-for="item in 4" :key="item">
@@ -43,7 +43,7 @@
         </Row>
         <UICard title="国务院规范性文件" title-type="fill" class="mt-30">
             <template slot="header-action">
-                <LinkMore to="/demo" style="font-size: 14px;"/>
+                <LinkMore to="/policyMore/2" style="font-size: 14px;"/>
             </template>
             <ul class="list">
                 <li v-for="item in 5" :key="item">
@@ -59,7 +59,7 @@
         </UICard>
         <UICard title="地方性规范性文件" title-type="fill" class="mt-30">
             <template slot="header-action">
-                <LinkMore to="/demo" style="font-size: 14px;"/>
+                <LinkMore to="/policyMore/3" style="font-size: 14px;"/>
             </template>
             <ul class="list">
                 <li v-for="item in 5" :key="item">
@@ -75,7 +75,7 @@
         </UICard>
         <UICard title="部门规范性文件" title-type="fill" class="mt-30">
             <template slot="header-action">
-                <LinkMore to="/demo" style="font-size: 14px;"/>
+                <LinkMore to="/policyMore/4" style="font-size: 14px;"/>
             </template>
             <ul class="list">
                 <li v-for="item in 5" :key="item">
