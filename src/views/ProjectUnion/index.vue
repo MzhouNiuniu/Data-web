@@ -9,7 +9,7 @@
             <ul class="project-list mt-10">
                 <li v-for="(item,key) in list" :key="key">
                     <div class="main">
-                        <router-link  class="title" :to="`/projectUnionDetail/${item._id}`">
+                        <router-link class="title" :to="`/projectUnionDetail/${item._id}`">
                             <TextEllipsis
                                     fill
                                     :rows="2"
@@ -41,9 +41,10 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
-    import Pagination from '@components/Pagination';
-    import TextEllipsis from '@components/TextEllipsis';
+    import SearchInput from '@components/SearchInput'
+    import Pagination from '@components/Pagination'
+    import TextEllipsis from '@components/TextEllipsis'
+    import { extractRichText } from '@utils'
 
     export default {
         name: "ProjectUnion",
@@ -70,35 +71,35 @@
                     label: '其它项目',
                     value: '其它项目',
                 },
-            ];
-            this.list = [];
+            ]
+            this.list = []
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
-            };
+            }
         },
         methods: {
             getSearchParams() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     projectName: query.projectName,
-                };
+                }
             },
             getPagination() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     page: query.page || 1,
                     limit: query.limit || 20,
                     total: 0,
-                };
+                }
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.limit = limit;
+                this.pagination.page = page
+                this.pagination.limit = limit
                 this.query({
                     page: page,
                     limit,
-                });
+                })
             },
             query(otherParams) {
                 this.$router.push({
@@ -107,7 +108,7 @@
                         ...this.searchParams,
                         ...otherParams,
                     },
-                });
+                })
             },
             loadList() {
                 this.http.get(this.api.projectUnion.list, {
@@ -115,33 +116,24 @@
                     ...this.pagination,
                 }).then(res => {
                     if (res.status !== 200) {
-                        return [];
+                        return []
                     }
 
-                    /* contentFilter */
-                    const elP = document.createElement('p');
+                    const { pagination } = this
+                    const data = res.data
+                    data.docs.forEach(item => {
+                        item.content = extractRichText(item.content)
+                    })
 
-                    function contentFilter(item) {
-                        elP.innerHTML = item.content;
-                        item.content = elP.innerText;
-                        return item;
-                    }
-
-                    const { pagination } = this;
-                    const data = res.data;
-                    this.list = data.docs.map(contentFilter);
-
-
-                    pagination.total = data.total; // this.$forceUpdate
-
-
-                });
+                    this.list = data.docs
+                    pagination.total = data.total // this.$forceUpdate
+                })
             },
         },
         created() {
-            this.loadList();
+            this.loadList()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
