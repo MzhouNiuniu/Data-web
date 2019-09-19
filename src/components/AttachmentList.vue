@@ -1,8 +1,9 @@
 <template>
     <section>
-        <p class="tip">
-            下载列表
-        </p>
+        <!--<p class="tip">-->
+            <!--下载列表-->
+        <!--</p>-->
+        <div class="down">下载</div>
         <ul class="list">
             <li v-if="!list">
                 暂无文件
@@ -108,7 +109,7 @@
             font-weight: 400;
             color: rgba(168, 172, 175, 1);
             border-bottom: 1px dashed #BFC5CA;
-
+            margin-left: 30px;
             .prefix {
                 position: relative;
                 display: inline-block;

@@ -5,11 +5,11 @@
                 <div class="detail-top pt-20 pb-20">
                     <p class="detail-top-title pl-15">{{title}}</p>
                 </div>
-                <div class="content-wrapper" @click="toDetail()">
+                <div class="content-wrapper c" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title)">
                     <img src="./img/right.png" alt="">
                     <div class="content">
-                        <p>这是一个定期报告标题这是一个定期报告标题这是一个定期报告标题</p>
-                        <div >这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主 要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一</div>
+                        <p>{{item.name}}</p>
+                        <div>{{item.brief}}</div>
                     </div>
                 </div>
             </div>
@@ -23,11 +23,21 @@
                     </li>
                 </ul>
             </div>
+
         </div>
+        <section class=" pages">
+            <Pagination
+                    class="mt-20"
+                    v-bind="pagination"
+                    @change="handlePageChange"
+            />
+        </section>
     </section>
 </template>
 
 <script>
+    import Pagination from '@components/Pagination';
+
     export default {
         name: "study",
         data(){
@@ -45,6 +55,9 @@
                 data:[]
             }
         },
+        components: {
+            Pagination,
+        },
         created() {
             this.setActiveAttr(this.$route.params.index)
         },
@@ -53,9 +66,14 @@
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    size: query.size || 10,
+                    size: query.size || 6,
                     total: 0,
                 };
+            },
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.size = limit;
+                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
             },
             setActiveAttr(index) {
                 this.navTitle.forEach((item) => {
@@ -64,10 +82,15 @@
                 this.$set(this.navTitle[index], 'class', 'active')
                 this.title = this.navTitle[index].name
                 this.newsType = index
-                // this.getList(10, 1, index)
+                this.getList(6, 1, index)
+            },
+            async getList(size,current,type){
+                let res = await this.http.get(this.api.research.list,{limit:size,page:current,keyWords:'',type})
+                this.pagination.total = res.data.total
+                this.data = res.data.docs
             },
             toDetail(id){
-                this.$router.push({path:`/studyDetail/${123}`})
+                this.$router.push({path:`/studyDetail/${id}`})
             },
         }
     }
@@ -77,7 +100,7 @@
     .project-container{
         margin-top: 20px;
         display: flex;
-
+        min-height: 715px;
         .left-wrapper{
             flex: 1;
             margin-right: 30px;
@@ -115,7 +138,7 @@
                         margin-bottom: 10px;
                     }
                     & > div{
-                        margin-bottom: 20px;
+                        margin-bottom: 5px;
 
                         & >div{
                             display: inline-block;
@@ -140,6 +163,7 @@
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
                         overflow: hidden;
+                        height: 42px;
                     }
                 }
             }
@@ -195,5 +219,11 @@
                 color:#586066
             }
         }
+    }
+    .pages{
+        margin-top: 5px;
+        margin-bottom: 20px;
+        /* text-align: center; */
+        justify-content: center;
     }
 </style>

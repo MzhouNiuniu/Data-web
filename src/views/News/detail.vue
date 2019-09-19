@@ -2,7 +2,9 @@
     <section class="project-container__wrapper">
         <div class="project-container">
             <div class="detail-top pt-20 pb-20">
-                <p class="detail-top-title pl-15">{{type}}</p>
+                <p class="detail-page-caption">
+                    <span>{{type}}</span>
+                </p>
             </div>
             <section class="content-wrapper pl-20 pr-20">
                 <div class="content-title pt-25 pb-15">
@@ -39,7 +41,6 @@
 
 <style lang="scss" scoped>
     .detail-top{
-        border-bottom: 1px solid $sign-color;
 
         & > .detail-top-title{
             border-left: 5px solid $primary-color;

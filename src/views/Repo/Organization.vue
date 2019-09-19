@@ -13,7 +13,7 @@
                 <ul class="tab-body">
                     <SearchInput
                             placeholder="请输入机构库名称"
-                            v-model="searchParams.organizationName"
+                            v-model="searchParams.keyWords"
                             @change="query()"
                     />
                 </ul>
@@ -31,9 +31,9 @@
                                 {{item.name}}
                             </router-link>
                             <p class="info text-ellipsis">
-                                所在城市：成都市
+                                所在城市：{{item.province}}
                                 <span class="ml-30">
-                                   【2019-09-09 09:12:55】
+                                   【{{item.releaseTime}}】
                                </span>
                             </p>
                         </div>
@@ -76,7 +76,7 @@
             getSearchParams() {
                 const { query } = this.$route;
                 return {
-                    organizationName: query.organizationName,
+                    keyWords: query.keyWords,
                 };
             },
             getPagination() {

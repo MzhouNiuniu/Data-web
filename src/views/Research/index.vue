@@ -1,57 +1,74 @@
 <template>
     <section class="project-container__wrapper">
         <div class="project-container">
+            <p class="detail-page-caption">
+                <span>行业研究</span>
+            </p>
             <div class="title-wrap">
                 <div class="title">研究报告</div>
+                <span class="more-wrapper c" @click="toMore('/studyList/',0)">了解更多</span>
             </div>
-            <div class="first-list">
-                <div class="listImg" :style="{backgroundImage: 'url('+require('../../../public/image/noData.png')+')'}"></div>
+            <div v-if="special[0]" class="first-list c" @click="toDetail(special[0]._id)">
+                <img v-if="!special[0].cover==''" class="listImg" :src="special[0].cover"/>
+                <!--<img class="listImg" :src="imgs"/>-->
+                <div v-else class="listImg" :style="{backgroundImage: 'url('+require('../../../public/image/noData.png')+')'}"></div>
                 <div class="listContent">
-                    <p class="title">这是一个研究报告标题这是一个研究报告标题这是一个研究报告标题</p>
-                    <p class="man">研究人：mm</p>
-                    <p class="man">研究人所属机构：城投研究所</p>
-                    <p class="content">这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段报告主 要内容这是一段报告主要内容这是一段报告主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段报告主要内容段报告主 要内容段报告主要内容段报告主要内这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段报告主 要内容这是一段报告主要内容这是一段报告主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段新闻主要内容这是一段报告主要内容段报告主 要内容段报告主要内容段报告主要内</p>
-                    <router-link class="toDetail" to="/research">查看详情</router-link>
+                    <p class="title">{{special[0].name}}</p>
+                    <p class="man">研究人：{{special[0].human}}</p>
+                    <p class="man">研究人所属机构：{{special[0].organization}}</p>
+                    <p class="content">{{special[0].brief}}</p>
+                    <a class="toDetail" >查看详情</a>
+                </div>
+            </div>
+            <div v-else class="first-list c" >
+                <div  class="listImg" :style="{backgroundImage: 'url('+require('../../../public/image/noData.png')+')'}"></div>
+                <div class="listContent">
+                    <p class="title">暂无</p>
+                    <p class="man">研究人：暂无</p>
+                    <p class="man">研究人所属机构：暂无</p>
+                    <p class="content">暂无</p>
+                    <!--<router-link class="toDetail" >查看详情</router-link>-->
                 </div>
             </div>
             <div class="center-list">
                 <div>
                     <div>
                         <span class="list-title">专题报告</span>
-                        <span class="more-wrapper" @click="toMore('/studyList/',0)">了解更多</span>
+                        <span class="more-wrapper c" @click="toMore('/studyList/',0)">了解更多</span>
                     </div>
-                    <ul class="trade-list">
-                        <li @click="toDetail()">
-                            <div class="circle"></div>
-                            <p>这是一个专题报告标题这是一个专题报告标题这是一个专题报告标题这是一个专题报告标题</p>
-                            <span>2019年9月6日</span>
+                    <ul class="trade-list fl">
+                        <li class="c" @click="toDetail(item._id)" v-for="item in special">
+                            <div class="circle "></div>
+                            <p>{{item.name}}</p>
+                            <span class="date">【{{item.releaseTime}}】</span>
                         </li>
                     </ul>
                 </div>
                 <div>
                     <div>
                         <span class="list-title">定期报告</span>
-                        <span class="more-wrapper" @click="toMore('/studyList/',1)">了解更多</span>
+                        <span class="more-wrapper c" @click="toMore('/studyList/',1)">了解更多</span>
                     </div>
-                    <ul class="trade-list">
-                        <li @click="toDetail()" >
-                            <div class="circle"></div>
-                            <p>这是一个专题报告标题这是一个专题报告标题</p>
-                            <span>2019年9月6日</span>
+                    <ul class="trade-list fl">
+                        <li class="c" @click="toDetail(item._id)" v-for="item in regular">
+                            <div class="circle c"></div>
+                            <p>{{item.name}}</p>
+                            <span class="date">【{{item.releaseTime}}】</span>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="title-wrap">
                 <div class="title">经典案例</div>
-                <span class="more-wrapper" @click="toMore('/classicList')">了解更多</span>
+                <span class="more-wrapper c" @click="toMore('/classicList')">了解更多</span>
             </div>
             <div class="last-list">
                 <ul class="trade-list">
-                    <li @click="toDetail()">
+                    <li @click="toDetail(item._id,1) " class="pr-20 c" v-for="item in scriptures">
                         <div class="circle"></div>
-                        <p>这是一个专题报告标题这是一个专题报告标题这是一个专题报告标题这是一个专题报告标题</p>
-                        <span>2019年9月6日</span>
+                        <p >{{item.name}}</p>
+                        <span class="date">【{{item.releaseTime}}】</span>
+
                     </li>
                 </ul>
             </div>
@@ -66,22 +83,42 @@
         name: "Research",
 
         data() {
-            return {};
+            return {
+                regular:[],
+                scriptures:[],
+                special:[],
+                // imgs:require('../../../public/image/noData.png')
+            };
         },
-        methods: {
-            toMore(path,index){
-                if(typeof(index) != 'undefined'){
-                    this.$router.push({path:`${path}${index}`})
-                }else{
-                    this.$router.push({path:`${path}`})
+            methods:{
+                async getData(){
+                    const res = await this.http.get(this.api.research.index)
+                    this.regular=res.data.regular
+                    this.scriptures=res.data.scriptures
+                    this.special=res.data.special
+                },
+                toDetail(id,type){
+                    console.log(id)
+                    if(type==1){
+                        this.$router.push({path:`/classicDetail/${id}`})
+                    }
+                    else{
+                        this.$router.push({path:`/studyDetail/${id}`})
+                    }
+                },
+            toMore(path,index) {
+                if (typeof(index) != 'undefined') {
+                    this.$router.push({path: `${path}${index}`})
+                } else {
+                    this.$router.push({path: `${path}`})
                 }
-
             }
+
         },
         created() {
-
+            this.getData()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -96,6 +133,9 @@
         font-size: 18px;
         margin-left: 10px;
     }
+    .fl{
+        float: left;
+    }
     .trade-list{
         li{
             display: flex;
@@ -103,6 +143,8 @@
             padding: 15px 0;
             font-size: 18px;
             align-items:center;
+            width: 100%;
+
 
             & > .circle{
                 width: 10px;
@@ -121,6 +163,7 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 margin-right: 10px;
+                width: 338px;
             }
             & > span{
                 color: #586066;
@@ -133,13 +176,14 @@
         margin-top: 10px;
         .title-wrap {
             line-height: 45px;
-            border-bottom: 1px solid #EEEEEE;
+            border-bottom: 1px solid #BFC5CA;
+            margin-top: 15px;
+            height: 45px;
             .title {
                 display: inline-block;
                 font-size: 24px;
                 color: $sign-color;
                 font-weight: 600;
-                border-bottom: 4px solid $primary-color;
                 padding-bottom: 10px;
             }
         }
@@ -232,5 +276,12 @@
                 color: #fff;
             }
         }
+    }
+    .pr-20{
+       padding-right: 20px !important;
+    }
+    .date {
+        font-weight: 100 !important;
+        font-size: 14px;
     }
 </style>

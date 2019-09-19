@@ -5,18 +5,20 @@
                 <div class="detail-top pt-20 pb-20">
                     <p class="detail-top-title pl-15">新闻动态</p>
                 </div>
-                <div class="content-wrapper" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title.slice(0,2))">
+                <div class="content-wrapper c" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title)">
                     <img src="./img/right.png" alt="">
                     <div class="content">
                         <p>{{item.title}}</p>
-                        <div v-html="item.content"></div>
+                        <div>{{filterHTMLTag(item.content)}}</div>
                     </div>
                 </div>
+
+
             </div>
             <div class="right-wrapper">
                 <img src="./img/news-bg.png" alt="">
                 <ul>
-                    <li v-for="(item,index) in navTitle" :key="index" :class="item.class"  @click="setActiveAttr(index)">
+                    <li v-for="(item,index) in navTitle" :key="index" :class="item.class" class="c"  @click="setActiveAttr(index)">
                         <span>{{item.name}}</span>
                         <img :src="require(`./img/${item.class}.png`)" alt="">
                         <div class="square"></div>
@@ -24,7 +26,7 @@
                 </ul>
             </div>
         </section>
-        <section class="project-container">
+        <section class="project-container pages">
             <Pagination
                     class="mt-20"
                     v-bind="pagination"
@@ -71,11 +73,12 @@
 
         },
         methods:{
+
             getPagination() {
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    size: query.size || 10,
+                    size: query.size || 6,
                     total: 0,
                 };
             },
@@ -91,7 +94,7 @@
                 this.$set(this.navTitle[index],'class','active')
                 this.title = this.navTitle[index].name
                 this.newsType = index
-                this.getList(10,1,index)
+                this.getList(6,1,index)
             },
             async getList(size,current,type){
                 let res = await this.http.get(this.api.getNewsList,{limit:size,page:current,keyWords:'',type})
@@ -100,7 +103,9 @@
             },
             toDetail(id,type){
                 this.$router.push({path:`/newsDetail/${id}`,query:{type}})
-            },
+            } ,
+
+
         }
     }
 </script>
@@ -112,6 +117,7 @@
 
         .left-wrapper{
             flex: 1;
+            min-height: 715px;
             background: #F6FBFF;
             margin-right: 30px;
 
@@ -148,7 +154,7 @@
                         margin-bottom: 10px;
                     }
                     & > div{
-                        margin-bottom: 20px;
+                        margin-bottom: 5px;
                         color: #586066;
                         font-size: 14px;
                         display: -webkit-box;
@@ -156,6 +162,7 @@
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
                         overflow: hidden;
+                        height: 42px;
                     }
                 }
             }
@@ -212,5 +219,13 @@
             }
         }
     }
+    .pages{
+        margin-top: 5px;
+        margin-bottom: 20px;
+        /* text-align: center; */
+        justify-content: center;
+    }
+
+
 
 </style>

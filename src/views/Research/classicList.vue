@@ -5,27 +5,82 @@
                 <div class="detail-top pt-20 pb-20">
                     <p class="detail-top-title pl-15">经典案例</p>
                 </div>
-                <div class="content-wrapper" @click="toDetail(1)">
+                <div class="content-wrapper" @click="toDetail(1)" v-for="item in data">
                     <img src="./img/right.png" alt="">
                     <div class="content">
-                        <p>这是一个定期报告标题这是一个定期报告标题这是一个定期报告标题</p>
-                        <div >这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主 要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一段报告主要内容这是一</div>
+                        <p>{{item.name}}</p>
+                        <div >{{item.brief}}</div>
                     </div>
                 </div>
             </div>
         </div>
+        <section class="  project-container  pages">
+            <Pagination
+                    class="mt-20"
+                    v-bind="pagination"
+                    @change="handlePageChange"
+            />
+        </section>
     </section>
+
 </template>
 
 <script>
+    import Pagination from '@components/Pagination';
+
     export default {
         name: "classic",
-        methods:{
+        data(){
+            return {
+                pagination: this.getPagination(),
+                newsType:0,
+                data:[]
+            }
+        },
+        components: {
+            Pagination,
+        },
+        created() {
+            this.getList()
+        },
+        methods: {
+            getPagination() {
+                const { query } = this.$route;
+                return {
+                    page: query.page || 1,
+                    size: query.size || 6,
+                    total: 0,
+                };
+            },
+            handlePageChange({ page, limit }) {
+                this.pagination.page = page;
+                this.pagination.size = limit;
+                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
+            },
+
+            async getList(size,current,type){
+                let res = await this.http.get(this.api.researchScriptures.list,{limit:size,page:current})
+                this.pagination.total = res.data.total
+                this.data = res.data.docs
+            },
             toDetail(id){
-                this.$router.push({path:`/classicDetail/${id}`})
+                this.$router.push({path:`/studyDetail/${id}`})
             },
         }
     }
+    // export default {
+    //     name: "classic",
+    //     methods:{
+    //         toDetail(id){
+    //             this.$router.push({path:`/classicDetail/${id}`})
+    //         },
+    //         async getList(size,current,type){
+    //             let res = await this.http.get(this.api.research.list,{limit:size,page:current,keyWords:'',type})
+    //             this.pagination.total = res.data.total
+    //             this.data = res.data.docs
+    //         },
+    //     }
+    // }
 </script>
 
 <style lang="scss" scoped>
@@ -36,7 +91,7 @@
         .left-wrapper{
             flex: 1;
             margin-right: 30px;
-
+            min-height: 715px;
             .detail-top{
                 border-bottom: 1px solid $sign-color;
 
@@ -70,7 +125,7 @@
                         margin-bottom: 10px;
                     }
                     & > div{
-                        margin-bottom: 20px;
+                        margin-bottom: 5px;
 
                         & >div{
                             display: inline-block;
@@ -95,9 +150,16 @@
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
                         overflow: hidden;
+                        height: 42px;
                     }
                 }
             }
         }
+    }
+    .pages{
+        margin-top: 5px;
+        margin-bottom: 20px;
+        /* text-align: center; */
+        justify-content: center;
     }
 </style>

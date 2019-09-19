@@ -1,9 +1,9 @@
 <template>
-    <section class="project-container mt-14">
+    <section class="project-container mt-14 mb-20">
         <p class="detail-page-caption">
             <span>政策法规</span>
         </p>
-        <Row :gutter="29" class="mt-30">
+        <Row :gutter="29" class="mt-20">
             <Col span="12">
                 <UICard title="政策法规" title-type="fill">
                     <template slot="header-action">
@@ -41,7 +41,7 @@
                 </UICard>
             </Col>
         </Row>
-        <UICard title="国务院规范性文件" title-type="fill" class="mt-30">
+        <UICard title="国务院规范性文件" title-type="fill" class="mt-20">
             <template slot="header-action">
                 <LinkMore to="/policyMore/2" style="font-size: 14px;"/>
             </template>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
         </UICard>
-        <UICard title="地方性规范性文件" title-type="fill" class="mt-30">
+        <UICard title="地方性规范性文件" title-type="fill" class="mt-20">
             <template slot="header-action">
                 <LinkMore to="/policyMore/3" style="font-size: 14px;"/>
             </template>
@@ -73,7 +73,7 @@
                 </li>
             </ul>
         </UICard>
-        <UICard title="部门规范性文件" title-type="fill" class="mt-30">
+        <UICard title="部门规范性文件" title-type="fill" class="mt-20">
             <template slot="header-action">
                 <LinkMore to="/policyMore/4" style="font-size: 14px;"/>
             </template>

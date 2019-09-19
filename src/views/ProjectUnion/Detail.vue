@@ -114,6 +114,7 @@
 
         .content {
             padding-top: 13px; // 20 - (28 - 14) / 2
+            min-height: 250px
         }
     }
 
@@ -122,7 +123,7 @@
         padding-top: 30px;
         background-color: $bg;
         text-align: center;
-
+        padding-bottom: 20px;
         .qr-code {
             /*display: block;*/
             /*margin: auto;*/

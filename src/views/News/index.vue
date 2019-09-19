@@ -3,52 +3,56 @@
         <div class="project-container">
             <div class="title-wrap">
                 <div class="title">行业动态</div>
-                <span class="more-wrapper" @click="toMore(0)">了解更多</span>
+                <span class="more-wrapper c" @click="toMore(0)">了解更多</span>
             </div>
             <div class="first-list">
-                <div class="item" @click="toDetail(item._id)" v-for="(item,index) in ideaDynamic" :key="index" >
+                <div class="item c" @click="toDetail(item._id,'行业动态')" v-for="(item,index) in industryDynamic" :key="index" >
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
                     <p class="title">{{item.title}}</p>
                     <p class="time">发布时间：{{item.releaseTime}}</p>
-                    <p class="content" v-html="item.content"></p>
+                    <p class="content" >
+                        {{filterHTMLTag(item.content)}}
+                    </p>
                 </div>
             </div>
             <div class="title-wrap">
                 <div class="title">城投新闻</div>
-                <span class="more-wrapper" @click="toMore(1)">了解更多</span>
+                <span class="more-wrapper c" @click="toMore(1)">了解更多</span>
             </div>
             <div class="city-list">
-                <div class="city-item" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id)" v-if="index<2">
+                <div class="city-item c" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id,'城投新闻')" v-if="index<2">
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
                     <div class="content">
                         <p class="city-title">{{item.title}}</p>
                         <p class="source">来源：{{item.source}}</p>
                         <p class="time">发布时间：{{item.releaseTime}}</p>
-                        <div class="city-content" v-html="item.content"></div>
+                        <p class="content" >
+                            {{filterHTMLTag(item.content)}}
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="title-wrap">
                 <div class="title">智库动态</div>
-                <span class="more-wrapper" @click="toMore(2)">了解更多</span>
+                <span class="more-wrapper c" @click="toMore(2)">了解更多</span>
             </div>
             <div class="smart-wrap">
-                <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in industryDynamic" :key="index" v-if="index < 2" @click="toDetail(item._id)">
+                <div class="noData c" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in ideaDynamic" :key="index" v-if="index < 2" @click="toDetail(item._id,'智库动态')">
                     <p class="title">{{item.title}}</p>
                 </div>
                 <ul>
-                    <li v-for="(item,index) in industryDynamic" :key="index" v-if="index > 1 &&index < 6" @click="toDetail(item._id)">
+                    <li class="c" v-for="(item,index) in ideaDynamic" :key="index"  @click="toDetail(item._id)">
                         <p>{{item.title}}</p>
                     </li>
                 </ul>
             </div>
             <div class="title-wrap">
                 <div class="title">项目动态</div>
-                <span class="more-wrapper" @click="toMore(3)">了解更多</span>
+                <span class="more-wrapper c" @click="toMore(3)">了解更多</span>
             </div>
             <div class="project-wrap">
                 <ul>
-                    <li v-for="(item,index) in projectDynamic" :key="index" v-if="index < 5" @click="toDetail(item._id)">
+                    <li class="c" v-for="(item,index) in projectDynamic" :key="index" v-if="index < 5" @click="toDetail(item._id,'智库动态')">
                         <p>{{item.title}}</p>
                     </li>
                 </ul>
@@ -188,6 +192,7 @@
                 overflow: hidden;
                 font-size: 15px;
                 color: #333;
+                height: 66px;
             }
         }
         .item:last-child{
@@ -205,9 +210,15 @@
                 height: 200px;
             }
             .content {
+                webkit-box-flex: 1;
+                -ms-flex: 1;
                 flex: 1;
-                width: calc(100% - 400px);
                 margin-left: 20px;
+                display: -webkit-box;
+                word-break: break-all;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
 
                 & > .city-title {
                     color: #333;

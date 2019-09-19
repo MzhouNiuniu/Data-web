@@ -5,7 +5,7 @@
                     v-model="searchParams.projectName"
                     @change="query()"
             />
-            <div class="hr-slide-style-1 mt-30"></div>
+            <div class="hr-slide-style-1 mt-22"></div>
             <ul class="project-list mt-10">
                 <li v-for="(item,key) in list" :key="key">
                     <div class="main">
@@ -89,7 +89,7 @@
                 const { query } = this.$route
                 return {
                     page: query.page || 1,
-                    limit: query.limit || 20,
+                    limit: query.limit || 9,
                     total: 0,
                 }
             },
@@ -140,7 +140,7 @@
     .project-list {
         font-size: 0;
         margin-right: -20px;
-
+        min-height: 639px;
         li {
             display: inline-block;
             width: 33.3333%;
@@ -151,7 +151,7 @@
 
         .main {
             overflow: hidden;
-            padding: 22px 22px 10px 15px;
+            padding: 15px 22px 10px 15px;
             background: #F6FBFF;
             border-radius: 5px;
             transition: box-shadow .2s;

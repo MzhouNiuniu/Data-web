@@ -1,6 +1,6 @@
 <template>
     <section class="project-container__wrapper">
-        <div class="project-container pt-30">
+        <div class="project-container pt-24">
             <div class="tab">
                 <ul class="tab-header">
                     <li class="active">
@@ -15,7 +15,7 @@
                 <ul class="tab-body">
                     <SearchInput
                             placeholder="请输入专家姓名"
-                            v-model="searchParams.expertName"
+                            v-model="searchParams.keyWords"
                             @change="query()"
                     />
                 </ul>
@@ -56,11 +56,10 @@
                                 <p class="brief">
                                     <TextEllipsis
                                             fill
-                                            :rows="2"
+                                            :rows="1"
                                             :value="item.current"
                                     />
                                 </p>
-<!--&gt;>>>>>> ff61ed56ead43c24a154eb3013e87baa98f9aa6e-->
                             </div>
                         </div>
                     </li>
@@ -100,7 +99,7 @@
             getSearchParams() {
                 const { query } = this.$route;
                 return {
-                    expertName: query.expertName,
+                    keyWords: query.keyWords,
                 };
             },
             getPagination() {
@@ -157,7 +156,7 @@
     .expert-list__wrapper {
         padding: 0 20px 10px;
         background: #F6FBFF;
-        min-height: 587.5px;
+        min-height: 595px;
     }
 
     .expert-list {
@@ -201,23 +200,13 @@
                 }
             }
 
-            .info {
-                text-align: center;
                 .name {
                     font-size: 18px;
                     font-weight: bold;
                     color: #000034;
                 }
 
-                .sex {
-                    margin-left: 30px;
-                    color: rgba(255, 255, 255, 1);
-                    background: rgba(53, 139, 254, 1);
-                    border-color: rgba(53, 139, 254, 1);
-                    vertical-align: 1px;
-                }
 
-            }
 
             .brief {
                 padding-top: 5px;
