@@ -10,12 +10,14 @@
                     </span>
                 </div>
             </div>
+            <section v-for=" (item,index) in info">
+                <UIDescription :title="item.company" class="mt-20" :text="item.content"/>
+                <div class="hr-dashed mt-20" v-if="index!=info.length-1"></div>
 
-            <UIDescription title="城投联络会" class="mt-20" :text="text1"/>
-            <div class="hr-dashed mt-20"></div>
-            <UIDescription title="中国投资咨询" class="mt-20" :text="text1"/>
-            <div class="hr-dashed mt-20"></div>
-            <UIDescription title="智慧城投介绍" class="mt-20" :text="text1"/>
+            </section>
+            <!--<UIDescription title="中国投资咨询" class="mt-20" :text="text1"/>-->
+            <!--<div class="hr-dashed mt-20"></div>-->
+            <!--<UIDescription title="智慧城投介绍" class="mt-20" :text="text1"/>-->
         </div>
 
 
@@ -25,21 +27,15 @@
                     <p class="about-text">资</p>
                     <span class="about-text-after">
                         <p>质文件</p>
-                        <p>Qualification documents</p>
+                        <p>Qualificationm</p>
                     </span>
                 </div>
             </div>
 
             <div class="about-container-bottomImgBox">
-                <div class="show-img-box">
+                <img :src="item" v-for="item in aptitude" class="show-img-box">
 
-                </div>
-                <div class="show-img-box">
-
-                </div>
-                <div class="show-img-box">
-
-                </div>
+                </img>
             </div>
         </footer>
     </section>
@@ -55,9 +51,19 @@ export default {
     },
     data() {
         return {
-            text1: '这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍 这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍 这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍这是一段关于城投联络会的介绍。',
-            text2: '',
-            text3: ''
+            info:[],
+            aptitude:[]
+        }
+    },
+    mounted() {
+        this.getDetail()
+    },
+    methods: {
+        async getDetail() {
+            let res = await this.http.get(this.api.about.index)
+            this.info = res.data.info
+            this.aptitude=res.data.aptitude
+            console.log(res)
         }
     }
 };
@@ -166,33 +172,25 @@ export default {
 }
 
 .about-container-bottom{
-    height:432px;
-    background:#F6FBFF;
+    /*background:#F6FBFF;*/
     overflow: hidden;
 }
 .about-container-bottomImgBox{
+
     margin: auto;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 70px;
+    width: 1200px;
+    flex-wrap: wrap;
     .show-img-box{
         width: 220px;
         height: 300px;
         margin-right: 40px;
         position: relative;
         background-size: 100% 100%;
-        background-image: url('/image/noPic.png');
-        &::after{
-            content: '';
-            position: absolute;
-            border: 3px solid #0567FF;
-            width: 30px;
-            height: 30px;
-            bottom: -11px;
-            right: -11px;
-            border-top: none;
-            border-left: none;
-        }
+        /*background-image: url('/image/noPic.png');*/
+        margin-bottom: 25px;
     }
 }
 
