@@ -2,7 +2,7 @@
     <section class="project-container__wrapper">
         <div class="project-container pt-24">
             <SearchInput
-                    v-model="searchParams.projectName"
+                    v-model="searchParams.keyWords"
                     @change="query()"
             />
             <div class="hr-slide-style-1 mt-22"></div>
@@ -82,7 +82,7 @@
             getSearchParams() {
                 const { query } = this.$route
                 return {
-                    projectName: query.projectName,
+                    keyWords: query.keyWords,
                 }
             },
             getPagination() {

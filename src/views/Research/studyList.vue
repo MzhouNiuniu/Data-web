@@ -2,9 +2,10 @@
     <section class="project-container__wrapper">
         <div class="project-container">
             <div class="left-wrapper">
-                <div class="detail-top pt-20 pb-20">
-                    <p class="detail-top-title pl-15">{{title}}</p>
-                </div>
+                <p class="detail-page-caption">
+                    <span>{{title}}</span>
+                </p>
+
                 <div class="content-wrapper c" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title)">
                     <img src="./img/right.png" alt="">
                     <div class="content">

@@ -23,20 +23,33 @@ export default {
             list:`${baseUrl}/expert/getListByName`,
             detail:`${baseUrl}/expert/getDetails`,
         },
-        //行业报告
+
 
     },
+    //行业报告
     research:{
         index:`${baseUrl}/researchReport/getIndex`,
         list:`${baseUrl}/researchReport/getListByWeb`,
         detail:`${baseUrl}/researchReport/getDetails`,
     },
+    //magazine
     researchScriptures:{
         list:`${baseUrl}/researchScriptures/getListByWeb`,
         detail:`${baseUrl}/researchScriptures/getDetails`,
     },
+    //关于我们
     about:{
         index:`${baseUrl}/about/getIndex`
+    },
+    //政策法规
+    statute:{
+        list:`${baseUrl}/statute/getListByWeb`,
+        detail:`${baseUrl}/statute/getDetails`,
+        index:`${baseUrl}/statute/getIndex`,
+    },
+    magazine:{
+        index:`${baseUrl}/magazine/getIndex`
     }
+
 
 }

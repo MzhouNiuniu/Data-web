@@ -1,44 +1,42 @@
 <template>
-    <section class="project-container mt-14 mb-20">
+    <section class="project-container mt-14 mb-10">
         <p class="detail-page-caption">
             <span>政策法规</span>
         </p>
         <Row :gutter="29" class="mt-20">
             <Col span="12">
-                <UICard title="政策法规" title-type="fill">
-                    <template slot="header-action">
-                        <LinkMore to="/policyMore/0" style="font-size: 14px;"/>
-                    </template>
-                    <ul class="list small">
-                        <li v-for="item in 4" :key="item">
-                            <router-link class="title ue-link text-ellipsis" to="/PolicyDetail/111">
-                                这是一个政策法规标题这是一个政策法规
-                                这是一个政策法规标题这是一个政策法规
-                            </router-link>
-                            <p class="date">
-                                【2019-09-09 09:12:55】
-                            </p>
-                        </li>
-                    </ul>
-                </UICard>
+            <UICard title="政策法规" title-type="fill">
+                <template slot="header-action">
+                    <LinkMore to="/policyMore/0" style="font-size: 14px;"/>
+                </template>
+                <ul class="list small">
+                    <li v-for="(item,index) in policies" :key="item._id">
+                        <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
+                           {{item.name}}
+                        </router-link>
+                        <p class="date">
+                            【{{item.releaseTime}}】
+                        </p>
+                    </li>
+                </ul>
+            </UICard>
             </Col>
             <Col span="12">
-                <UICard title="指南标准" title-type="fill">
-                    <template slot="header-action">
-                        <LinkMore to="/policyMore/1" style="font-size: 14px;"/>
-                    </template>
-                    <ul class="list small">
-                        <li v-for="item in 4" :key="item">
-                            <router-link class="title ue-link text-ellipsis" to="/PolicyDetail/111">
-                                这是一个指南标准标题这是一个指南标准
-                                这是一个指南标准标题这是一个指南标准
-                            </router-link>
-                            <p class="date">
-                                【2019-09-09 09:12:55】
-                            </p>
-                        </li>
-                    </ul>
-                </UICard>
+            <UICard title="指南标准" title-type="fill">
+                <template slot="header-action">
+                    <LinkMore to="/policyMore/1" style="font-size: 14px;"/>
+                </template>
+                <ul class="list small">
+                    <li v-for="item in guide"  :key="item._id">
+                        <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
+                            {{item.name}}
+                        </router-link>
+                        <p class="date">
+                            【{{item.releaseTime}}】
+                        </p>
+                    </li>
+                </ul>
+            </UICard>
             </Col>
         </Row>
         <UICard title="国务院规范性文件" title-type="fill" class="mt-20">
@@ -46,13 +44,12 @@
                 <LinkMore to="/policyMore/2" style="font-size: 14px;"/>
             </template>
             <ul class="list">
-                <li v-for="item in 5" :key="item">
-                    <router-link class="title ue-link text-ellipsis" to="/PolicyDetail/111">
-                        这是一个国务院规范性文件标题这是一个国务院规范性文件标题这是一个国务院规范性文件标题
-                        这是一个国务院规范性文件标题这是一个国务院规范性文件标题这是一个国务院规范性文件标题
+                <li v-for="item in council" :key="item._id">
+                    <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
+                        {{item.name}}
                     </router-link>
                     <p class="date">
-                        【2019-09-09 09:12:55】
+                        【{{item.releaseTime}}】
                     </p>
                 </li>
             </ul>
@@ -62,13 +59,12 @@
                 <LinkMore to="/policyMore/3" style="font-size: 14px;"/>
             </template>
             <ul class="list">
-                <li v-for="item in 5" :key="item">
-                    <router-link class="title ue-link text-ellipsis" to="/PolicyDetail/111">
-                        这是一个地方性规范性文件标题这是一个地方性规范性文件标题这是一个地方性规范性文件标题
-                        这是一个地方性规范性文件标题这是一个地方性规范性文件标题这是一个地方性规范性文件标题
+                <li v-for="item in endemicity" :key="item._id">
+                    <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
+                        {{item.name}}
                     </router-link>
                     <p class="date">
-                        【2019-09-09 09:12:55】
+                        【{{item.releaseTime}}】
                     </p>
                 </li>
             </ul>
@@ -78,13 +74,12 @@
                 <LinkMore to="/policyMore/4" style="font-size: 14px;"/>
             </template>
             <ul class="list">
-                <li v-for="item in 5" :key="item">
-                    <router-link class="title ue-link text-ellipsis" to="/PolicyDetail/111">
-                        这是一个部门规范性文件标题这是一个部门规范性文件标题这是一个部门规范性文件标题
-                        这是一个部门规范性文件标题这是一个部门规范性文件标题这是一个部门规范性文件标题
+                <li v-for="item in department" :key="item._id">
+                    <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
+                        {{item.name}}
                     </router-link>
                     <p class="date">
-                        【2019-09-09 09:12:55】
+                        【{{item.releaseTime}}】
                     </p>
                 </li>
             </ul>
@@ -102,6 +97,29 @@
             LinkMore,
             UICard,
         },
+        data(){
+            return {
+                policies:[],
+                guide:[],
+                council:[],
+                endemicity:[],
+                department:[]
+            }
+        },
+        mounted() {
+            this.getData()
+        },
+        methods: {
+            async getData() {
+                const res = await this.http.get(this.api.statute.index)
+                console.log(res)
+                this.policies = res.data.policies
+                this.guide = res.data.guide
+                this.council = res.data.council
+                this.endemicity = res.data.endemicity
+                this.department = res.data.department
+            },
+        }
     };
 </script>
 

@@ -33,7 +33,7 @@ export default [
     },
     {
         name: '城投杂志',
-        path: '',
+        path: '/magazine',
     },
     {
         name: '政策法规',

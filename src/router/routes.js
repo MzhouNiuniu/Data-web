@@ -77,7 +77,7 @@ export default [
                 component: lazyLoad('Policy')
             },
             {
-                path: '/policyMore/:id',
+                path: '/policyMore/:index',
                 name: 'policyMore',
                 component: lazyLoad('Policy/More')
             },
@@ -148,6 +148,12 @@ export default [
                 path: '/classicDetail/:id',
                 name: 'studyList',
                 component: lazyLoad('Research/classicDetail')
+            },
+            //杂志
+            {
+                path: '/magazine',
+                name: 'magazine',
+                component: lazyLoad('Magazine')
             },
         ],
     },
