@@ -10,6 +10,7 @@ import Http from './utils/http';
 import {filterHTMLTag} from './utils/index';
 /* lib */
 import './lib/iview';
+import './lib/swiper';
 
 Vue.config.productionTip = false;
 Vue.prototype.api = Api;

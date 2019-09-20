@@ -8,6 +8,11 @@
   src: url('~@public/font/PingFang-TC-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'Krungthep';
+  src: url('~@public/font/Krungthep.ttf');
+}
+
 // 如果样式有冲突，先注释
 * {
   word-break: break-all;

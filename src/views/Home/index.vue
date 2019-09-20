@@ -1,10 +1,12 @@
 <template>
     <section style="margin-bottom: -22px;">
-        <Carousel loop :height="500" class="banner">
-            <CarouselItem v-for="(item,index) in imgSrcList" :key="index">
-                <a class="trigger" href="#" :style="{backgroundImage:`url('${item}')`}"></a>
-            </CarouselItem>
-        </Carousel>
+        <div class="banner">
+            <Carousel loop :height="500">
+                <CarouselItem v-for="(item,index) in imgSrcList" :key="index">
+                    <a class="trigger" href="#" :style="{backgroundImage:`url('${item}')`}"></a>
+                </CarouselItem>
+            </Carousel>
+        </div>
         <div class="news-container clearfix">
             <div class="project-container">
                 <p class="part-title">
@@ -14,9 +16,9 @@
                 <div class="mt-32 content">
                     <div class="left">
                         <div class="cover" :style="{backgroundImage: `url('/image/noPic.png')`}">
-                            <p class="title text-ellipsis">
+                            <router-link class="title text-ellipsis" to="/">
                                 湖南省住房和城乡建设厅解读《关于推进城乡…
-                            </p>
+                            </router-link>
                         </div>
                         <p class="date mt-20">
                             发布时间：2019-09-13 14:23
@@ -85,17 +87,24 @@
                 </div>
             </div>
             <div class="bottom">
-                <div class="project-container">
-                    <h1>
-                        此处一个 - 层叠式轮播图
-                    </h1>
-                </div>
+                <CardCarousel class="project-container about-us-carousel">
+                    <div>
+                        <img src="~@public/image/noMagazine.png" alt="">
+                    </div>
+                    <div>
+                        <img src="~@public/image/noMagazine.png" alt="">
+                    </div>
+                    <div>
+                        <img src="~@public/image/noMagazine.png" alt="">
+                    </div>
+                </CardCarousel>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+    import CardCarousel from '@ui/CardCarousel'
     import TextEllipsis from '@components/TextEllipsis'
     import BigData from './BigData'
 
@@ -103,6 +112,7 @@
     export default {
         name: 'Home',
         components: {
+            CardCarousel,
             BigData,
             TextEllipsis,
         },
@@ -122,6 +132,9 @@
 <style lang="scss" scoped>
     ::v-deep {
         .banner {
+            // fix 小屏幕样式问题
+            overflow: hidden;
+            max-width: 100%;
             .trigger {
                 display: block;
                 width: 100%;
@@ -171,6 +184,26 @@
                 &.right {
                     right: calc((100% - 1200px) / 2);
                     background: url("~@public/icon/circle-arrow-right.png") no-repeat scroll top left / cover;
+                }
+            }
+        }
+
+        .about-us-carousel {
+            .swiper-slide {
+                position: relative; // 默认好像就有
+
+                img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 250px;
+                }
+            }
+
+            .swiper-slide-active, .swiper-slide-duplicate-active {
+                img {
+                    width: 270px;
                 }
             }
         }
@@ -399,5 +432,6 @@
                 border-left: 14px solid transparent;
             }
         }
+
     }
 </style>
