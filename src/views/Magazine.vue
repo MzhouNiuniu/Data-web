@@ -5,7 +5,7 @@
         </p>
         <div class="magazine">
             <div >
-                <img :src="item.photos" alt=""  class="imgs"  v-for="item in data">
+                <img :src="item.photos" alt=""  class="imgs"  v-for="item in data" :key="item">
             </div>
         </div>
         <div class="href">

@@ -37,7 +37,7 @@
                         <span class="more-wrapper c" @click="toMore('/studyList/',0)">了解更多</span>
                     </div>
                     <ul class="trade-list fl">
-                        <li class="c" @click="toDetail(item._id)" v-for="item in special">
+                        <li class="c" @click="toDetail(item._id)" v-for="item in special" :key="item._id">
                             <div class="circle "></div>
                             <p>{{item.name}}</p>
                             <span class="date">【{{item.releaseTime}}】</span>
@@ -50,7 +50,7 @@
                         <span class="more-wrapper c" @click="toMore('/studyList/',1)">了解更多</span>
                     </div>
                     <ul class="trade-list fl">
-                        <li class="c" @click="toDetail(item._id)" v-for="item in regular">
+                        <li class="c" @click="toDetail(item._id)" v-for="item in regular" :key="item._id">
                             <div class="circle c"></div>
                             <p>{{item.name}}</p>
                             <span class="date">【{{item.releaseTime}}】</span>
@@ -64,7 +64,7 @@
             </div>
             <div class="last-list">
                 <ul class="trade-list">
-                    <li @click="toDetail(item._id,1) " class="pr-20 c" v-for="item in scriptures">
+                    <li @click="toDetail(item._id,1) " class="pr-20 c" v-for="item in scriptures" :key="item._id">
                         <div class="circle"></div>
                         <p >{{item.name}}</p>
                         <span class="date">【{{item.releaseTime}}】</span>

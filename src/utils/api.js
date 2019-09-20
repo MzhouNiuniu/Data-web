@@ -49,6 +49,10 @@ export default {
     },
     magazine:{
         index:`${baseUrl}/magazine/getIndex`
+    },
+    //城投公司
+    companyData:{
+        getListBySearch:`${baseUrl}/companyData/getListBySearch`
     }
 
 

@@ -20,7 +20,7 @@
                 <span class="more-wrapper c" @click="toMore(1)">了解更多</span>
             </div>
             <div class="city-list">
-                <div class="city-item c" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id,'城投新闻')" v-if="index<2">
+                <div class="city-item c" v-for="(item,index) in ideaNew" :key="index" @click="toDetail(item._id,'城投新闻')" >
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
                     <div class="content">
                         <p class="city-title">{{item.title}}</p>
@@ -37,7 +37,7 @@
                 <span class="more-wrapper c" @click="toMore(2)">了解更多</span>
             </div>
             <div class="smart-wrap">
-                <div class="noData c" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in ideaDynamic" :key="index" v-if="index < 2" @click="toDetail(item._id,'智库动态')">
+                <div class="noData c" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in ideaDynamic" :key="index"  @click="toDetail(item._id,'智库动态')">
                     <p class="title">{{item.title}}</p>
                 </div>
                 <ul>
@@ -52,7 +52,7 @@
             </div>
             <div class="project-wrap">
                 <ul>
-                    <li class="c" v-for="(item,index) in projectDynamic" :key="index" v-if="index < 5" @click="toDetail(item._id,'智库动态')">
+                    <li class="c" v-for="(item,index) in projectDynamic" :key="index"  @click="toDetail(item._id,'智库动态')">
                         <p>{{item.title}}</p>
                     </li>
                 </ul>

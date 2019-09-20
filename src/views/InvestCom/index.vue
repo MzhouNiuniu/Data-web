@@ -80,30 +80,30 @@
             </div>
         </div>
         <Row :gutter="30" class="com-list">
-            <Col span="8" v-for="item in 9" :key="item">
+            <Col span="8" v-for="item in list" :key="item">
                 <div class="item">
                     <p class="com-type">
-                        城投
+                        {{item.mainType}}
                     </p>
                     <router-link class="com-name ue-link" :to="`/InvestComDetail/1111`">
-                        成都投资建设有限公司
+                        {{item.name}}
                     </router-link>
                     <p class="location">
-                        所在城市：成都市
+                        所在城市：{{item.province}}
                     </p>
                     <div class="tag-group mt-15">
                         <p class="item">
-                            评级类型：AAA
+                            评级类型：{{item.rateMain?item.rateMain:'暂无'}}
                         </p>
                         <p class="item">
-                            总资产规模（亿元）：2000.00
+                            总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
                         </p>
                     </div>
                     <p class="intro mt-10">
                         <TextEllipsis
                                 fill
                                 :rows="2"
-                                value="这是一段企业概况这是一段企业概况这是一段企业概这-这是一段企业概况这是一段企业概况这是一段企业概这-这是一段企业概况这是一段企业概况这是一段企业概这"
+                                :value="item.info"
                         />
                     </p>
                 </div>
@@ -319,10 +319,16 @@
                     query: Object.assign(query, this.buttonParams, otherParams),
                 });
             },
+            async getList(size,current){
+                let res = await this.http.get(this.api.companyData.getListBySearch,{limit:size,page:current})
+                this.list =res.data.docs
+            },
             loadList() {
-                console.log(this.$route.query);
-                this.pagination.total = 100;
-                this.list = Array(10).fill({ 'name': Math.random() });
+                this.getList()
+              //
+              //   console.log(this.$route.query);
+              //   this.pagination.total = 100;
+              // Array(10).fill({ 'name': Math.random() });
             },
         },
         created() {
