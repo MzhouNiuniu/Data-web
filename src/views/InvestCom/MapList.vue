@@ -291,16 +291,6 @@
                             value: 443,
                             name: "澳门"
                         },
-                        {
-                            name: '南海诸岛', value: 0,
-                            itemStyle: {
-                                normal: {
-                                    opacity: 0,
-                                    label: { show: false },
-                                    borderWidth: "0", borderColor: "#10242b", areaStyle: { color: '#10242b' }
-                                }
-                            }
-                        },
                     ];
                     this.map.setOption(option => {
                         option.series[0].data = data;

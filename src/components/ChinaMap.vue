@@ -12,12 +12,12 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import echarts from 'echarts';
-    import Chart from './Chart';
+    import axios from 'axios'
+    import echarts from 'echarts'
+    import Chart from './Chart'
 
-    const CN_CODE = 'china'; // 100000 -> 'china'，兼容老数据
-    const CN_NAME = '中华人民共和国';
+    const CN_CODE = 'china' // 100000 -> 'china'，兼容老数据
+    const CN_NAME = '中华人民共和国'
     export default {
         name: "ChinaMap",
         components: {
@@ -28,7 +28,7 @@
             // @change
         },
         data() {
-            this.chart = null;
+            this.chart = null
             // 只需要动态修改mapType，然后使用原生setOption
             this.option = {
                 animation: true,
@@ -56,114 +56,117 @@
                         data: [],
                     },
                 ],
-            };
+            }
             return {
                 nameStack: [CN_NAME],
                 codeStack: [CN_CODE],
-            };
+            }
         },
         computed: {
             isRoot() {
-                return this.codeStack.length <= 1;
+                return this.codeStack.length <= 1
             },
             currentCode() {
-                return this.codeStack[this.codeStack.length - 1];
+                return this.codeStack[this.codeStack.length - 1]
             },
             currentName() {
-                return this.nameStack[this.nameStack.length - 1];
+                return this.nameStack[this.nameStack.length - 1]
             },
         },
         methods: {
             getCurrentBlockName() {
-                return this.nameStack[this.nameStack.length - 1];
+                return this.nameStack[this.nameStack.length - 1]
             },
             getCurrentBlockCode() {
-                return this.codeStack[this.codeStack.length - 1];
+                return this.codeStack[this.codeStack.length - 1]
             },
             getChart() {
-                return this.chart;
+                return this.chart
             },
             setOption(handler) {
                 // 需要传入一个函数，或者引入一个merge库。。
                 // handler 可以有返回值，推荐直接更改原对象
                 if (typeof handler !== 'function') {
-                    return;
+                    return
                 }
 
-                const newOption = handler(this.option);
+                const newOption = handler(this.option)
                 if (newOption) {
-                    this.option = newOption;
+                    this.option = newOption
                 }
 
-                this.chart.setOption(this.option);
+                this.chart.setOption(this.option)
                 // this.$forceUpdate(); // option 非响应式数据
             },
             back() {
                 if (this.isRoot) {
-                    return;
+                    return
                 }
-                this.nameStack.pop();
-                this.codeStack.pop();
-                this.loadGeoData(this.currentCode);
+                this.nameStack.pop()
+                this.codeStack.pop()
+                this.loadGeoData(this.currentCode)
             },
             getGeoData(code) {
-                return axios.get('/geo-json/' + code + '_full.json').then(res => res.data);
+                return axios.get('/geo-json/' + code + '_full.json').then(res => res.data).catch(err => {
+                    console.log(err)
+                    this.back()
+                })
             },
             loadGeoData(code) {
                 const set = () => {
-                    this.option.series[0].mapType = code;
-                    this.chart.setOption(this.option);
-                };
+                    this.option.series[0].mapType = code
+                    this.chart.setOption(this.option)
+                }
 
                 if (echarts.getMap(code)) {
                     this.$nextTick(() => {
-                        set();
-                    });
-                    return;
+                        set()
+                    })
+                    return
                 }
 
                 this.getGeoData(code).then(data => {
-                    echarts.registerMap(code, data);
-                    set();
-                });
+                    echarts.registerMap(code, data)
+                    set()
+                })
             },
             handleChartClick(params) {
                 if (params.componentType !== 'series' && params.seriesName !== 'map') {
-                    return;
+                    return
                 }
 
 
                 // 获取地图
-                const currentBlockData = echarts.getMap(this.currentCode).geoJson;
-                const targetBlock = currentBlockData.features.find(item => item.properties.name === params.name);
+                const currentBlockData = echarts.getMap(this.currentCode).geoJson
+                const targetBlock = currentBlockData.features.find(item => item.properties.name === params.name)
                 if (!targetBlock) {
-                    return;
+                    return
                 }
 
-                this.$emit('change', targetBlock);
+                this.$emit('change', targetBlock)
 
                 // childNum、id 兼容老数据
 
                 if (targetBlock.properties.childrenNum === 0 || targetBlock.properties.childNum === 0) {
-                    return;
+                    return
                 }
 
-                this.nameStack.push(targetBlock.properties.name);
+                this.nameStack.push(targetBlock.properties.name)
 
-                const targetCode = targetBlock.properties.adcode || targetBlock.id;
-                this.codeStack.push(targetCode);
-                this.loadGeoData(targetCode);
+                const targetCode = targetBlock.properties.adcode || targetBlock.id
+                this.codeStack.push(targetCode)
+                this.loadGeoData(targetCode)
 
             },
         },
         created() {
-            this.loadGeoData(this.currentCode);
+            this.loadGeoData(this.currentCode)
         },
         mounted() {
-            this.chart = this.$refs.chart.getChart();
-            this.chart.on('click', this.handleChartClick);
+            this.chart = this.$refs.chart.getChart()
+            this.chart.on('click', this.handleChartClick)
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

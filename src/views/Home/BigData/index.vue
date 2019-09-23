@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <p class="title">
+                        <p class="title right">
                             总数目(项）
                         </p>
                         <div class="content">
@@ -42,43 +42,110 @@
                     </div>
                 </div>
                 <div class="map">
-
+                    <Map/>
                 </div>
             </div>
             <div class="right">
-                <div class="card title-right">
-                    <p class="title">
+                <div class="card">
+                    <p class="title right">
                         评级数量
                     </p>
                     <div class="content">
                         <RightChart1/>
                     </div>
                 </div>
-                <div class="card title-right mt-50">
-                    <p class="title">
+                <div class="card mt-50">
+                    <p class="title right">
                         主营收入
                     </p>
                     <div class="content">
+                        <RightChart2/>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bottom-container flex-container mt-50">
+        <div class="bottom-container flex-container">
             <div class="left">
                 <div class="card">
                     <p class="title">
                         省级城投
                     </p>
                     <div class="content">
+                        <ul class="list">
+                            <ul class="header">
+                                <li>
+                                    序号
+                                </li>
+                                <li>
+                                    省份
+                                </li>
+                                <li>
+                                    城投
+                                </li>
+                                <li>
+                                    开发区数据
+                                </li>
+                                <li>
+                                    其他
+                                </li>
+                            </ul>
+                            <ul class="item" v-for="item in 3" :key="item">
+                                <li>
+                                    1
+                                </li>
+                                <li>
+                                    南京
+                                </li>
+                                <li>
+                                    城投
+                                </li>
+                                <li>
+                                    开发区数据
+                                </li>
+                                <li>
+                                    其他
+                                </li>
+                            </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="right">
-                <div class="card title-right">
-                    <p class="title">
+                <div class="card">
+                    <p class="title right">
                         发行债券
                     </p>
                     <div class="content">
+                        <ul class="list">
+                            <ul class="header">
+                                <li>
+                                    城市
+                                </li>
+                                <li>
+                                    发行人
+                                </li>
+                                <li>
+                                    债券简称
+                                </li>
+                                <li>
+                                    债券规模
+                                </li>
+                            </ul>
+                            <ul class="item" v-for="item in 3" :key="item">
+                                <li>
+                                    南京
+                                </li>
+                                <li>
+                                    李毅
+                                </li>
+                                <li>
+                                    开发区数据
+                                </li>
+                                <li>
+                                    其他
+                                </li>
+                            </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -89,14 +156,18 @@
 <script>
     import LeftChart1 from './LeftChart1'
     import LeftChart2 from './LeftChart2'
+    import Map from './Map'
     import RightChart1 from './RightChart1'
+    import RightChart2 from './RightChart2'
 
     export default {
         name: 'BigData',
         components: {
             LeftChart1,
             LeftChart2,
+            Map,
             RightChart1,
+            RightChart2,
         },
     }
 </script>
@@ -109,6 +180,7 @@
     .card {
         position: relative;
         color: #fff;
+        background: linear-gradient(180deg, rgba(0, 0, 255, 0) 0%, rgba(24, 47, 255, 0.6) 100%);
 
         /*&::before {*/
         /*    content: '';*/
@@ -129,17 +201,15 @@
 
             font-size: 22px;
             font-weight: 500;
-        }
 
-        .content {
-            border: 1px solid rgba(11, 145, 245, 0.7);
-        }
-
-        &.title-right {
-            .title {
+            &.right {
                 left: auto;
                 right: 30px;
             }
+        }
+
+        .content {
+            border: 2px solid rgba(11, 145, 245, 0.7);
         }
     }
 
@@ -194,9 +264,10 @@
                 }
 
                 .content {
-                    line-height: 96px;
-                    text-align: center;
+                    padding: 28px 0 17px; // 97 - 52 = 45
+                    line-height: 1;
                     font-size: 50px;
+                    text-align: center;
                     font-family: Krungthep;
                     color: rgba(255, 237, 0, 1);
                 }
@@ -211,9 +282,9 @@
             }
 
             .map {
+                padding: 2px 0;
                 width: 740px;
                 height: 614px;
-                background: #18C2E3;
             }
         }
     }
@@ -224,6 +295,37 @@
 
             &:last-child {
                 margin-right: 0;
+            }
+        }
+
+        .card .content {
+            padding: 40px 20px 6px; // 凑够200px
+        }
+    }
+
+    ul.list {
+        text-align: center;
+
+        // ul.header、ul.body
+        .header, .item {
+            display: flex;
+            flex-wrap: nowrap;
+            padding: 10px 0;
+            line-height: 1;
+            font-size: 18px;
+
+            & > * {
+                flex: 1;
+            }
+        }
+
+        .header {
+            background: rgba(18, 12, 254, 1);
+        }
+
+        .item {
+            &:nth-child(odd) {
+                background: rgba(255, 255, 255, 0.08);
             }
         }
     }

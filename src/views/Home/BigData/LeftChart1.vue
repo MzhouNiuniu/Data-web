@@ -13,6 +13,9 @@
         data() {
             this.chart = null
             this.option = {
+                textStyle: {
+                    fontFamily: 'PingFang-SC',
+                },
                 legend: {
                     padding: 0,
                     bottom: Chart.getSize(20),
@@ -31,7 +34,7 @@
                         name: 'border',
                         type: 'pie',
                         silent: true,
-                        radius: ['61%', '62%'],
+                        radius: ['60%', '61%'],
                         center: ['49.5%', '50%'],
                         hoverAnimation: false,
                         color: "rgba(0,180,253,0.5)",

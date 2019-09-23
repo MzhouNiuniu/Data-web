@@ -4,8 +4,6 @@
 
 <script>
     import echarts from 'echarts'
-    console.log(echarts);
-
     const chartInstanceMap = {}
 
     let resizeTimer = null

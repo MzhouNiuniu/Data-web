@@ -26,10 +26,13 @@
             }
 
             this.option = {
+                textStyle: {
+                    fontFamily: 'PingFang-SC',
+                },
                 legend: {
                     padding: 0,
                     // 差不多可以居中
-                    left: Chart.getSize(98),
+                    left: Chart.getSize(102), // 实际为98
                     right: Chart.getSize(108),
                     bottom: Chart.getSize(20),
                     itemWidth: Chart.getSize(12),
@@ -48,8 +51,8 @@
                         zlevel: 1,
                         name: '主题类型',
                         type: 'pie',
-                        radius: ['20%', '40%'],
-                        center: ['50%', '42%'],
+                        radius: ['22%', '42%'],
+                        center: ['50%', '40%'],
                         roseType: 'radius',
                         data: [
                             {
@@ -126,8 +129,8 @@
                                 lineStyle: {
                                     color: '#fff'
                                 },
-                                length: Chart.getSize(10),
-                                length2: Chart.getSize(60)
+                                length: Chart.getSize(6),
+                                // length2: Chart.getSize(60)
                             }
                         },
 

@@ -11,6 +11,7 @@ import {filterHTMLTag} from './utils/index';
 /* lib */
 import './lib/iview';
 import './lib/swiper';
+import './lib/echarts';
 
 Vue.config.productionTip = false;
 Vue.prototype.api = Api;
