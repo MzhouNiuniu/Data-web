@@ -43,6 +43,7 @@
                         label: {
                             show: true,
                             color: '#fff',
+                            fontSize: Math.min(Chart.getSize(14), 12),
                             emphasis: {
                                 color: '#fff',
                             },
@@ -62,7 +63,7 @@
                     {
                         type: 'effectScatter',
                         coordinateSystem: 'geo',
-                        symbolSize: 30,
+                        symbolSize: Chart.getSize(30),
                         data: [
                             [101.963815, 30.050663, '甘孜藏族自治州'],
                         ],

@@ -54,6 +54,11 @@ export default [
                 name: 'BondRecordDetail',
                 component: lazyLoad('InvestCom/BondRecordDetail')
             },
+            {
+                path: '/BondDetail/:id',
+                name: 'BondDetail',
+                component: lazyLoad('InvestCom/BondDetail')
+            },
             /* 项目合作 */
             {
                 path: '/projectUnion',

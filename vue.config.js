@@ -3,6 +3,7 @@ const configureWebpack = require('./webpack.config')
 module.exports = {
     chainWebpack,
     configureWebpack,
+    productionSourceMap:false,
     css: {
         loaderOptions: {
             sass: {
