@@ -1,7 +1,7 @@
 <template>
     <section class="project-container">
         <p class="detail-page-caption">
-            <span>城投数据</span>
+            <span>债券记录</span>
         </p>
         <Table class="project-ivu-table mt-30 cool-scroll" stripe :columns="columns" :data="list"/>
         <Pagination

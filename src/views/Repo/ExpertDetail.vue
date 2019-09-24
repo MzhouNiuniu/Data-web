@@ -123,13 +123,7 @@
         }
 
         .introduce {
-            line-height: 26px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #586066;
-            height: 120px;
-            padding: 15px;
-            border: 1px solid #BFC5CA;
+            font-weight: 500;
             overflow-y: auto;
             padding: 14px 15px;
             height: 120px;
@@ -137,8 +131,6 @@
             font-size: 16px;
             color: #333;
             border: 1px solid rgba(191, 197, 202, 1);
-
-
         }
     }
 </style>

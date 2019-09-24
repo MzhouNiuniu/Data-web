@@ -1,4 +1,4 @@
-import BasicLayout from '@/layout/BasicLayout';
+import BasicLayout from '@/layout/BasicLayout'
 
 export default [
     {
@@ -13,6 +13,46 @@ export default [
         path: '/',
         component: BasicLayout,
         children: [
+            // 导航栏选中效果，需要改为这个结构，结合router-link的active实现
+            {
+                path: '/activeState',
+                name: 'activeState',
+                component: {
+                    render() {
+                        return <router-view/>
+                    },
+                },
+                children: [
+                    // http://localhost:8080/activeState
+                    {
+                        path: '/',
+                        name: 'index',
+                        component: {
+                            render() {
+                                return (
+                                    <div>
+                                        1232
+                                    </div>
+                                )
+                            },
+                        },
+                    },
+                    // http://localhost:8080/activeState/pageOne
+                    {
+                        path: 'pageOne',
+                        name: 'pageOne',
+                        component: {
+                            render() {
+                                return (
+                                    <div>
+                                        pageOne
+                                    </div>
+                                )
+                            },
+                        },
+                    },
+                ],
+            },
             {
                 path: '/demo',
                 name: 'demo',
@@ -48,11 +88,6 @@ export default [
                 path: '/BondRecordList/:id',
                 name: 'BondRecordList',
                 component: lazyLoad('InvestCom/BondRecordList')
-            },
-            {
-                path: '/BondRecordDetail/:id',
-                name: 'BondRecordDetail',
-                component: lazyLoad('InvestCom/BondRecordDetail')
             },
             {
                 path: '/BondDetail/:id',
@@ -162,9 +197,9 @@ export default [
             },
         ],
     },
-];
+]
 
 function lazyLoad(path) {
     /* webpackChunkName: "${path}" */
-    return () => import( `@views/${path}`);
+    return () => import( `@views/${path}`)
 }

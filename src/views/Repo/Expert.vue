@@ -22,24 +22,24 @@
             </div>
 
             <!--<ul class="expert-list">-->
-                <!--<li v-for="item in 10" :key="item">-->
-                    <!--<div class="main">-->
+            <!--<li v-for="item in 10" :key="item">-->
+            <!--<div class="main">-->
 
-                        <!--<div class="avatar" @click="$router.push('/ExpertDetail/111')">-->
-                            <!--<router-link to="/ExpertDetail/111">-->
-                                <!--<img-->
-                                        <!--src="https://lanhuapp.com/web/static/favicon_beta.png"-->
-                                        <!--alt="expert-avatar"-->
-                                <!--&gt;-->
-                            <!--</router-link>-->
-                        <!--</div>-->
-                        <!--<div class="detail">-->
-                            <!--<div class="info">-->
-                                <!--<span class="name">-->
-                                    <!--李毅-->
-                                <!--</span>-->
+            <!--<div class="avatar" @click="$router.push('/ExpertDetail/111')">-->
+            <!--<router-link to="/ExpertDetail/111">-->
+            <!--<img-->
+            <!--src="https://lanhuapp.com/web/static/favicon_beta.png"-->
+            <!--alt="expert-avatar"-->
+            <!--&gt;-->
+            <!--</router-link>-->
+            <!--</div>-->
+            <!--<div class="detail">-->
+            <!--<div class="info">-->
+            <!--<span class="name">-->
+            <!--李毅-->
+            <!--</span>-->
 
-<!--=======-->
+            <!--=======-->
             <div class="expert-list__wrapper">
                 <div class="hr-dashed"></div>
                 <ul class="expert-list">
@@ -76,9 +76,9 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
-    import Pagination from '@components/Pagination';
-    import TextEllipsis from '@components/TextEllipsis';
+    import SearchInput from '@components/SearchInput'
+    import Pagination from '@components/Pagination'
+    import TextEllipsis from '@components/TextEllipsis'
 
 
     export default {
@@ -89,34 +89,34 @@
             TextEllipsis,
         },
         data() {
-            this.list = [];
+            this.list = []
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
-            };
+            }
         },
         methods: {
             getSearchParams() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     keyWords: query.keyWords,
-                };
+                }
             },
             getPagination() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     page: query.page || 1,
                     limit: query.limit || 10,
                     total: 0,
-                };
+                }
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.limit = limit;
+                this.pagination.page = page
+                this.pagination.limit = limit
                 this.query({
                     page: page,
                     limit,
-                });
+                })
             },
             query(otherParams) {
                 this.$router.push({
@@ -125,7 +125,7 @@
                         ...this.searchParams,
                         ...otherParams,
                     },
-                });
+                })
             },
             loadList() {
                 this.http.get(this.api.repo.expert.list, {
@@ -133,21 +133,21 @@
                     ...this.pagination,
                 }).then(res => {
                     if (res.status !== 200) {
-                        return [];
+                        return []
                     }
 
-                    const { pagination } = this;
-                    const data = res.data;
-                    this.list = data.docs;
+                    const { pagination } = this
+                    const data = res.data
+                    this.list = data.docs
 
-                    pagination.total = data.total; // this.$forceUpdate
-                });
+                    pagination.total = data.total // this.$forceUpdate
+                })
             },
         },
         created() {
-            this.loadList();
+            this.loadList()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -200,12 +200,12 @@
                 }
             }
 
-                .name {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #000034;
-                }
-
+            .name {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000034;
+                text-align: center;
+            }
 
 
             .brief {

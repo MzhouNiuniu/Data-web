@@ -92,9 +92,6 @@
 
             <div class="hr-dashed mt-24"></div>
             <UIDescription title="融资信息" class="mt-20">
-                <router-link to="/BondRecordList/2222">BondRecordList</router-link>
-                <br/>
-                <router-link to="/BondRecordDetail/2222">BondRecordDetail</router-link>
                 <Table class="project-ivu-table" :height="222" stripe :columns="financingColumns" :data="list"/>
             </UIDescription>
 
@@ -111,7 +108,7 @@
 </template>
 
 <script>
-    import UIDescription from '@ui/Description';
+    import UIDescription from '@ui/Description'
 
     function primaryHeaderRender(h, leftName, rightName) {
         return (
@@ -123,7 +120,7 @@
                     {rightName}
                 </p>
             </div>
-        );
+        )
     }
 
     export default {
@@ -138,7 +135,7 @@
                     width: 185,
                     key: 'name',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '财务信息', '汇总年份');
+                        return primaryHeaderRender(h, '财务信息', '汇总年份')
                     },
                 },
                 {
@@ -162,14 +159,14 @@
                     title: '净利润（亿元）',
                     key: 'name',
                 },
-            ];
+            ]
             this.rateColumns = [
                 {
                     className: 'primary-column',
                     width: 185,
                     key: 'name',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '评级信息', '汇总年份');
+                        return primaryHeaderRender(h, '评级信息', '汇总年份')
                     },
                 },
                 {
@@ -188,36 +185,136 @@
                     title: '评级时间',
                     key: 'name',
                 },
-            ];
+            ]
+
             this.financingColumns = [
                 {
                     className: 'primary-column',
+                    fixed: 'left',
                     width: 185,
                     title: 'Name',
                     key: 'name',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '债券类型', '汇总年份');
+                        return primaryHeaderRender(h, '债券类型', '汇总年份')
                     },
                 },
-            ];
+                {
+                    title: '企业债券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '公司债券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '中小企业私募债券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '非公开发行债券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '企业资产支持证券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '信贷资产支持证券',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '超短期融资券（SCP）',
+                    width: 280,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '短期融资券（CP）',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '中期票据（MTN）',
+                    width: 200,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '定向工具（PPN）',
+                    width: 240,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '资产支持票据（ABN）',
+                    width: 240,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '项目收益票据（PRN）',
+                    width: 240,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '债务融资工具（DFI）',
+                    width: 240,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+                {
+                    title: '绿色债务融资工具（GN）',
+                    width: 280,
+                    render(h, { row }) {
+                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
+                    },
+                },
+            ]
 
             this.list = Array(10).fill({
                 name: '省级城投机构',
-            },);
-            return {};
+            },)
+            return {}
         },
         created() {
-            this.$store.commit('app/setBgColor1');
+            this.$store.commit('app/setBgColor1')
             this.getDetail()
         },
-        methods:{
-            async getDetail(){
-                let res = await this.http.get(this.api.getNewsDetails,{id: this.$route.params.id})
+        methods: {
+            async getDetail() {
+                let res = await this.http.get(this.api.getNewsDetails, { id: this.$route.params.id })
                 this.data = res.data[0]
                 console.log(res)
             }
         }
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

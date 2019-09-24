@@ -72,7 +72,7 @@
 </template>
 
 <script>
-    import UIDescription from '@ui/Description';
+    import UIDescription from '@ui/Description'
 
     export default {
         name: "OrganizationDetail",
@@ -83,21 +83,21 @@
             return {
                 id: this.$route.params.id,
                 detail: {},
-            };
+            }
         },
         methods: {
             loadDetail() {
                 this.http.get(this.api.repo.organization.detail, {
                     id: this.id,
                 }).then(res => {
-                    const formData = res.data && res.data[0];
+                    const formData = res.data && res.data[0]
                     if (!formData) {
-                        this.$router.replace('/organizationRepo');
-                        alert('数据不存在');
-                        return;
+                        this.$router.replace('/organizationRepo')
+                        alert('数据不存在')
+                        return
                     }
 
-                    this.detail = formData;
+                    this.detail = formData
                     // this.detail = {
                     //     name: '这是一个城投新闻标题这是一个城投新闻标题这是一个城投新闻标题',
                     //     releaseTime: '2019-9-03 14:23',
@@ -107,20 +107,20 @@
                     //     Tcontact: '025-8346255',
                     //     Tphotos: 'https://www.w3school.com.cn/i/eg_tulip.jpg',
                     // };
-                });
+                })
             },
             getOrderNum(index) {
                 if (index + 1 < 10) {
-                    return '0' + String(index + 1);
+                    return '0' + String(index + 1)
                 }
-                return index + 1;
+                return index + 1
             },
         },
         created() {
-            this.$store.commit('app/setBgColor1');
-            this.loadDetail();
+            this.$store.commit('app/setBgColor1')
+            this.loadDetail()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -139,6 +139,7 @@
             line-height: 24px;
             text-align: center;
             font-size: 24px;
+            font-weight: 500;
             color: rgba(34, 34, 34, 1);
         }
 
@@ -189,6 +190,7 @@
                 padding: 20px;
             }
 
+            // 目前只支持2位数
             .order-num {
                 position: absolute;
                 left: 0;
@@ -197,9 +199,9 @@
                 height: 17px;
                 line-height: 15px;
                 text-align: center;
+                letter-spacing: -1px;
                 font-size: 12px;
-                font-weight: 500;
-                color: rgba(253, 136, 42, 1);
+                color: #fff;
                 background: url("./image/order-bg.png") no-repeat scroll top left / cover;
             }
 

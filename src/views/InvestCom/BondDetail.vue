@@ -1,7 +1,7 @@
 <template>
     <section class="project-container">
         <p class="detail-page-caption">
-            <span>债券详情</span>
+            <span>债券信息</span>
         </p>
         <table width="100%" border="2" class="mt-30">
             <tr>

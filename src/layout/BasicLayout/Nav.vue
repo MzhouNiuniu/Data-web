@@ -10,21 +10,16 @@
                 >
                     {{item.name}}
                 </router-link>
-                <div v-else class="nav__group">
+                <div v-else-if="item.path" class="nav__group">
                     <router-link
-                            v-if="item.path"
                             :to="item.path"
                             class="nav__item__header"
-                            :class="item.className"
+                            :class="getNavGroupClassName(item)"
                             active-class="active"
                     >
                         {{item.name}}
                         <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
                     </router-link>
-                    <p v-else class="nav__item__header" :class="item.className">
-                        {{item.name}}
-                        <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
-                    </p>
                     <ul class="hide-nav">
                         <li v-for="(item,index) in item.children" :key="index" class="hide-nav__item">
                             <router-link :to="item.path">{{item.name}}</router-link>
@@ -45,6 +40,12 @@
         data() {
             this.navList = navList
             return {}
+        },
+        methods: {
+            getNavGroupClassName(item) {
+                let className = item.className || ''
+                return className
+            },
         },
     }
 </script>
