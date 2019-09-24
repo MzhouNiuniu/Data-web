@@ -3,7 +3,7 @@
         <div class="project-container">
             <div class="search-bar clearfix">
                 <SearchInput class="search-input" placeholder="请输入地区/发行人"/>
-                <router-link  class="mode-btn" to="/InvestCom">
+                <router-link class="mode-btn" to="/InvestCom">
                     <img src="~@public/icon/list.png" alt="" class="icon">
                     <p class="text">
                         列表模式
@@ -89,9 +89,9 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
-    import ChinaMap from '@components/ChinaMap';
-    import Pagination from '@components/Pagination';
+    import SearchInput from '@components/SearchInput'
+    import ChinaMap from '@components/ChinaMap'
+    import Pagination from '@components/Pagination'
 
 
     export default {
@@ -102,7 +102,7 @@
             Pagination,
         },
         data() {
-            this.map = null;
+            this.map = null
             this.columns = [
                 {
                     title: '序号',
@@ -124,9 +124,9 @@
                     title: '主体类型',
                     key: 'name',
                 },
-            ];
+            ]
 
-            this.list = [];
+            this.list = []
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
                 pagination: {
@@ -134,20 +134,20 @@
                     limit: 10,
                     total: 0,
                 },
-            };
+            }
         },
         methods: {
             handleMapChange(currentBlock) {
-                console.log(currentBlock);
+                this.loadMapData()
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.limit = limit;
-                this.loadList();
+                this.pagination.page = page
+                this.pagination.limit = limit
+                this.loadList()
             },
             loadList() {
-                this.pagination.total = 100;
-                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) });
+                this.pagination.total = 100
+                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) })
             },
             loadMapData() {
                 setTimeout(() => {
@@ -291,24 +291,16 @@
                             value: 443,
                             name: "澳门"
                         },
-                        {
-                            name: '南海诸岛', value: 0,
-                            itemStyle: {
-                                normal: {
-                                    opacity: 0,
-                                    label: { show: false },
-                                    borderWidth: "0", borderColor: "#10242b", areaStyle: { color: '#10242b' }
-                                }
-                            }
-                        },
-                    ];
+                    ]
                     this.map.setOption(option => {
-                        option.series[0].data = data;
-                    });
-                }, 500);
+                        option.series[0].data = data
+                        option.dataRange.max = Math.max(0, ...data.map(item => item.value))
+                    })
+                }, 500)
             },
             setMapTooltip() {
                 this.map.setOption(option => {
+                    // add tooltip
                     option.tooltip = {
                         formatter(params) {
                             return `
@@ -357,24 +349,36 @@
                             </p>
                         </li>
                     </ul>
-                            `;
+                            `
                         },
-                    };
-                });
+                    }
+
+                    // add dataRange
+                    option.dataRange = {
+                        x: 'right',
+                        // orient: 'horizontal',
+                        min: 0,
+                        text: ['高', '低'],
+                        calculable: true, // 是否可拖动计算
+                        selectedMode: true,
+                        color: ['#2d70d6', '#80b5e9', '#e6feff'],
+                    }
+
+                    // ser areaStyle
+                    option.series[0].itemStyle.normal.areaColor = 'transparent'
+                })
             },
         },
         created() {
-            this.loadList();
+            this.loadList()
         },
         mounted() {
-            this.map = this.$refs.map;
+            this.map = this.$refs.map
 
-            console.log(this.map.getCurrentBlockCode());
-            console.log(this.map.getCurrentBlockName());
-            this.setMapTooltip();
-            this.loadMapData();
+            this.setMapTooltip()
+            this.loadMapData()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

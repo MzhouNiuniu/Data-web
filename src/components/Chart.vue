@@ -3,63 +3,85 @@
 </template>
 
 <script>
-    import echarts from 'echarts';
+    import echarts from 'echarts'
+    const chartInstanceMap = {}
 
-    const chartInstanceMap = {};
-
-    let resizeTimer = null;
+    let resizeTimer = null
     window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer);
+        clearTimeout(resizeTimer)
         resizeTimer = setTimeout(function () {
+            let chart = null
             for (let k in chartInstanceMap) {
-                chartInstanceMap[k].resize();
+                chart = chartInstanceMap[k].getChart()
+                chart.setOption(chartInstanceMap[k].option)
+                chart.resize()
             }
-        }, 100);
-    });
-    export default {
+        }, 100)
+    })
+
+    const Chart = {
         props: {
             option: {
+                type: [Object, Function],
                 required: true,
             },
         },
         data() {
-            this.chart = null;
-            return {};
+            this.chart = null
+            return {}
         },
         methods: {
             getChart() {
-                return this.chart;
+                return this.chart
             },
             init() {
-                this.chart = chartInstanceMap[this._uid] = echarts.init(this.$el);
-                this.chart.setOption(this.option);
+                this.chart = echarts.init(this.$el)
+                this.chart.setOption(this.option)
+                chartInstanceMap[this._uid] = this
             },
         },
         watch: {
             option: {
                 deep: true,
                 handler(option) {
-                    this.chart.setOption(option);
+                    this.chart.setOption(option)
                 },
             },
         },
         mounted() {
             if (this.option) {
-                this.init();
+                this.init()
             } else {
                 const unWatcher = this.$watch('option', function () {
-                    unWatcher();
-                    this.init();
-                });
+                    unWatcher()
+                    this.init()
+                })
             }
         },
         beforeDestroy() {
             if (chartInstanceMap[this._uid]) {
-                chartInstanceMap[this._uid].dispose();
-                delete chartInstanceMap[this._uid];
+                chartInstanceMap[this._uid].getChart().dispose()
+                delete chartInstanceMap[this._uid]
             }
         },
-    };
+    }
+
+    if (window && window.__1px__) {
+        Chart.getSize = function (size) {
+            return {
+                valueOf() {
+                    return size * (window.__1px__ || 1)
+                },
+            }
+        }
+    } else {
+        Chart.getSize = function (size) {
+            return size
+        }
+    }
+
+
+    export default Chart
 </script>
 
 <style scoped>

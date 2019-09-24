@@ -1,11 +1,17 @@
 @font-face {
   font-family: 'PingFang-SC';
-  src: url('~@public/font/PingFang-SC-Regular.ttf');
+  //src: url('~@public/font/PingFang-SC-Regular.ttf');
+  src: url('~@public/font/PingFang-SC-Medium.ttf');
 }
 
 @font-face {
   font-family: 'PingFang-TC';
   src: url('~@public/font/PingFang-TC-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Krungthep';
+  src: url('~@public/font/Krungthep.ttf');
 }
 
 // 如果样式有冲突，先注释
@@ -30,6 +36,8 @@ body {
 
 #app {
   min-width: 1200px; // 20px 滚动条宽度
+  font-weight: 500;
+
   font-family: PingFang-SC !important;
 }
 
