@@ -52,7 +52,8 @@ export default {
     },
     //城投公司
     companyData:{
-        getListBySearch:`${baseUrl}/companyData/getListBySearch`
+        getListBySearch:`${baseUrl}/companyData/getListBySearch`,
+
     }
 
 

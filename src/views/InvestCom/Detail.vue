@@ -208,7 +208,15 @@
         },
         created() {
             this.$store.commit('app/setBgColor1');
+            this.getDetail()
         },
+        methods:{
+            async getDetail(){
+                let res = await this.http.get(this.api.getNewsDetails,{id: this.$route.params.id})
+                this.data = res.data[0]
+                console.log(res)
+            }
+        }
     };
 </script>
 
