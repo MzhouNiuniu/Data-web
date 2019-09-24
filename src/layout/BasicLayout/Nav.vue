@@ -2,11 +2,22 @@
     <section>
         <ul class="nav">
             <li v-for="(item,index) in navList" :key="index" class="nav__item">
-                <router-link v-if="!item.children" :to="item.path" class="nav__item__header">
+                <router-link
+                        v-if="!item.children"
+                        :to="item.path"
+                        class="nav__item__header"
+                        active-class="active"
+                >
                     {{item.name}}
                 </router-link>
                 <div v-else class="nav__group">
-                    <router-link v-if="item.path" :to="item.path" class="nav__item__header" :class="item.className">
+                    <router-link
+                            v-if="item.path"
+                            :to="item.path"
+                            class="nav__item__header"
+                            :class="item.className"
+                            active-class="active"
+                    >
                         {{item.name}}
                         <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
                     </router-link>
@@ -26,16 +37,16 @@
 </template>
 
 <script>
-    import navList from '@/router/nav';
+    import navList from '@/router/nav'
 
     // 仅支持2层
     export default {
         name: "Nav",
         data() {
-            this.navList = navList;
-            return {};
+            this.navList = navList
+            return {}
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -116,6 +127,14 @@
 
         &.long {
             padding: 0 16px 0 22px;
+        }
+
+        &.active {
+            background-color: #050DFF;
+
+            &::after {
+                display: none;
+            }
         }
     }
 
