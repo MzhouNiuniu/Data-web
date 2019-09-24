@@ -31,7 +31,6 @@
             </div>
             <div class="item">
                 <OptionButton
-                        :whole-btn="false"
                         title="营业收入（亿元）"
                         v-model="buttonParams.income"
                         :options="searchOptions.income"
@@ -41,10 +40,9 @@
             </div>
             <div class="item">
                 <OptionButton
-                        :whole-btn="false"
                         title="评级"
-                        v-model="buttonParams.rate"
-                        :options="searchOptions.rate"
+                        v-model="buttonParams.rateMain"
+                        :options="searchOptions.rateMain"
                         @change="handleOptionButtonChange('rate')"
                 />
                 <div class="border-bottom hr-dashed"></div>
@@ -53,13 +51,14 @@
                 <span class="title">
                     成立时间：
                 </span>
-                <DatePicker v-model="searchParams.createTime" type="date" style="width: 200px"/>
+                <DatePicker type="daterange" style="width: 350px"
+                            v-model="searchParams.createTime"
+                />
                 <button class="confirm-button ml-20" @click="handleSearchParamsChange('createTime')">确定</button>
                 <div class="border-bottom hr-dashed"></div>
             </div>
             <div class="item totalAsset">
                 <OptionButton
-                        :whole-btn="false"
                         title="总资产规模（亿元）"
                         v-model="buttonParams.scale"
                         :options="searchOptions.scale"
@@ -80,33 +79,34 @@
             </div>
         </div>
         <Row :gutter="30" class="com-list">
-            <Col span="8" v-for="item in list" :key="item">
-                <div class="item">
-                    <p class="com-type">
-                        {{item.mainType}}
+            <Col span="8" v-for="(item,index) in list" :key="index">
+            <div class="item">
+                <p class="com-type">
+                <p class="com-type">
+                    {{item.mainType}}
+                </p>
+                <router-link class="com-name ue-link" :to="`/InvestComDetail/1111`">
+                    {{item.name}}
+                </router-link>
+                <p class="location">
+                    所在城市：{{item.province}}
+                </p>
+                <div class="tag-group mt-15">
+                    <p class="item">
+                        评级类型：{{item.rateMain?item.rateMain:'暂无'}}
                     </p>
-                    <router-link class="com-name ue-link" :to="`/InvestComDetail/1111`">
-                        {{item.name}}
-                    </router-link>
-                    <p class="location">
-                        所在城市：{{item.province}}
-                    </p>
-                    <div class="tag-group mt-15">
-                        <p class="item">
-                            评级类型：{{item.rateMain?item.rateMain:'暂无'}}
-                        </p>
-                        <p class="item">
-                            总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
-                        </p>
-                    </div>
-                    <p class="intro mt-10">
-                        <TextEllipsis
-                                fill
-                                :rows="2"
-                                :value="item.info"
-                        />
+                    <p class="item">
+                        总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
                     </p>
                 </div>
+                <p class="intro mt-10">
+                    <TextEllipsis
+                            fill
+                            :rows="2"
+                            :value="item.info"
+                    />
+                </p>
+            </div>
             </Col>
         </Row>
         <Pagination
@@ -175,10 +175,14 @@
                         value: '其他',
                     },
                 ],
-                rate: [
+                rateMain: [
                     {
                         label: 'AAA+',
                         value: 'AAA+',
+                    },
+                    {
+                        label: 'AAA',
+                        value: 'AAA',
                     },
                     {
                         label: 'AA+',
@@ -259,34 +263,42 @@
 
             },
             getSearchParams() {
-                const { query } = this.$route;
-                return {
+                const {query} = this.$route;
+                const params = {
                     projectName: query.projectName,
-                    createTime: query.createTime,
 
                     min: query.min ? Number(query.min) : null,
                     max: query.max ? Number(query.min) : null,
-                };
+                }
+
+                if (query.startCreateTime && query.endCreateTime) {
+                    params.createTime = [
+                        query.startCreateTime,
+                        query.endCreateTime,
+                    ]
+                }
+
+                return params;
             },
             getButtonParams() {
-                const { query } = this.$route;
+                const {query} = this.$route;
                 return {
                     province: query.province,
                     mainType: query.mainType,
-                    rate: query.rate,
+                    rateMain: query.rateMain,
                     income: query.income,
                     scale: query.scale,
                 };
             },
             getPagination() {
-                const { query } = this.$route;
+                const {query} = this.$route;
                 return {
                     page: query.page || 1,
                     limit: query.limit || 9,
                     total: 0,
                 };
             },
-            handlePageChange({ page, limit }) {
+            handlePageChange({page, limit}) {
                 this.pagination.page = page;
                 this.pagination.limit = limit;
                 this.query({
@@ -297,38 +309,49 @@
             handleOptionButtonChange(fieldName) {
                 const otherParams = {};
                 if (fieldName === 'scale') {
-                    otherParams.min = otherParams.max = undefined;
+                    otherParams.min = otherParams.max = undefined; // 清除url参数
                 }
                 this.query(otherParams);
+
             },
             handleSearchParamsChange(fieldName) {
                 if (fieldName === 'totalAssetRange') {
                     this.buttonParams.scale = undefined;
                 }
 
-                const searchParams = { ...this.searchParams };
-                if (searchParams.createTime) {
-                    searchParams.createTime = searchParams.createTime.toLocaleDateString();
+                const searchParams = {...this.searchParams};
+                if (searchParams.createTime && searchParams.createTime[0] && searchParams.createTime[1]) {
+                    searchParams.startCreateTime = searchParams.createTime[0].toLocaleDateString()
+                    searchParams.endCreateTime = searchParams.createTime[1].toLocaleDateString()
+                }else{
+                    searchParams.startCreateTime =   searchParams.endCreateTime = undefined // 清除url参数
                 }
+
+                delete searchParams.createTime
+
                 this.query(searchParams);
+
             },
             query(otherParams) {
-                const query = { ...this.$route.query };
+                const query = {...this.$route.query};
                 this.$router.push({
                     path: this.$route.path,
                     query: Object.assign(query, this.buttonParams, otherParams),
                 });
+                // this.getList(1, 9)
             },
-            async getList(size,current){
-                let res = await this.http.get(this.api.companyData.getListBySearch,{limit:size,page:current})
-                this.list =res.data.docs
+            async getList(size, current) {
+                console.log({limit: size, page: current, ...this.$route.query})
+                let res = await this.http.get(this.api.companyData.getListBySearch, {
+                    limit: size,
+                    page: current, ...this.$route.query
+                })
+                console.log(res.data.docs)
+                this.list = res.data.docs
+                this.$forceUpdate()
             },
             loadList() {
                 this.getList()
-              //
-              //   console.log(this.$route.query);
-              //   this.pagination.total = 100;
-              // Array(10).fill({ 'name': Math.random() });
             },
         },
         created() {
@@ -378,7 +401,6 @@
                 background: rgba(5, 103, 255, 0.69);
             }
         }
-
 
         .item {
             padding-top: 15px;
