@@ -20,10 +20,8 @@
         <div class="project-container__wrapper map-container__wrapper">
             <div class="project-container">
                 <div class="map-container">
-                    <div class="left">
-                        <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
-                    </div>
-                    <ul class="right detail">
+                    <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
+                    <ul class="detail">
                         <p class="caption">
                             {{currentGovName}}
                         </p>
@@ -89,9 +87,9 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput'
-    import ChinaMap from '@components/ChinaMap'
-    import Pagination from '@components/Pagination'
+    import SearchInput from '@components/SearchInput';
+    import ChinaMap from '@components/ChinaMap';
+    import Pagination from '@components/Pagination';
 
 
     export default {
@@ -102,7 +100,7 @@
             Pagination,
         },
         data() {
-            this.map = null
+            this.map = null;
             this.columns = [
                 {
                     title: '序号',
@@ -124,17 +122,17 @@
                     title: '主体类型',
                     key: 'name',
                 },
-            ]
+            ];
 
 
-            this.defaultGovName = '北京市'
+            this.defaultGovName = '北京市';
             this.areaLevelMap = {
                 'province': '省级',
                 'city': '市级',
                 'district': '区级',
-            }
+            };
 
-            this.list = []
+            this.list = [];
 
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
@@ -148,67 +146,65 @@
                 currentGovName: this.defaultGovName,
                 currentGovLevel: 'province',
                 currentGovLevelText: this.areaLevelMap.province,
-            }
+            };
         },
         computed: {
             currentAreaData() {
-                return {}
+                return {};
             },
         },
         methods: {
             handleMapChange({ nameStack, levelStack }) {
                 if (nameStack.length === 1) {
-                    this.currentGovName = this.defaultGovName
+                    this.currentGovName = this.defaultGovName;
                 } else {
-                    this.currentGovName = nameStack[nameStack.length - 1]
+                    this.currentGovName = nameStack[nameStack.length - 1];
                 }
-                this.currentGovLevel = levelStack[levelStack.length - 1]
-                this.currentGovLevelText = this.areaLevelMap[this.currentGovLevel]
-                this.loadMapData()
+                this.currentGovLevel = levelStack[levelStack.length - 1];
+                this.currentGovLevelText = this.areaLevelMap[this.currentGovLevel];
+                this.loadMapData();
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page
-                this.pagination.limit = limit
-                this.loadList()
+                this.pagination.page = page;
+                this.pagination.limit = limit;
+                this.loadList();
             },
             loadList() {
-                this.pagination.total = 100
-                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) })
+                this.pagination.total = 100;
+                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) });
             },
             loadMapData() {
-                const { currentGovLevel, currentGovLevelText, currentGovName } = this
+                const { currentGovLevel, currentGovLevelText, currentGovName } = this;
                 const params = {
                     directly: currentGovLevelText, // 获取当前级别的所有数据
-                }
+                };
                 if (currentGovLevel === 'province') {
-                    params.province = currentGovName
+                    params.province = currentGovName;
                 } else if (currentGovLevel === 'city') {
-                    params.city = currentGovName
+                    params.city = currentGovName;
                 } else {
-                    return
+                    return;
                 }
 
                 this.http.get(this.api.companyData.govInfo, params).then(res => {
-                    const data = res.data
+                    const data = res.data;
                     data.forEach(item => {
-                        const currentGovName = item[currentGovLevel]
-                        item.name = currentGovName
-                        item.value = 0 // todo 暂无
+                        const currentGovName = item[currentGovLevel];
+                        item.name = currentGovName;
+                        item.value = 100; // todo 暂无
 
 
-                        console.log(currentGovName, this.currentGovName)
                         if (currentGovName === this.currentGovName) {
-                            console.log(item)
+                            console.log(item);
                         }
 
-                    })
-
+                    });
 
                     this.map.setOption(option => {
-                        option.series[0].data = data
+                        option.series[0].data = data;
                         // option.dataRange.max = Math.max(0, ...data.map(item => item.value)) // todo 暂无value
-                    })
-                })
+                    });
+                });
             },
             setMapTooltip() {
                 this.map.setOption(option => {
@@ -217,7 +213,7 @@
                         trigger: "item",
                         enterable: true,
                         formatter(params) {
-                            const detail = params.data
+                            const detail = params.data;
                             if (!detail) {
                                 return `
                             <ul class="invest-com__map-list__map-tooltip">
@@ -230,7 +226,7 @@
                                     </p>
                                 </li>
                             </ul>
-                            `
+                            `;
                             }
 
                             // console.log(detail)
@@ -280,36 +276,40 @@
                             </p>
                         </li>
                     </ul>
-                            `
+                            `;
                         },
-                    }
+                    };
 
                     // add dataRange
-                    option.dataRange = {
-                        x: 'right',
-                        // orient: 'horizontal',
+                    option.visualMap = {
+                        type: "continuous",
                         min: 0,
+                        // max: 100,
+                        left: "right",
+                        top: "bottom",
                         text: ['高', '低'],
-                        calculable: true, // 是否可拖动计算
-                        selectedMode: true,
-                        color: ['#2d70d6', '#80b5e9', '#e6feff'],
-                    }
+                        seriesIndex: [0],
+                        inRange: {
+                            color: ["#e0ffff", "#006edd"]
+                        },
+                        calculable: true,
+                    };
 
                     // ser areaStyle
-                    option.series[0].itemStyle.normal.areaColor = 'transparent'
-                })
+                    option.series[0].itemStyle.normal.areaColor = '#e3e3e3';
+                });
             },
         },
         created() {
-            this.loadList()
+            this.loadList();
         },
         mounted() {
-            this.map = this.$refs.map
+            this.map = this.$refs.map;
 
-            this.setMapTooltip()
-            this.loadMapData()
+            this.setMapTooltip();
+            this.loadMapData();
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -333,21 +333,24 @@
     }
 
     .map-container {
-        $left-width: 950px;
+        $right-width: 222px;
 
 
         overflow: hidden;
 
-        .left .map {
+        .map {
             float: left;
-            width: $left-width;
+            width: 100%;
+            padding-right: $right-width + 10px;
             height: 725px;
             background-color: #fff;
         }
 
-        .right.detail {
+        .detail {
             overflow: hidden;
-            margin-left: $left-width + 28px;
+            float: left;
+            width: $right-width;
+            margin-left: -1 * $right-width;
             background-color: #fff;
             text-align: center;
             border-radius: 5px;

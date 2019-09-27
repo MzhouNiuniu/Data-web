@@ -1,13 +1,13 @@
-@font-face {
-  font-family: 'PingFang-SC';
-  //src: url('~@public/font/PingFang-SC-Regular.ttf');
-  src: url('~@public/font/PingFang-SC-Medium.ttf');
-}
-
-@font-face {
-  font-family: 'PingFang-TC';
-  src: url('~@public/font/PingFang-TC-Regular.ttf');
-}
+//@font-face {
+//  font-family: 'PingFang-SC';
+//  //src: url('~@public/font/PingFang-SC-Regular.ttf');
+//  src: url('~@public/font/PingFang-SC-Medium.ttf');
+//}
+//
+//@font-face {
+//  font-family: 'PingFang-TC';
+//  src: url('~@public/font/PingFang-TC-Regular.ttf');
+//}
 
 @font-face {
   font-family: 'Krungthep';
@@ -350,17 +350,20 @@ img {
 }
 
 //下载列表
-.down{
+.down {
   font-size: 14px;
   color: #333;
 }
+
 //变手
-.c{
-  cursor:pointer;
+.c {
+  cursor: pointer;
 }
-.fl{
+
+.fl {
   float: left;
 }
-.fr{
+
+.fr {
   float: right;
 }
