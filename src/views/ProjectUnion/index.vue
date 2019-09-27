@@ -44,7 +44,6 @@
     import SearchInput from '@components/SearchInput'
     import Pagination from '@components/Pagination'
     import TextEllipsis from '@components/TextEllipsis'
-    import { extractRichText } from '@utils'
 
     export default {
         name: "ProjectUnion",
@@ -120,13 +119,9 @@
                     }
 
                     const { pagination } = this
-                    const data = res.data
-                    data.docs.forEach(item => {
-                        item.content = extractRichText(item.content)
-                    })
 
-                    this.list = data.docs
-                    pagination.total = data.total // this.$forceUpdate
+                    this.list = res.data.docs
+                    pagination.total = res.data.total // this.$forceUpdate
                 })
             },
         },
@@ -141,6 +136,7 @@
         font-size: 0;
         margin-right: -20px;
         min-height: 639px;
+
         li {
             display: inline-block;
             width: 33.3333%;

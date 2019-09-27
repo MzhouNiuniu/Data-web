@@ -45,18 +45,18 @@
                 <ul class="expert-list">
                     <li v-for="(item,index) in list" :key="index">
                         <div class="main">
-                            <router-link class="avatar block" :to="`/ExpertDetail/${item._id}`">
+                            <div class="avatar">
                                 <img :src="item.photos" alt="expert-avatar">
-                            </router-link>
+                            </div>
                             <div class="detail">
-                                <div class="name text-ellipsis">
+                                <router-link class="name text-ellipsis" :to="`/ExpertDetail/${item._id}`">
                                     {{item.name}}
-                                </div>
+                                </router-link>
                                 <div class="hr-dashed mt-10"></div>
                                 <p class="brief">
                                     <TextEllipsis
                                             fill
-                                            :rows="1"
+                                            :rows="2"
                                             :value="item.current"
                                     />
                                 </p>

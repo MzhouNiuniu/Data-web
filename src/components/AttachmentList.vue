@@ -1,14 +1,14 @@
 <template>
     <section>
         <!--<p class="tip">-->
-            <!--下载列表-->
+        <!--下载列表-->
         <!--</p>-->
-        <div class="down">下载</div>
-        <ul class="list">
-            <li v-if="!list">
-                暂无文件
-            </li>
-            <li v-else v-for="(item,index) in list" :key="index">
+        <div class="down" v-if="title">{{title}}</div>
+        <p v-if="!list">
+            暂无文件
+        </p>
+        <ul v-else class="list">
+            <li v-for="(item,index) in list" :key="index">
                 <span class="prefix"></span>
                 {{item.name}}
                 <button class="download-btn" @click="download(item.url)">下载</button>
@@ -29,48 +29,56 @@
             value: {
                 default: '',
             },
+            title: {
+                default: '下载',
+            },
         },
         data() {
             return {
                 list: this.getList(),
-            };
+            }
         },
         methods: {
             // 根据value生成
             getList() {
-                let { value } = this;
+                let { value } = this
                 if (!value) {
-                    return undefined;
+                    return undefined
                 }
                 if (Array.isArray(value)) {
                     if (!value[0]) {
-                        return undefined;
+                        return undefined
                     }
                     if (Object.prototype.toString.call(value[0]) === '[object Object]') {
-                        return value;
+                        return value
                     }
                 } else {
-                    value = value.split(',');
+                    // 与data-admin项目中的上传组件一致
+                    if (value.indexOf(';base64,') >= 0) {
+                        value = value.split('#')
+                    } else {
+                        value = value.split(',')
+                    }
                 }
 
                 return value.map(item => ({
                     name: item,
                     url: item,
-                }));
+                }))
             },
             download(url) {
-                alert(url);
+                alert(url)
             },
         },
         mounted() {
             if (!this.value) {
                 const unwatch = this.$watch('value', () => {
-                    unwatch();
-                    this.list = this.getList();
-                });
+                    unwatch()
+                    this.list = this.getList()
+                })
             }
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -110,6 +118,7 @@
             color: rgba(168, 172, 175, 1);
             border-bottom: 1px dashed #BFC5CA;
             margin-left: 30px;
+
             .prefix {
                 position: relative;
                 display: inline-block;

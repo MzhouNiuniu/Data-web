@@ -27,7 +27,7 @@
             return {
                 type:this.$route.query.type,
                 id: this.$route.params.id,
-                detail: {},
+                data: {},
             };
         },
         mounted(){
@@ -37,8 +37,6 @@
             async getDetail(){
                 let res = await this.http.get(this.api.statute.detail,{id: this.$route.params.id})
                 this.data = res.data[0]
-                console.log(res.data[0].name)
-                this.$forceUpdate();
             }
         }
     };

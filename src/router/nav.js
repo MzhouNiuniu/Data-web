@@ -1,18 +1,18 @@
 export default [
-    {
-        name: '选中状态',
-        path: '/activeState',
-        children: [
-            {
-                name: '首页',
-                path: '/activeState',
-            },
-            {
-                name: 'pageOne',
-                path: '/activeState/pageOne',
-            },
-        ],
-    },
+    // {
+    //     name: '选中状态',
+    //     path: '/activeState',
+    //     children: [
+    //         {
+    //             name: '首页',
+    //             path: '/activeState',
+    //         },
+    //         {
+    //             name: 'pageOne',
+    //             path: '/activeState/pageOne',
+    //         },
+    //     ],
+    // },
     {
         name: '城投数据',
         path: '/InvestCom',

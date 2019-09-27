@@ -15,7 +15,7 @@
 
 <script>
     export default {
-        name: "SimpleMenu",
+        name: "ListMenu",
         props: {
             value: {
                 type: String,

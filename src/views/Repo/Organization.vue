@@ -38,7 +38,10 @@
                             </p>
                         </div>
                         <p class="content">
-                            {{item.intro}}
+                            <TextEllipsis
+                                    :rows="2"
+                                    :value="item.intro"
+                            />
                         </p>
                         <div class="hr-dashed"></div>
                     </li>
@@ -56,44 +59,46 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
-    import Pagination from '@components/Pagination';
+    import SearchInput from '@components/SearchInput'
+    import Pagination from '@components/Pagination'
+    import TextEllipsis from '@components/TextEllipsis'
 
     export default {
         name: "Organization",
         components: {
             SearchInput,
             Pagination,
+            TextEllipsis,
         },
         data() {
-            this.list = [];
+            this.list = []
             return {
                 searchParams: this.getSearchParams(),
                 pagination: this.getPagination(),
-            };
+            }
         },
         methods: {
             getSearchParams() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     keyWords: query.keyWords,
-                };
+                }
             },
             getPagination() {
-                const { query } = this.$route;
+                const { query } = this.$route
                 return {
                     page: query.page || 1,
                     limit: query.limit || 5,
                     total: 0,
-                };
+                }
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.limit = limit;
+                this.pagination.page = page
+                this.pagination.limit = limit
                 this.query({
                     page: page,
                     limit,
-                });
+                })
             },
             query(otherParams) {
                 this.$router.push({
@@ -102,7 +107,7 @@
                         ...this.searchParams,
                         ...otherParams,
                     },
-                });
+                })
             },
             loadList() {
                 this.http.get(this.api.repo.organization.list, {
@@ -110,32 +115,34 @@
                     ...this.pagination,
                 }).then(res => {
                     if (res.status !== 200) {
-                        return [];
+                        return []
                     }
 
-                    const { pagination } = this;
-                    const data = res.data;
-                    this.list = data.docs;
+                    const { pagination } = this
+                    const data = res.data
+                    this.list = data.docs
 
-                    pagination.total = data.total; // this.$forceUpdate
-                });
+                    pagination.total = data.total // this.$forceUpdate
+                })
             },
         },
         created() {
-            this.loadList();
+            this.loadList()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
     @import "./public";
-    .mt-b{
+
+    .mt-b {
         margin-top: 2%;
     }
+
     .organization-list__wrapper {
         padding: 0 20px 10px;
         background: #F6FBFF;
-        min-height:591px;
+        min-height: 591px;
     }
 
     .organization-list {
@@ -160,10 +167,25 @@
                 }
 
                 .title {
+                    position: relative;
+                    padding-left: 23px;
                     width: 60%;
                     font-size: 20px;
                     font-weight: 500;
                     color: rgba(51, 51, 51, 1);
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 0;
+                        height: 0;
+                        border-left: 8px solid $sign-color;
+                        border-top: 4px solid transparent;
+                        border-bottom: 4px solid transparent;
+                    }
                 }
 
                 .info {
@@ -172,7 +194,7 @@
                     text-align: right;
                     font-size: 14px;
                     font-weight: 400;
-                    color: rgba(102, 102, 102, 1);
+                    color: #666666;
                 }
             }
 
@@ -181,15 +203,9 @@
                 margin-top: 11px;
                 line-height: 26px;
                 font-size: 14px;
-                word-break: break-all;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
                 overflow: hidden;
                 font-weight: 400;
                 color: rgba(51, 51, 51, 1);
-                height: 52px;
             }
 
             .hr-dashed {

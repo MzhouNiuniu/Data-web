@@ -9,13 +9,13 @@
                     债券代码
                 </th>
                 <td>
-                    020315
+                    {{detail.code}}
                 </td>
                 <th>
                     债券简称
                 </th>
                 <td>
-                    债券名称
+                    {{detail.abbreviation}}
                 </td>
             </tr>
             <tr>
@@ -23,7 +23,7 @@
                     发行人
                 </th>
                 <td colspan="3">
-                    成都建设投资有限公司
+                    {{detail.issuer}}
                 </td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
                     债券全称
                 </th>
                 <td colspan="3">
-                    2019成都建设投资有限公司债券
+                    {{detail.abbreviation}}
                 </td>
             </tr>
             <tr>
@@ -39,7 +39,7 @@
                     债券类型
                 </th>
                 <td colspan="3">
-                    企业债券
+                    {{detail.type}}
                 </td>
             </tr>
             <tr>
@@ -47,7 +47,7 @@
                     发行规模（亿元）
                 </th>
                 <td colspan="3">
-                    800,00
+                    {{detail.scale}}
                 </td>
             </tr>
             <tr>
@@ -55,13 +55,13 @@
                     起息时间
                 </th>
                 <td>
-                    2019-9-11
+                    {{detail.startTime}}
                 </td>
                 <th>
                     到期时间
                 </th>
                 <td>
-                    2026-9-11
+                    {{detail.endTime}}
                 </td>
             </tr>
             <tr>
@@ -69,13 +69,13 @@
                     还本方式
                 </th>
                 <td>
-                    每月等额
+                    {{detail.repaymentWay}}
                 </td>
                 <th>
                     付息方式
                 </th>
                 <td>
-                    按年付息
+                    {{detail.interestWay}}
                 </td>
             </tr>
             <tr>
@@ -83,13 +83,13 @@
                     票面利率（%）
                 </th>
                 <td>
-                    6.8
+                    {{detail.payValue}}
                 </td>
                 <th>
                     债券期限（年）
                 </th>
                 <td>
-                    7
+                    {{detail.deadlineBond}}
                 </td>
             </tr>
             <tr>
@@ -97,13 +97,13 @@
                     债券评级
                 </th>
                 <td>
-                    AAA
+                    {{detail.rateBond}}
                 </td>
                 <th>
                     主体评级
                 </th>
                 <td>
-                    AA
+                    {{detail.mainType}}
                 </td>
             </tr>
             <tr>
@@ -111,26 +111,76 @@
                     主承销商
                 </th>
                 <td colspan="3">
-                    南京建设投资有限公司
+                    {{detail.principalUnderwriter}}
                 </td>
             </tr>
         </table>
-        <div class="hr-dashed mt-30"></div>
-        <AttachmentList class="mt-20" :value="[1,2,3]"/>
-        <div class="hr-dashed mt-4"></div>
-        <UIDescription title="备注信息" class="mt-20" text="啊杀杀杀杀杀杀杀杀杀杀杀杀杀杀杀杀杀杀"/>
+        <div class="hr-dashed mt-20"></div>
+        <UIDescription title="下载" class="mt-20">
+            <AttachmentList title="" :value="allFiles"/>
+        </UIDescription>
+
+        <div class="hr-dashed"></div>
+        <!-- 增信措施 -->
+        <UIDescription title="备注信息" class="mt-20" :text="detail.addEnhancementWay"/>
+
+        <div class="hr-dashed"></div>
+        <UIDescription title="债券记录" class="mt-20">
+            <Button type="info" :to="`/BondRecordList/111`">查看债券记录</Button>
+        </UIDescription>
     </section>
 </template>
 
 <script>
     import AttachmentList from '@components/AttachmentList'
-    import UIDescription from '@ui/Description'
+    import UIDescription from '@components/ui/Description'
 
     export default {
         name: 'BoundDetail',
         components: {
             AttachmentList,
             UIDescription,
+        },
+        data() {
+            this.id = this.$route.params.id
+
+            return {
+                detail: {},
+            }
+        },
+        computed: {
+            allFiles() {
+                const { detail } = this
+
+                // 还未获取数据
+                if (!detail.code) {
+                    return
+                }
+
+                const stack = []
+                detail.aboutFile && stack.push(detail.aboutFile)
+                detail.specification && stack.push(detail.specification)
+                detail.report && stack.push(detail.report)
+                return stack.join(',')
+            },
+        },
+        methods: {
+            loadDetail() {
+                this.http.get(this.api.companyData.detail, { id: this.id }).then(detail => {
+                    try {
+                        const { type, index } = this.$route.params
+                        detail = detail.data[0].financing[index][type]
+                    } catch (e) {
+                        this.$router.replace('/')
+                        return
+                    }
+
+                    this.detail = detail
+                })
+            },
+        },
+        created() {
+            this.loadDetail()
         },
     }
 </script>

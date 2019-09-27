@@ -15,7 +15,7 @@
                                     实际控制人：
                                 </span>
                         <span class="value">
-                                    李毅
+                                    {{detail.controllerMan}}
                                 </span>
                     </li>
                     <li>
@@ -23,7 +23,9 @@
                                     所属政府：
                                 </span>
                         <span class="value">
-                                    李毅
+                                {{detail.province}}
+                                {{detail.city}}
+                                {{detail.district}}
                                 </span>
                     </li>
                     <li>
@@ -31,15 +33,15 @@
                                     行政级别：
                                 </span>
                         <span class="value">
-                                    李毅
+                                    {{detail.level}}
                                 </span>
                     </li>
                     <li>
                                 <span class="label">
-                                    成立时间：
+                                    成立日期：
                                 </span>
                         <span class="value">
-                                    李毅
+                                    {{detail.creationTime}}
                                 </span>
                     </li>
                     <li>
@@ -47,7 +49,7 @@
                                     主体类型：
                                 </span>
                         <span class="value">
-                                    李毅
+                                    {{detail.mainType}}
                                 </span>
                     </li>
                 </ul>
@@ -56,58 +58,38 @@
                         企业概况
                     </p>
                     <p class="content project-scroll">
-                        深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写
-                        字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上
-                        工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。
-                        2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术 难度大。
-                        深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写
-                        字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上
-                        工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。
-                        2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术 难度大。
-                        深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写
-                        字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上
-                        工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。
-                        2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术 难度大。
-                        深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写
-                        字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上
-                        工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。
-                        2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术 难度大。
-                        深圳华润中心一期工程占地3.7万平方米，总建筑面积23万平方米，包括深圳万象城购物中心和华润大厦建筑群，其中，写
-                        字楼建筑面积7.6万平方米，地下3层、地上29层，万象城购物中心，建筑面积15.3万平方米，地下2层，地上5层。桩基以上
-                        工程于2003年5月28日开工，2004年12月8日完工。华润中心一期工程具有以下特点： 1) 月牙形中庭屋面、发光屋顶、米兰大道、正锥幕墙、倒锥幕墙、中庭栏杆等异型玻璃加工安装量大。
-                        2) 结构设计复杂，使用了1500吨预应力、钢管芯柱、钢砼组合结构、钢屋架、主体钢结构、钢桁架约5500吨，主体施工技术 难度大。
+                        {{detail.info}}
                     </p>
                 </div>
             </div>
 
             <div class="hr-dashed mt-24"></div>
             <UIDescription title="财务信息" class="mt-20">
-                <Table class="project-ivu-table" :height="222" stripe :columns="financialColumns" :data="list"/>
+                <Table class="project-ivu-table" :max-height="222" stripe :columns="financialColumns"
+                       :data="detail.financial"/>
             </UIDescription>
 
-            <div class="hr-dashed mt-24"></div>
+            <div class="hr-dashed"></div>
             <UIDescription title="评级信息" class="mt-20">
-                <Table class="project-ivu-table" :height="222" stripe :columns="rateColumns" :data="list"/>
+                <Table class="project-ivu-table" :max-height="222" stripe :columns="rateColumns" :data="detail.rate"/>
             </UIDescription>
 
-            <div class="hr-dashed mt-24"></div>
+            <div class="hr-dashed"></div>
             <UIDescription title="融资信息" class="mt-20">
-                <Table class="project-ivu-table" :height="222" stripe :columns="financingColumns" :data="list"/>
+                <Table class="project-ivu-table" :max-height="222" stripe :columns="financingColumns"
+                       :data="detail.financing"/>
             </UIDescription>
 
-            <h1>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                此处为公共样式部分
-            </h1>
+            <div class="hr-dashed"></div>
+            <UIDescription title="其他信息" class="mt-20">
+                <AttachmentList title="" :value="detail.photos"/>
+            </UIDescription>
         </div>
     </section>
 </template>
 
 <script>
+    import AttachmentList from '@components/AttachmentList'
     import UIDescription from '@ui/Description'
 
     function primaryHeaderRender(h, leftName, rightName) {
@@ -126,74 +108,106 @@
     export default {
         name: "InvestDetail",
         components: {
+            AttachmentList,
             UIDescription,
         },
         data() {
+            this.id = this.$route.params.id
             this.financialColumns = [
                 {
                     className: 'primary-column',
+                    fixed: 'left',
                     width: 185,
-                    key: 'name',
+                    key: 'year',
                     renderHeader(h) {
                         return primaryHeaderRender(h, '财务信息', '汇总年份')
                     },
                 },
                 {
+                    width: 180,
                     title: '总资产（亿元）',
-                    key: 'name',
+                    key: 'totalAsset',
                 },
                 {
+                    width: 180,
                     title: '净资产（亿元）',
-                    key: 'name',
+                    key: 'netAsset',
                 },
                 {
+                    width: 180,
                     title: '负债率（%）',
-                    key: 'name',
+                    key: 'liabilities',
+                },
+                {
+                    width: 220,
+                    title: '营业收入额（亿元）',
+                    key: 'business',
                 },
                 {
                     width: 220,
                     title: '主营业务收入（亿元）',
-                    key: 'name',
+                    key: 'mainBusiness',
                 },
                 {
+                    width: 180,
                     title: '净利润（亿元）',
-                    key: 'name',
+                    key: 'netProfit',
+                },
+                {
+                    width: 200,
+                    title: '利润总额（亿元）',
+                    key: 'totalProfit',
                 },
             ]
             this.rateColumns = [
                 {
                     className: 'primary-column',
                     width: 185,
-                    key: 'name',
+                    key: 'year',
                     renderHeader(h) {
                         return primaryHeaderRender(h, '评级信息', '汇总年份')
                     },
                 },
                 {
-                    title: '评级主体',
-                    key: 'name',
+                    title: '主体评级',
+                    key: 'main',
                 },
                 {
-                    title: '评级展望',
-                    key: 'name',
+                    title: '展望评级',
+                    key: 'wish',
                 },
                 {
                     title: '评级机构',
-                    key: 'name',
+                    key: 'organization',
                 },
                 {
-                    title: '评级时间',
-                    key: 'name',
+                    title: '评级报告',
+                    key: 'report',
+                    tooltip: true,
                 },
             ]
+
+            financingRender.id = this.id
+
+            function financingRender(h, { column, index, row }) {
+                const info = row[column.key]
+                if (!info) {
+                    return <span>/</span>
+                }
+
+                // 只能将id传递下去，详情组件再次获取数据
+                return (
+                    <router-link
+                        to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}>{info.abbreviation}</router-link>
+                )
+            }
 
             this.financingColumns = [
                 {
                     className: 'primary-column',
                     fixed: 'left',
                     width: 185,
-                    title: 'Name',
-                    key: 'name',
+                    key: 'year',
                     renderHeader(h) {
                         return primaryHeaderRender(h, '债券类型', '汇总年份')
                     },
@@ -201,119 +215,107 @@
                 {
                     title: '企业债券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'enterpriseBond',
+                    render: financingRender,
                 },
                 {
                     title: '公司债券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'companyBond',
+                    render: financingRender,
                 },
                 {
                     title: '中小企业私募债券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'middleBond',
+                    render: financingRender,
                 },
                 {
                     title: '非公开发行债券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'unpublicBond',
+                    render: financingRender,
                 },
                 {
                     title: '企业资产支持证券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'enterpriseAssetBond',
+                    render: financingRender,
                 },
                 {
                     title: '信贷资产支持证券',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'credit',
+                    render: financingRender,
                 },
                 {
                     title: '超短期融资券（SCP）',
                     width: 280,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'SCP',
+                    render: financingRender,
                 },
                 {
                     title: '短期融资券（CP）',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'CP',
+                    render: financingRender,
                 },
                 {
                     title: '中期票据（MTN）',
                     width: 200,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'MTN',
+                    render: financingRender,
                 },
                 {
                     title: '定向工具（PPN）',
                     width: 240,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'PPN',
+                    render: financingRender,
                 },
                 {
                     title: '资产支持票据（ABN）',
                     width: 240,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'ABN',
+                    render: financingRender,
                 },
                 {
                     title: '项目收益票据（PRN）',
                     width: 240,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'PRN',
+                    render: financingRender,
                 },
                 {
                     title: '债务融资工具（DFI）',
                     width: 240,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'DFI',
+                    render: financingRender,
                 },
                 {
                     title: '绿色债务融资工具（GN）',
                     width: 280,
-                    render(h, { row }) {
-                        return <router-link to={`/BondDetail/${row.name}`}>{row.name}</router-link>
-                    },
+                    key: 'GN',
+                    render: financingRender,
                 },
             ]
 
             this.list = Array(10).fill({
                 name: '省级城投机构',
             },)
-            return {}
+            return {
+                detail: {},
+            }
+        },
+        methods: {
+            loadDetail() {
+                this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
+                    this.detail = res.data[0]
+                })
+            }
         },
         created() {
             this.$store.commit('app/setBgColor1')
-            this.getDetail()
+            this.loadDetail()
         },
-        methods: {
-            async getDetail() {
-                let res = await this.http.get(this.api.getNewsDetails, { id: this.$route.params.id })
-                this.data = res.data[0]
-                console.log(res)
-            }
-        }
     }
 </script>
 
@@ -416,7 +418,7 @@
 
 
     ::v-deep {
-        .ivu-table-header {
+        .ivu-table-header, .ivu-table-fixed-header {
             th {
                 height: 38px;
                 border: none;

@@ -1,7 +1,7 @@
 <template>
     <section class="component__text-ellipsis">
         <p ref="content" class="content">
-            {{value}}
+            {{value | extractRichText}}
         </p>
     </section>
 </template>
@@ -10,6 +10,8 @@
     /**
      * 字符串长度算法比较麻烦，只支持webkit
      * */
+    import { extractRichText } from '@utils'
+
     export default {
         name: "TextEllipsis",
         props: {
@@ -17,31 +19,34 @@
             rows: Number,
             fill: Boolean, // 字段名待修改
         },
+        filters: {
+            extractRichText,
+        },
         methods: {
             updateView() {
                 if (this.rows === undefined) {
-                    return;
+                    return
                 }
-                const elContent = this.$refs.content;
-                let { lineHeight } = window.getComputedStyle(elContent);
-                lineHeight = parseFloat(lineHeight);
+                const elContent = this.$refs.content
+                let { lineHeight } = window.getComputedStyle(elContent)
+                lineHeight = parseFloat(lineHeight)
                 if (this.fill) {
-                    elContent.style.height = lineHeight * this.rows + 'px';
+                    elContent.style.height = lineHeight * this.rows + 'px'
                 } else {
-                    elContent.style.maxHeight = lineHeight * this.rows + 'px';
+                    elContent.style.maxHeight = lineHeight * this.rows + 'px'
                 }
-                elContent.style['-webkit-line-clamp'] = this.rows;
+                elContent.style['-webkit-line-clamp'] = this.rows
             },
         },
         watch: {
             value() {
-                this.$nextTick(this.updateView);
+                this.$nextTick(this.updateView)
             },
         },
         mounted() {
-            this.updateView();
+            this.updateView()
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

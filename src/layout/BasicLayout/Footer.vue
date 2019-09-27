@@ -1,190 +1,39 @@
 <template>
-    <section class="project-container__wrapper">
-        <section class="basic-layout__footer project-container">
-
-            <div class="right">
-                <ul class="nav">
-                    <li v-for="(item,index) in navList" :key="index" class="nav__item">
-                        <router-link v-if="!item.children" :to="item.path" class="nav__item__header">
-                            {{item.name}}
-                        </router-link>
-                        <div v-else class="nav__group">
-                            <p :class="item.className" class="nav__item__header">
-                                {{item.name}}
-                            </p>
-                            <!-- <ul class="sub-nav">-->
-                            <!-- <li v-for="(item,index) in item.children" :key="index">-->
-                            <!-- <router-link :to="item.path">{{item.name}}</router-link>-->
-                            <!-- </li>-->
-                            <!-- </ul>-->
-                        </div>
-                    </li>
-                </ul>
-                <h6 class="copy-right">
-                    南京橙红科技股份有限公司版权所有@（2016-2018） 苏ICP备10229471号
-                </h6>
-            </div>
-        </section>
+    <section class="basic-layout__footer ">
+        <ul class="nav">
+            <li v-for="(item,index) in navList" :key="index" class="nav__item">
+                <router-link :to="item.path" class="nav__item__header">
+                    {{item.name}}
+                </router-link>
+            </li>
+        </ul>
+        <h6 class="copy-right">
+            南京橙红科技股份有限公司版权所有@（2016-2018） 苏ICP备10229471号
+        </h6>
     </section>
 </template>
 
 <script>
+    import navList from '@/router/nav'
+
     export default {
         name: "Footer",
         data() {
-            const navList = [
-                {
-                    name: '城投数据',
-                    path: '',
-                    children: [
-                        {
-                            name: '列表模式',
-                            path: '',
-                        },
-                        {
-                            name: '地图模式',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '项目合作',
-                    path: '',
-                    children: [
-                        {
-                            name: '工程项目',
-                            path: '',
-                        },
-                        {
-                            name: '投资项目',
-                            path: '',
-                        },
-                        {
-                            name: '融资项目',
-                            path: '',
-                        },
-                        {
-                            name: '其它',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '智库平台',
-                    path: '',
-                    children: [
-                        {
-                            name: '机构库',
-                            path: '',
-                        },
-                        {
-                            name: '专家库',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '城投杂志',
-                    path: '',
-                },
-                {
-                    name: '政策法规',
-                    path: '',
-                    className: 'long',
-                    children: [
-                        {
-                            name: '政策法规',
-                            path: '',
-                        },
-                        {
-                            name: '指南标准',
-                            path: '',
-                        },
-                        {
-                            name: '国务院规范性文件',
-                            path: '',
-                        },
-                        {
-                            name: '地方性规范性文件',
-                            path: '',
-                        },
-                        {
-                            name: '部门规范性文件',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '行业研究',
-                    path: '',
-                    children: [
-                        {
-                            name: '研究报告',
-                            path: '',
-                        },
-                        {
-                            name: '经典案例',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '新闻动态',
-                    path: '',
-                    children: [
-                        {
-                            name: '行业动态',
-                            path: '',
-                        },
-                        {
-                            name: '城投新闻',
-                            path: '',
-                        },
-                        {
-                            name: '智库动态',
-                            path: '',
-                        },
-                        {
-                            name: '项目动态',
-                            path: '',
-                        },
-                    ],
-                },
-                {
-                    name: '关于我们',
-                    path: '',
-                },
-            ];
-            this.navList = navList;
-            return {};
+            this.navList = navList
+            return {}
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>
-    .project-container__wrapper {
+    .basic-layout__footer {
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
         background-color: #535353;
-    }
-
-    .basic-layout__footer {
-        position: relative;
         padding-top: 15px;
         padding-bottom: 8px;
-    }
-
-    .left {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 110px;
-    }
-
-    .right {
-        padding-left: 110px;
     }
 
     .logo {
@@ -202,6 +51,7 @@
         overflow: hidden;
         font-size: 0;
         text-align: center;
+
         .nav__item {
             display: inline-block;
             height: 13px;
@@ -227,24 +77,6 @@
                 right: 0;
                 top: 0;
                 vertical-align: middle;
-            }
-        }
-
-        .nav__group {
-            position: relative;
-        }
-
-        .sub-nav {
-            position: absolute;
-            top: 20px;
-            right: 0;
-            left: 0;
-            font-size: 12px;
-
-            a {
-                display: block;
-                margin-top: 7px;
-                color: #cacaca;
             }
         }
     }

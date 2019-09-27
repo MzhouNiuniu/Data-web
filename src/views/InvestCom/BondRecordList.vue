@@ -3,27 +3,17 @@
         <p class="detail-page-caption">
             <span>债券记录</span>
         </p>
-        <Table class="project-ivu-table mt-30 cool-scroll" stripe :columns="columns" :data="list"/>
+        <Table class="project-ivu-table mt-30" stripe :columns="columns" :data="list"/>
         <Pagination
                 class="mt-30"
                 v-bind="pagination"
                 @change="handlePageChange"
         />
-
-        <h1>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            此处为公共样式部分
-        </h1>
     </section>
 </template>
 
 <script>
     import Pagination from '@components/Pagination';
-
     export default {
         name: "BondRecordList",
         components: {
@@ -32,85 +22,45 @@
         data() {
             this.columns = [
                 {
-                    width: 140,
-                    title: '债券代码',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '债券全称',
-                    key: 'name',
-                },
-                {
-                    width: 140,
                     title: '债券简称',
                     key: 'name',
                 },
                 {
-                    width: 140,
-                    title: '债券类型',
-                    key: 'name',
-                },
-
-                {
-                    width: 140,
-                    title: '发行人',
+                    title: '成交日期',
                     key: 'name',
                 },
                 {
-                    width: 140,
-                    title: '发行时间',
+                    width: 180,
+                    title: '成交金额（亿元）',
                     key: 'name',
                 },
                 {
-                    width: 140,
-                    title: '发行方式',
+                    title: '剩余期限',
+                    key: 'name',
+                },
+                {
+                    title: '成交利率',
                     key: 'name',
                 },
                 {
                     width: 140,
-                    title: '发行规模',
-                    key: 'name',
-                },
-
-                {
-                    width: 140,
-                    title: '主承销商',
+                    title: '偏离（BP）',
                     key: 'name',
                 },
                 {
-                    width: 140,
-                    title: '债券期限',
+                    width: 200,
+                    title: '相关文件',
                     key: 'name',
+                    render() {
+                        return (
+                            <div>
+                                这是一个相关文件名称
+                            </div>
+                        );
+                    },
                 },
                 {
-                    width: 140,
-                    title: '票面利率',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '债券评级',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '主体评级',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '还本方式',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '付息方式',
-                    key: 'name',
-                },
-                {
-                    width: 140,
-                    title: '增信措施',
+                    title: '其他',
                     key: 'name',
                 },
             ];
@@ -164,5 +114,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>

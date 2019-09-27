@@ -10,7 +10,7 @@
                     </span>
                 </div>
             </div>
-            <section v-for=" (item,index) in info" keys="index">
+            <section v-for="(item,index) in info" :key="index">
                 <UIDescription :title="item.company" class="mt-20" :text="item.content"/>
                 <div class="hr-dashed mt-20" v-if="index!=info.length-1"></div>
 

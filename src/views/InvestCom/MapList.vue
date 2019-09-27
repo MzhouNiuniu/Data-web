@@ -21,11 +21,11 @@
             <div class="project-container">
                 <div class="map-container">
                     <div class="left">
-                        <ChinaMap ref="map" class="map" @change="handleMapChange"/>
+                        <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
                     </div>
                     <ul class="right detail">
                         <p class="caption">
-                            北京市
+                            {{currentGovName}}
                         </p>
                         <li class="item">
                             <p class="label">
@@ -126,7 +126,16 @@
                 },
             ]
 
+
+            this.defaultGovName = '北京市'
+            this.areaLevelMap = {
+                'province': '省级',
+                'city': '市级',
+                'district': '区级',
+            }
+
             this.list = []
+
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
                 pagination: {
@@ -134,10 +143,27 @@
                     limit: 10,
                     total: 0,
                 },
+
+
+                currentGovName: this.defaultGovName,
+                currentGovLevel: 'province',
+                currentGovLevelText: this.areaLevelMap.province,
             }
         },
+        computed: {
+            currentAreaData() {
+                return {}
+            },
+        },
         methods: {
-            handleMapChange(currentBlock) {
+            handleMapChange({ nameStack, levelStack }) {
+                if (nameStack.length === 1) {
+                    this.currentGovName = this.defaultGovName
+                } else {
+                    this.currentGovName = nameStack[nameStack.length - 1]
+                }
+                this.currentGovLevel = levelStack[levelStack.length - 1]
+                this.currentGovLevelText = this.areaLevelMap[this.currentGovLevel]
                 this.loadMapData()
             },
             handlePageChange({ page, limit }) {
@@ -150,159 +176,64 @@
                 this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) })
             },
             loadMapData() {
-                setTimeout(() => {
-                    const data = [
-                        {
-                            // value: [8920,123,456],//如果有更多数据可以这样存放，然后用params.data.value[i]获取
-                            value: 8920,
-                            name: "江苏",
-                        },
-                        {
-                            value: 8588,
-                            name: "浙江"
-                        },
-                        {
-                            value: 8215,
-                            name: "四川"
-                        },
-                        {
-                            value: 7586,
-                            name: "广东"
-                        },
-                        {
-                            value: 6324,
-                            name: "山东"
-                        },
-                        {
-                            value: 6112,
-                            name: "福建"
-                        },
-                        {
-                            value: 5989,
-                            name: "湖南"
-                        },
-                        {
-                            value: 5448,
-                            name: "广西"
-                        },
-                        {
-                            value: 4994,
-                            name: "辽宁"
-                        },
-                        {
-                            value: 4528,
-                            name: "江西"
-                        },
-                        {
-                            value: 4767,
-                            name: "安徽"
-                        },
-                        {
-                            value: 4573,
-                            name: "贵州"
-                        },
-                        {
-                            value: 4544,
-                            name: "湖北"
-                        },
-                        {
-                            value: 3903,
-                            name: "山西"
-                        },
-                        {
-                            value: 3747,
-                            name: "吉林"
-                        },
-                        {
-                            value: 3342,
-                            name: "黑龙江"
-                        },
-                        {
-                            value: 3345,
-                            name: "河南"
-                        },
+                const { currentGovLevel, currentGovLevelText, currentGovName } = this
+                const params = {
+                    directly: currentGovLevelText, // 获取当前级别的所有数据
+                }
+                if (currentGovLevel === 'province') {
+                    params.province = currentGovName
+                } else if (currentGovLevel === 'city') {
+                    params.city = currentGovName
+                } else {
+                    return
+                }
 
-                        {
-                            value: 2887,
-                            name: "甘肃"
-                        },
-                        {
-                            value: 2837,
-                            name: "台湾"
-                        },
-                        {
-                            value: 2673,
-                            name: "内蒙古"
-                        },
-                        {
-                            value: 2177,
-                            name: "海南"
-                        },
-                        {
-                            value: 2074,
-                            name: "新疆"
-                        },
-                        {
-                            value: 2783,
-                            name: "河北"
-                        },
-                        {
-                            value: 2354,
-                            name: "上海"
-                        },
-                        {
-                            value: 2093,
-                            name: "北京"
-                        },
-                        {
-                            value: 2034,
-                            name: "重庆",
-                        },
-                        {
-                            value: 1932,
-                            name: "天津"
-                        },
+                this.http.get(this.api.companyData.govInfo, params).then(res => {
+                    const data = res.data
+                    data.forEach(item => {
+                        const currentGovName = item[currentGovLevel]
+                        item.name = currentGovName
+                        item.value = 0 // todo 暂无
 
-                        {
-                            value: 1872,
-                            name: "云南"
-                        },
-                        {
-                            value: 1838,
-                            name: "青海"
-                        },
-                        {
-                            value: 1626,
-                            name: "西藏"
-                        },
-                        {
-                            value: 1563,
-                            name: "陕西"
-                        },
-                        {
-                            value: 1172,
-                            name: "宁夏"
-                        },
-                        {
-                            value: 677,
-                            name: "香港"
-                        },
-                        {
-                            value: 443,
-                            name: "澳门"
-                        },
-                    ]
+
+                        console.log(currentGovName, this.currentGovName)
+                        if (currentGovName === this.currentGovName) {
+                            console.log(item)
+                        }
+
+                    })
+
+
                     this.map.setOption(option => {
                         option.series[0].data = data
-                        option.dataRange.max = Math.max(0, ...data.map(item => item.value))
+                        // option.dataRange.max = Math.max(0, ...data.map(item => item.value)) // todo 暂无value
                     })
-                }, 500)
+                })
             },
             setMapTooltip() {
                 this.map.setOption(option => {
-                    // add tooltip
+                    // add tooltip，由于echarts问题，多次触发
                     option.tooltip = {
+                        trigger: "item",
+                        enterable: true,
                         formatter(params) {
+                            const detail = params.data
+                            if (!detail) {
+                                return `
+                            <ul class="invest-com__map-list__map-tooltip">
+                                <p class="caption">
+                                    ${params.name}
+                                </p>
+                                <li class="item">
+                                    <p class="label">
+                                        # 暂无数据
+                                    </p>
+                                </li>
+                            </ul>
+                            `
+                            }
+
+                            // console.log(detail)
                             return `
                             <ul class="invest-com__map-list__map-tooltip">
                         <p class="caption">
@@ -313,7 +244,7 @@
                                 行政级别：
                             </p>
                             <p class="value">
-                                省级
+                                ${detail.directly}
                             </p>
                         </li>
                         <li class="item">
@@ -329,7 +260,7 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                1400.00
+                                ${detail.addFDP}
                             </p>
                         </li>
                         <li class="item">

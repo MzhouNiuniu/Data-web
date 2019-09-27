@@ -85,7 +85,7 @@
                 <p class="com-type">
                     {{item.mainType}}
                 </p>
-                <router-link class="com-name ue-link" :to="`/InvestComDetail/1111`">
+                <router-link class="com-name ue-link" :to="`/InvestComDetail/${item._id}`">
                     {{item.name}}
                 </router-link>
                 <p class="location">

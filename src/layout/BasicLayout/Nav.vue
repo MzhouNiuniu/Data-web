@@ -155,7 +155,6 @@
             .hide-nav {
                 transition: max-height 1.2s;
                 max-height: 400px;
-                padding-bottom: 12px;
             }
 
             .nav__item__header::after {

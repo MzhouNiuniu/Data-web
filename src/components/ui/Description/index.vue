@@ -3,14 +3,14 @@
         <p class="title">
             {{title}}
         </p>
-        <p v-if="text" class="text">
-            {{text || '暂无内容'}}
-        </p>
-        <div v-else class="main">
+        <div v-if="$slots.default" class="main">
             <slot>
 
             </slot>
         </div>
+        <p v-else class="text">
+            {{text || '暂无内容'}}
+        </p>
     </section>
 </template>
 
@@ -29,7 +29,7 @@
                 type: String,
             },
         },
-    };
+    }
 </script>
 
 <style lang="scss" scoped>

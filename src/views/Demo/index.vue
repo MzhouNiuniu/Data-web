@@ -4,7 +4,7 @@
             <p slot="title">本项目用到的所有组件</p>
             <div class="demo-list">
                 <div>
-                    <UIMenu/>
+                    <ListMenu/>
                 </div>
                 <div>
                     <UICard title="专题报告">
@@ -67,7 +67,7 @@
     import TextEllipsis from '@components/TextEllipsis'
     import LinkMore from '@ui/LinkMore'
     import UICard from '@ui/Card'
-    import UIMenu from '@ui/Menu'
+    import ListMenu from '@ui/ListMenu'
 
     /**
      * 问题组件：日期选择器、年份选择器
@@ -83,7 +83,7 @@
             TextEllipsis,
             LinkMore,
             UICard,
-            UIMenu,
+            ListMenu,
         },
         data() {
             this.options1 = [
@@ -107,7 +107,7 @@
             return {
                 m1: [],
                 m2: '',
-                m3: '这是一段企业概况这是一asdakasjdkajsljjjlk段企业概况这是一段企业概这\n' +
+                m3: '这是一段企业概<input/>况这是一asdakasjdkajsljjjlk段企业概况这是一段企业概这\n' +
                     '                            131545465464645555555555555555555555555555555555555555555',
             }
         },

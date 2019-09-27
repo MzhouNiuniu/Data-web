@@ -224,7 +224,7 @@
 
     .big-data {
         position: relative;
-        padding: 68px 30px 20px;
+        padding: 68px 0 20px;
         background: url("./image/title-bg.png") no-repeat scroll top left / 100% auto;
 
         &::after {
@@ -240,8 +240,11 @@
     }
 
     .top-container {
+        margin: auto;
+        width: 1860px;
+
         .center {
-            flex-grow: 1.38;
+            min-width: 770px; // 减去20px滚动条
             padding: 0 25px;
 
             .big-data-title {
@@ -282,8 +285,8 @@
             }
 
             .map {
+                width: 100%;
                 padding: 2px 0;
-                width: 740px;
                 height: 614px;
             }
         }

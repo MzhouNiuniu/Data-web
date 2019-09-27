@@ -1,6 +1,6 @@
 <template>
     <section class="china-map">
-        <div class="back" @click="back" v-if="!isRoot">
+        <div class="back" @click="back(false)" v-if="!isRoot">
             <img src="~@public/icon/arrow-left.png" alt="" class="icon">
             <span class="text">返回上一级</span>
         </div>
@@ -16,8 +16,9 @@
     import echarts from 'echarts'
     import Chart from './Chart'
 
-    const CN_CODE = 'china' // 100000 -> 'china'，兼容老数据
+    const CN_CODE = '100000' // 100000
     const CN_NAME = '中华人民共和国'
+    const CN_LEVEL = 'country'
     export default {
         name: "ChinaMap",
         components: {
@@ -34,6 +35,9 @@
                 animation: true,
                 series: [
                     {
+                        top: 0,
+                        bottom: 0,
+                        // roam: true,
                         name: 'map',
                         type: 'map',
                         mapType: CN_CODE,
@@ -60,6 +64,7 @@
             return {
                 nameStack: [CN_NAME],
                 codeStack: [CN_CODE],
+                levelStack: [CN_LEVEL], // 当前地图上展示的是什么级别，['province', 'city', 'district']，默认从省开始
             }
         },
         computed: {
@@ -74,6 +79,23 @@
             },
         },
         methods: {
+            addLevelStack() {
+                const { levelStack } = this
+                if (levelStack.length === 1) {
+                    levelStack.push('province')
+                } else if (levelStack.length === 2) {
+                    levelStack.push('city')
+                } else {
+                    levelStack.push('district')
+                }
+            },
+            removeLevelStack() {
+                const { levelStack } = this
+                if (levelStack.length <= 1) {
+                    return
+                }
+                levelStack.pop()
+            },
             getCurrentBlockName() {
                 return this.nameStack[this.nameStack.length - 1]
             },
@@ -98,18 +120,29 @@
                 this.chart.setOption(this.option)
                 // this.$forceUpdate(); // option 非响应式数据
             },
-            back() {
+            back(isSilent) {
+                // isSilent:：是否静默回退
                 if (this.isRoot) {
                     return
                 }
                 this.nameStack.pop()
                 this.codeStack.pop()
+                this.removeLevelStack()
                 this.loadGeoData(this.currentCode)
+
+
+                if (!isSilent) {
+                    this.$emit('back', {
+                        nameStack: this.nameStack,
+                        codeStack: this.codeStack,
+                        levelStack: this.levelStack,
+                    })
+                }
             },
             getGeoData(code) {
                 return axios.get('/geo-json/' + code + '_full.json').then(res => res.data).catch(err => {
                     console.log(err)
-                    this.back()
+                    this.back(true)
                 })
             },
             loadGeoData(code) {
@@ -143,20 +176,24 @@
                     return
                 }
 
-                this.$emit('change', targetBlock)
-
-                // childNum、id 兼容老数据
-
-                if (targetBlock.properties.childrenNum === 0 || targetBlock.properties.childNum === 0) {
+                if (targetBlock.properties.childrenNum === 0) {
                     return
                 }
 
                 this.nameStack.push(targetBlock.properties.name)
 
-                const targetCode = targetBlock.properties.adcode || targetBlock.id
+                const targetCode = targetBlock.properties.adcode
                 this.codeStack.push(targetCode)
                 this.loadGeoData(targetCode)
 
+
+                this.addLevelStack()
+                this.$emit('change', {
+                    targetBlock,
+                    nameStack: this.nameStack,
+                    codeStack: this.codeStack,
+                    levelStack: this.levelStack,
+                })
             },
         },
         created() {

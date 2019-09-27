@@ -3,13 +3,13 @@
         <p class="detail-page-caption">
             <span>城投杂志</span>
         </p>
-        <div class="magazine">
-            <div >
-                <img :src="item.photos" alt=""  class="imgs"  v-for="item in data" :key="item">
+        <div style="width: 785px;margin: auto;">
+            <div class="magazine">
+                <img :src="item.photos" alt="" v-for="(item,index) in data" :key="index">
             </div>
         </div>
         <div class="href">
-            详情请跳转至《中国城投》杂志  》》
+            详情请跳转至《中国城投》杂志 》》
         </div>
 
     </section>
@@ -35,28 +35,25 @@
                 this.data = res.data
             }
         }
-    };
+    }
 </script>
 <style lang="scss" scoped>
     .magazine {
-        text-align: center;
-        margin-top: 30px;
-        & > div {
-            width: 800px;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            &>.imgs {
-                width: 218px;
-                height: 300px;
-                margin-right: 20px;
-                margin-bottom: 20px;
-            }
+        margin-right: -40px;
+        padding-top: 4px;
+
+        img {
+            display: inline-block;
+            width: 235px;
+            height: 333px;
+            margin-right: 40px;
+            margin-top: 26px;
+            cursor: pointer;
         }
     }
-    .href{
-        font-size:18px;
+
+    .href {
+        font-size: 18px;
         color: #333;
         text-align: right;
     }

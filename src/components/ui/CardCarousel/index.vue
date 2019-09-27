@@ -28,6 +28,8 @@
             return {}
         },
         mounted() {
+            // 目前只能图片加载才展示组件
+
             if (this.$slots.default) {
                 this.$slots.default.forEach(({ elm }) => {
                     if (elm && elm.classList) {

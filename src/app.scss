@@ -32,10 +32,11 @@ html, body, #app {
 
 body {
   font-size: 12px;
+  line-height: 1;
 }
 
 #app {
-  min-width: 1200px; // 20px 滚动条宽度
+  min-width: 980px;
   font-weight: 500;
 
   font-family: PingFang-SC !important;
@@ -68,6 +69,8 @@ img {
 }
 
 .text-ellipsis {
+  display: inline-block;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
