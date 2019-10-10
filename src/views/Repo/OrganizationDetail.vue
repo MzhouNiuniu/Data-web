@@ -60,7 +60,13 @@
                             {{getOrderNum(index)}}
                         </p>
                         <p class="card-content">
-                            {{item.name}}
+                            项目名称：{{item.name}}
+                        </p>
+                        <p class="card-content">
+                            项目类型：{{item.type}}
+                        </p>
+                        <p class="card-content">
+                            合作城投公司名称：{{item.companyName}}
                         </p>
                         <div class="hr-dashed"></div>
                     </li>
