@@ -51,8 +51,9 @@
                 <span class="title">
                     成立时间：
                 </span>
-                <DatePicker type="daterange" style="width: 350px"
+                <DatePicker  type="daterange" style="width: 350px"
                             v-model="searchParams.createTime"
+
                 />
                 <button class="confirm-button ml-20" @click="handleSearchParamsChange('createTime')">确定</button>
                 <div class="border-bottom hr-dashed"></div>
@@ -250,6 +251,12 @@
             };
         },
         methods: {
+            getData(time){
+                // console.log(start)
+
+                this.searchParams.createTime=time
+
+            },
             getProvinceList() {
                 return this.http.base.get('/geo-json/100000_full.json').then(res => {
                     if (res.status !== 200) {
@@ -264,6 +271,7 @@
             },
             getSearchParams() {
                 const {query} = this.$route;
+
                 const params = {
                     projectName: query.projectName,
 
@@ -321,8 +329,9 @@
 
                 const searchParams = {...this.searchParams};
                 if (searchParams.createTime && searchParams.createTime[0] && searchParams.createTime[1]) {
-                    searchParams.startCreateTime = searchParams.createTime[0].toLocaleDateString()
-                    searchParams.endCreateTime = searchParams.createTime[1].toLocaleDateString()
+                    console.log(searchParams.createTime)
+                    searchParams.startCreateTime = searchParams.createTime[0].toISOString()
+                    searchParams.endCreateTime = searchParams.createTime[1].toISOString()
                 }else{
                     searchParams.startCreateTime =   searchParams.endCreateTime = undefined // 清除url参数
                 }
