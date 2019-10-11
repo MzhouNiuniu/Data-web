@@ -419,6 +419,8 @@
             }
 
             .title {
+                width:171px;
+                display: inline-block;
                 margin-right: 8px;
                 line-height: 35px;
                 font-size: 16px;

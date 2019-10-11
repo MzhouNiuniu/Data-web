@@ -121,6 +121,7 @@
         line-height: $line-height;
         font-size: 16px;
         font-weight: bold;
+        width: 180px;
         color: rgba(0, 0, 52, 1);
     }
 
