@@ -81,9 +81,23 @@
             </UIDescription>
 
             <div class="hr-dashed"></div>
-            <UIDescription title="其他信息" class="mt-20">
-                <AttachmentList title="" :value="detail.photos"/>
+            <UIDescription title="公司新闻" class="mt-20" v-if="detail.news.length>0">
+                <div class="last-list">
+                    <ul class="trade-list">
+                        <li @click="toDetail(item._id,1) " class="pr-20 c" v-for=" item in detail.news" :key="item._id">
+                            <div class="circle"></div>
+                            <p >{{item.title}}</p>
+                            <span class="date">【{{item.releaseTime}}】</span>
+
+                        </li>
+                    </ul>
+                </div>
             </UIDescription>
+            <UIDescription title="其他信息" class="mt-20">
+
+                <AttachmentList title="" :value="detail.other"/>
+            </UIDescription>
+
         </div>
     </section>
 </template>
@@ -310,7 +324,11 @@
                 this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
                     this.detail = res.data[0]
                 })
-            }
+            },
+            toDetail(id,type){
+                console.log(id)
+                this.$router.push({path:`/newsDetail/${id}`,query:{type:'新闻'}})
+            },
         },
         created() {
             this.$store.commit('app/setBgColor1')
@@ -479,6 +497,40 @@
                     border-bottom: 38px solid #358BFE;
                     border-left: 16px solid transparent;
                 }
+            }
+        }
+    }
+    .trade-list{
+        li{
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            font-size: 18px;
+            align-items:center;
+            width: 100%;
+
+
+            & > .circle{
+                width: 10px;
+                height: 10px;
+                background: #D8D8D8;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                margin-right: 15px;
+            }
+            & >p{
+                flex: 1;
+                font-size: 15px;
+
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                margin-right: 10px;
+                width: 338px;
+            }
+            & > span{
+                font-size: 14px;
             }
         }
     }
