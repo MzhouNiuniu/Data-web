@@ -27,6 +27,7 @@
         created() {
             this.$store.commit('app/setBgColor1')
         },
+
     }
 </script>
 <style lang="scss" scoped>

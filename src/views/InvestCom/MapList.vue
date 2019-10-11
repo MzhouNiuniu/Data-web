@@ -63,7 +63,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                人口（千万）：
+                                人口（百万）：
                             </p>
                             <p class="value">
                                 30.12
@@ -269,7 +269,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                人口（千万）：
+                                人口（百万）：
                             </p>
                             <p class="value">
                                 30.12

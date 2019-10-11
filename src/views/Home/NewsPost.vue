@@ -6,22 +6,21 @@
                 <span>news</span>
             </p>
             <div class="mt-32 content">
+
                 <div class="left">
-                    <div class="cover" :style="{backgroundImage: `url('/image/noPic.png')`}">
+                    <div class="cover" :style="{backgroundImage:(list[0].cover==null?`url('/image/noPic.png')`:`url(${list[0].cover})`)}">
                         <router-link class="title text-ellipsis" to="/">
-                            湖南省住房和城乡建设厅解读《关于推进城乡…
+                           {{list[0].title}}
                         </router-link>
                     </div>
                     <p class="date mt-20">
-                        发布时间：2019-09-13 14:23
+                        发布时间：{{list[0].releaseTime}}
                     </p>
                     <p class="intro mt-16">
                         <TextEllipsis
                                 fill
                                 :rows="3"
-                                value="这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一 摘要
-                            这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这 是一段新
-                            闻摘要这是一段新闻摘要这是一段新闻摘要这是…"
+                                :value="list[0].content"
                         />
                     </p>
                 </div>
@@ -33,25 +32,23 @@
                         </li>
                     </ul>
                     <ul class="menu-content">
-                        <li v-for="item in 3" :key="item">
-                            <router-link class="look-detail" to="/">
+                        <li v-for="item in list" :key="item._id">
+                            <router-link class="look-detail" :to="`/newsDetail/${item._id}?type=行业动态`">
                                 了解更多
                             </router-link>
                             <div class="header">
-                                <router-link class="title ue-link text-ellipsis" to="/">
-                                    这是一个新闻标题这是一个新闻标题
+                                <router-link class="title ue-link text-ellipsis" :to="`/newsDetail/${item._id}?type=行业动态`">
+                                    {{item.title}}
                                 </router-link>
                                 <p class="date">
-                                    [2019-09-12]
+                                    {{item.releaseTime}}
                                 </p>
                             </div>
                             <p class="content">
                                 <TextEllipsis
                                         fill
                                         :rows="2"
-                                        value="这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这是一 摘要
-                            这是一段新闻摘要这是一段新闻摘要这是一段新闻摘要这 是一段新
-                            闻摘要这是一段新闻摘要这是一段新闻摘要这是…"
+                                        :value="item.content"
                                 />
                             </p>
                         </li>
@@ -79,12 +76,39 @@
                     '项目动态',
                 ],
                 activeMenuIndex: 0,
+                news: {},
+                list:[{
+                    title:'',
+                    cover:'',
+                    content:''
+                }]
             }
         },
         watch: {
             activeMenuIndex(value) {
+                if(value==0){
+                  this.list=this.news.industryDynamic
+                }
+                if(value==1){
+                    this.list=this.news.ideaNew
+                }
+                if(value==2){
+                    this.list=this.news.ideaDynamic
+                }
+                if(value==3){
+                    this.list=this.news.projectDynamic
+                }
                 console.log(value)
             },
+        },
+        created() {
+            this.http.get(this.api.home.news).then(res => {
+                try {
+                    this.news = res.data.news
+                    this.list=this.news.industryDynamic
+                } catch (e) {
+                }
+            })
         },
     }
 </script>
@@ -177,7 +201,6 @@
 
             background: rgba(237, 242, 246, 1);
 
-
             &::before {
                 content: '';
                 position: absolute;
@@ -268,7 +291,6 @@
                     color: rgba(51, 51, 51, 1);
                 }
             }
-
 
             .content {
                 margin-top: 6px;

@@ -68,7 +68,7 @@
             <div class="left">
                 <div class="card">
                     <p class="title">
-                        省级城投
+                        省级城投一览
                     </p>
                     <div class="content">
                         <ul class="list">
@@ -83,7 +83,7 @@
                                     城投
                                 </li>
                                 <li>
-                                    开发区数据
+                                    新区城投
                                 </li>
                                 <li>
                                     其他
@@ -100,7 +100,7 @@
                                     城投
                                 </li>
                                 <li>
-                                    开发区数据
+                                    新区城投
                                 </li>
                                 <li>
                                     其他
@@ -139,7 +139,7 @@
                                     李毅
                                 </li>
                                 <li>
-                                    开发区数据
+                                    新区城投
                                 </li>
                                 <li>
                                     其他

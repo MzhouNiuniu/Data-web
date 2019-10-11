@@ -8,6 +8,7 @@ export default {
     /* 首页 */
     home: {
         banner: `${baseUrl}/indexConfig/getDetails`,
+        news:`${baseUrl}/indexConfig/getIndex`,
     },
     /* 项目合作 */
     projectUnion: {

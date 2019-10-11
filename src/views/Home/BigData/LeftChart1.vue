@@ -27,7 +27,7 @@
                         fontSize: Chart.getSize(16),
                         lineHeight: Chart.getSize(16),
                     },
-                    data: ['省级', '市级', '县级']
+                    data: ['省级', '市级', '区县级']
                 },
                 series: [
                     {
@@ -75,7 +75,7 @@
                             },
                             {
                                 value: 120,
-                                name: '县级',
+                                name: '区县级',
                                 itemStyle: {
                                     color: '#0000FC'
                                 },

@@ -15,15 +15,15 @@ export default [
     // },
     {
         name: '城投数据',
-        path: '/InvestCom',
+        path: '/InvestCom/Map',
         children: [
-            {
-                name: '列表模式',
-                path: '/InvestCom',
-            },
             {
                 name: '地图模式',
                 path: '/InvestCom/Map',
+            },
+            {
+                name: '列表模式',
+                path: '/InvestCom',
             },
         ],
     },

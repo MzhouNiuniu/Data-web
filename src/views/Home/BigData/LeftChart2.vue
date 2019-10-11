@@ -122,7 +122,7 @@
                         label: {
                             color: '#fff',
                             fontSize: Chart.getSize(18),
-                            formatter: '{c} 项'
+                            formatter: '{c} 个'
                         },
                         labelLine: {
                             normal: {
