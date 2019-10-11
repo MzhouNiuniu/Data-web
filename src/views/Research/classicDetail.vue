@@ -28,6 +28,7 @@
         },
         methods: {
             async getDetail() {
+                console.log(this.api.researchScriptures.detail)
                 let res = await this.http.get(this.api.researchScriptures.detail, {id: this.$route.params.id})
                 this.data = res.data[0]
                 console.log(res)
@@ -78,7 +79,9 @@
         }
     }
     .content{
-        background: #F6FBFF;
+        /*background: #F6FBFF;*/
         padding: 20px 15px;
+        color: #000;
+        font-size: 16px;
     }
 </style>

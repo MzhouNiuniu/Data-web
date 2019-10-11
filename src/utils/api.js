@@ -35,7 +35,7 @@ export default {
         list: `${baseUrl}/researchReport/getListByWeb`,
         detail: `${baseUrl}/researchReport/getDetails`,
     },
-    //magazine
+    //经典案例
     researchScriptures: {
         list: `${baseUrl}/researchScriptures/getListByWeb`,
         detail: `${baseUrl}/researchScriptures/getDetails`,

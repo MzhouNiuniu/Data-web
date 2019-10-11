@@ -5,7 +5,7 @@
                 <div class="detail-top pt-20 pb-20">
                     <p class="detail-top-title pl-15">经典案例</p>
                 </div>
-                <div class="content-wrapper" @click="toDetail(1)" v-for="(item,index) in data" :key="index">
+                <div class="content-wrapper" @click="toDetail(item._id)" v-for="(item,index) in data" :key="index">
                     <img src="./img/right.png" alt="">
                     <div class="content">
                         <p>{{item.name}}</p>
@@ -59,12 +59,12 @@
             },
 
             async getList(size,current){
-                let res = await this.http.get(this.api.companyData.getListBySearch,{limit:size,page:current})
+                let res = await this.http.get(this.api.researchScriptures.list,{limit:size,page:current})
                 this.pagination.total = res.data.total
                 this.data = res.data.docs
             },
             toDetail(id){
-                this.$router.push({path:`/studyDetail/${id}`})
+                this.$router.push({path:`/classicDetail/${id}`})
             },
         }
     }

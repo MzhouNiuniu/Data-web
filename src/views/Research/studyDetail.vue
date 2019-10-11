@@ -96,8 +96,10 @@
     }
 
     .content {
-        background: #F6FBFF;
+        /*background: #F6FBFF;*/
+        font-size: 16px;
         padding: 20px 15px;
+        color: #000;
     }
 
     .download {

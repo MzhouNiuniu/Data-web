@@ -25,6 +25,7 @@
             <div class="hr-dashed mt-20"></div>
             <UIDescription title="研究方向" class="mt-20" :text="detail.direction"/>
             <div class="hr-dashed mt-20"></div>
+
             <UIDescription title="研究成果" class="mt-20" :text="detail.achievement"/>
             <div class="hr-dashed mt-20"></div>
         </div>
@@ -57,7 +58,7 @@
                         return;
                     }
 
-                    formData.achievement && formData.achievement[0] && (formData.achievement = formData.achievement[0]); // test
+                    // formData.achievement && formData.achievement[0] && (formData.achievement = formData.achievement[0]); // test
 
                     this.detail = formData;
 

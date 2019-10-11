@@ -24,7 +24,7 @@
                     <div class="noData" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}"></div>
                     <div class="content">
                         <p class="city-title">{{item.title}}</p>
-                        <p class="source">来源：{{item.source}}</p>
+                        <!--<p class="source">来源：{{item.source}}</p>-->
                         <p class="time">发布时间：{{item.releaseTime}}</p>
                         <p class="content" >
                             {{filterHTMLTag(item.content)}}

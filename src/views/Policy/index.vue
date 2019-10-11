@@ -5,11 +5,11 @@
         </p>
         <Row :gutter="29" class="mt-20">
             <Col span="12">
-            <UICard title="政策法规" title-type="fill">
+            <UICard title="政策法规" title-type="fill" >
                 <template slot="header-action">
                     <LinkMore to="/policyMore/0" style="font-size: 14px;"/>
                 </template>
-                <ul class="list small">
+                <ul class="list small" style="height: 160px;">
                     <li v-for="(item,index) in policies" :key="item._id">
                         <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
                            {{item.name}}
@@ -26,7 +26,7 @@
                 <template slot="header-action">
                     <LinkMore to="/policyMore/1" style="font-size: 14px;"/>
                 </template>
-                <ul class="list small">
+                <ul class="list small"  style="height: 160px;">
                     <li v-for="item in guide"  :key="item._id">
                         <router-link class="title ue-link text-ellipsis" :to="'/PolicyDetail/'+item._id">
                             {{item.name}}

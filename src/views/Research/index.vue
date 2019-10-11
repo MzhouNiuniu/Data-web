@@ -242,6 +242,7 @@
             margin: 20px 0;
 
             & > div{
+                height: 363px;
                 display: inline-block;
                 width: calc(50% - 10px);
                 border: 1px solid #BFC5CA;
