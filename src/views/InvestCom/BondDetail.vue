@@ -126,63 +126,108 @@
 
         <div class="hr-dashed"></div>
         <UIDescription title="债券记录" class="mt-20">
-            <Button type="info" :to="`/BondRecordList/111`">查看债券记录</Button>
+            <Table class="project-ivu-table" stripe :columns="recordColumns" :data="detail.record"/>
+            <!--            <Button type="info" :to="`/BondRecordList/111`">查看债券记录</Button>-->
         </UIDescription>
     </section>
 </template>
 
 <script>
-    import AttachmentList from '@components/AttachmentList'
-    import UIDescription from '@components/ui/Description'
+    import AttachmentList from '@components/AttachmentList';
+    import UIDescription from '@components/ui/Description';
+    import DownloadFile from '@components/DownloadFile';
 
     export default {
         name: 'BoundDetail',
         components: {
             AttachmentList,
             UIDescription,
+            DownloadFile,
         },
         data() {
-            this.id = this.$route.params.id
+            this.id = this.$route.params.id;
+            this.recordColumns = [
+                {
+                    width: 140,
+                    title: '债券简称',
+                    key: 'abbreviation',
+                },
+                {
+                    width: 140,
+                    title: '成交日期',
+                    key: 'makeTime',
+                },
+                {
+                    width: 180,
+                    title: '成交金额（亿元）',
+                    key: 'makeMoney',
+                },
+                {
+                    width: 120,
+                    title: '剩余期限',
+                    key: 'remainingTime',
+                },
+                {
+                    width: 110,
+                    title: '成交利率',
+                    key: 'makeRate',
+                },
+                {
+                    width: 140,
+                    title: '偏离（BP）',
+                    key: 'BP',
+                },
+                {
+                    width: 180,
+                    title: '相关文件',
+                    render: (h, { row }) => <DownloadFile url={row.aboutFile}/>,
+                },
+                {
+                    minWidth: 180,
+                    title: '其他',
+                    render: (h, { row }) => <DownloadFile url={row.other}/>,
+                },
+            ];
 
             return {
                 detail: {},
-            }
+            };
         },
         computed: {
             allFiles() {
-                const { detail } = this
+                const { detail } = this;
 
                 // 还未获取数据
                 if (!detail.code) {
-                    return
+                    return;
                 }
 
-                const stack = []
-                detail.aboutFile && stack.push(detail.aboutFile)
-                detail.specification && stack.push(detail.specification)
-                detail.report && stack.push(detail.report)
-                return stack.join(',')
+                const stack = [];
+                detail.aboutFile && stack.push(detail.aboutFile);
+                detail.specification && stack.push(detail.specification);
+                detail.report && stack.push(detail.report);
+                return stack.join(',');
             },
         },
         methods: {
             loadDetail() {
                 this.http.get(this.api.companyData.detail, { id: this.id }).then(detail => {
                     try {
-                        const { type, index } = this.$route.params
-                        detail = detail.data[0].financing[index][type]
+                        const { type, index } = this.$route.params;
+                        detail = detail.data[0].financing[index][type];
                     } catch (e) {
-                        this.$router.replace('/')
-                        return
+                        this.$router.replace('/');
+                        return;
                     }
 
-                    this.detail = detail
-                })
+                    this.detail = detail;
+                });
             },
         },
         created() {
-            this.loadDetail()
+            this.loadDetail();
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

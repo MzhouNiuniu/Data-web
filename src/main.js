@@ -7,7 +7,7 @@ import App from './App.vue';
 import './app.scss';
 import Api from './utils/api';
 import Http from './utils/http';
-import {filterHTMLTag} from './utils/index';
+import { filterHTMLTag } from './utils/index';
 /* lib */
 import './lib/iview';
 import './lib/swiper';
@@ -17,8 +17,6 @@ Vue.config.productionTip = false;
 Vue.prototype.api = Api;
 Vue.prototype.http = Http;
 Vue.prototype.filterHTMLTag = filterHTMLTag;
-
-
 
 
 // // 临时使用后台的api，方便测试

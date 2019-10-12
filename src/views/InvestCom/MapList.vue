@@ -14,7 +14,8 @@
                 <span class="label">
                     年份：
                 </span>
-                <DatePicker size="large" type="year" style="width: 185px"/>
+                <DatePicker size="large" type="year" :editable="false" :clearable="false" style="width: 185px"
+                            v-model="currentYear" @on-change="loadMapData"/>
             </div>
         </div>
         <div class="project-container__wrapper map-container__wrapper">
@@ -23,14 +24,15 @@
                     <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
                     <ul class="detail">
                         <p class="caption">
-                            {{currentGovName}}
+                            <!-- 默认展示北京市 -->
+                            {{currentGovName || '北京市'}}
                         </p>
                         <li class="item">
                             <p class="label">
                                 行政级别：
                             </p>
                             <p class="value">
-                                省级
+                                {{currentGovDetail.directly || '/'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -39,7 +41,7 @@
                                 省城投个数（个）：
                             </p>
                             <p class="value">
-                                500
+                                ???
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -48,7 +50,7 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                1400.00
+                                {{currentGovDetail.GDP || '/'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -57,7 +59,7 @@
                                 一般公共预算（亿元）：
                             </p>
                             <p class="value">
-                                500.00
+                                ???
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -66,7 +68,7 @@
                                 人口（百万）：
                             </p>
                             <p class="value">
-                                30.12
+                                {{currentGovDetail.man || '/'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -75,7 +77,7 @@
             </div>
         </div>
         <div class="project-container mt-30">
-            <Table class="project-ivu-table" stripe :columns="columns" :data="list"/>
+            <Table class="project-ivu-table" stripe :columns="columns" :data="comList"/>
 
             <Pagination
                     class="mt-30 text-right"
@@ -103,8 +105,9 @@
             this.map = null;
             this.columns = [
                 {
+                    width: '120px',
                     title: '序号',
-                    key: 'name',
+                    key: 'index',
                 },
                 {
                     title: '企业名称',
@@ -112,28 +115,21 @@
                 },
                 {
                     title: '总资产规模（亿元）',
-                    key: 'name',
+                    key: 'index',
                 },
                 {
                     title: '评级数据',
-                    key: 'name',
+                    key: 'index',
                 },
                 {
                     title: '主体类型',
-                    key: 'name',
+                    key: 'mainType',
                 },
             ];
 
-
-            this.defaultGovName = '北京市';
-            this.areaLevelMap = {
-                'province': '省级',
-                'city': '市级',
-                'district': '区级',
-            };
-
-            this.list = [];
-
+            this.defaultCurrentGovName = '北京市'; // 默认北京
+            this.defaultCurrentGovLevel = ''; // 默认为空，代表首页
+            this.govNameStack = []; // 0:中国；从1开始，例如 ["中华人民共和国", "山西省"]
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
                 pagination: {
@@ -141,70 +137,40 @@
                     limit: 10,
                     total: 0,
                 },
+                comList: [],
 
 
-                currentGovName: this.defaultGovName,
-                currentGovLevel: 'province',
-                currentGovLevelText: this.areaLevelMap.province,
+                currentYear: new Date(),
+                currentGovName: this.defaultCurrentGovName,
+                currentGovLevel: this.defaultCurrentGovLevel,
+                currentGovDetail: {},
             };
         },
-        computed: {
-            currentAreaData() {
-                return {};
-            },
-        },
         methods: {
-            handleMapChange({ nameStack, levelStack }) {
-                if (nameStack.length === 1) {
-                    this.currentGovName = this.defaultGovName;
-                } else {
-                    this.currentGovName = nameStack[nameStack.length - 1];
-                }
-                this.currentGovLevel = levelStack[levelStack.length - 1];
-                this.currentGovLevelText = this.areaLevelMap[this.currentGovLevel];
-                this.loadMapData();
-            },
             handlePageChange({ page, limit }) {
                 this.pagination.page = page;
                 this.pagination.limit = limit;
                 this.loadList();
             },
             loadList() {
-                this.pagination.total = 100;
-                this.list = Array(10).fill({ 'name': Math.random().toString(32).substring(2, 9) });
-            },
-            loadMapData() {
-                const { currentGovLevel, currentGovLevelText, currentGovName } = this;
-                const params = {
-                    directly: currentGovLevelText, // 获取当前级别的所有数据
-                };
-                if (currentGovLevel === 'province') {
-                    params.province = currentGovName;
-                } else if (currentGovLevel === 'city') {
-                    params.city = currentGovName;
-                } else {
-                    return;
-                }
+                const page = this.pagination.page, size = this.pagination.limit;
+                this.http.get(this.api.companyData.comListByYear, {
+                    year: this.currentYear.getFullYear(),
+                    page,
+                    limit: size,
+                }).then(res => {
+                    if (res.status !== 200) {
+                        return;
+                    }
 
-                this.http.get(this.api.companyData.govInfo, params).then(res => {
-                    const data = res.data;
-                    data.forEach(item => {
-                        const currentGovName = item[currentGovLevel];
-                        item.name = currentGovName;
-                        item.value = 100; // todo 暂无
-
-
-                        if (currentGovName === this.currentGovName) {
-                            console.log(item);
-                        }
-
+                    res = res.data;
+                    this.pagination.total = res.total;
+                    res.docs.forEach((item, index) => {
+                        item.index = (page - 1) * size + index + 1;
                     });
-
-                    this.map.setOption(option => {
-                        option.series[0].data = data;
-                        // option.dataRange.max = Math.max(0, ...data.map(item => item.value)) // todo 暂无value
-                    });
+                    this.comList = res.docs;
                 });
+
             },
             setMapTooltip() {
                 this.map.setOption(option => {
@@ -222,14 +188,13 @@
                                 </p>
                                 <li class="item">
                                     <p class="label">
-                                        # 暂无数据
+                                        /
                                     </p>
                                 </li>
                             </ul>
                             `;
                             }
 
-                            // console.log(detail)
                             return `
                             <ul class="invest-com__map-list__map-tooltip">
                         <p class="caption">
@@ -248,7 +213,7 @@
                                 省城投个数（个）：
                             </p>
                             <p class="value">
-                                500
+                                ？？？
                             </p>
                         </li>
                         <li class="item">
@@ -256,7 +221,7 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                ${detail.addFDP}
+                                ${detail.GDP}
                             </p>
                         </li>
                         <li class="item">
@@ -264,7 +229,7 @@
                                 一般公共预算（亿元）：
                             </p>
                             <p class="value">
-                                500.00
+                                ？？？
                             </p>
                         </li>
                         <li class="item">
@@ -272,7 +237,7 @@
                                 人口（百万）：
                             </p>
                             <p class="value">
-                                30.12
+                                ${detail.man}
                             </p>
                         </li>
                     </ul>
@@ -280,7 +245,7 @@
                         },
                     };
 
-                    // add dataRange
+                    // add dataRange（后改用visualMap）
                     option.visualMap = {
                         type: "continuous",
                         min: 0,
@@ -297,6 +262,58 @@
 
                     // ser areaStyle
                     option.series[0].itemStyle.normal.areaColor = '#e3e3e3';
+                });
+            },
+            handleMapChange({ nameStack, levelStack }) {
+                this.govNameStack = nameStack;
+                this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
+
+                this.currentGovLevel = ({
+                    'province': '省级',
+                    'city': '市级',
+                    'district': '区级',
+                })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel;
+
+                this.loadMapData();
+            },
+            loadMapData() {
+                const { currentYear, currentGovLevel, govNameStack } = this;
+                const params = {
+                    year: currentYear.getFullYear(),
+                    directly: currentGovLevel, // 获取当前级别的所有数据
+
+                    province: govNameStack[1] || '',
+                    city: govNameStack[2] || '',
+                    district: govNameStack[3] || '',
+                };
+
+                this.http.get(this.api.companyData.govInfo, params).then(res => {
+                    if (res.status !== 200) {
+                        // 清除侧栏信息
+                        this.currentGovDetail = {};
+
+                        this.map.setOption(option => {
+                            option.series[0].data = [];
+                            option.visualMap.max = 1;
+                        });
+                        return;
+                    }
+
+                    this.currentGovDetail = res.data.base || {};
+
+                    let maxDataRange = 1;
+                    res.data.list.forEach(item => {
+                        item.name = item.district || item.city || item.province;
+                        item.value = 100; // todo 暂无
+
+                        if (item.value > maxDataRange) {
+                            maxDataRange = item.value;
+                        }
+                    });
+                    this.map.setOption(option => {
+                        option.series[0].data = res.data.list;
+                        option.visualMap.max = maxDataRange;
+                    });
                 });
             },
         },

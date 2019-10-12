@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.9.105:3000'
+const baseUrl = 'http://192.168.9.105:3000';
 
 export default {
     //新闻
@@ -57,9 +57,11 @@ export default {
     //城投公司
     companyData: {
         getListBySearch: `${baseUrl}/companyData/getListBySearch`,
+        comListByYear: `${baseUrl}/companyData/getListByYear`,
+
         detail: `${baseUrl}/companyData/getDetails`,
         govInfo: `${baseUrl}/basicData/getListByWeb`,
     }
 
 
-}
+};

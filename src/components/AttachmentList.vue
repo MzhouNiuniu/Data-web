@@ -4,7 +4,7 @@
         <!--下载列表-->
         <!--</p>-->
         <div class="down" v-if="title">{{title}}</div>
-        <p v-if="!list">
+        <p v-if="!list" style="padding-left: 21px;font-size: 14px;">
             暂无文件
         </p>
         <ul v-else class="list">

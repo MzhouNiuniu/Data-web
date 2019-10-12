@@ -42,6 +42,7 @@
                 spaceBetween: 0,
                 centeredSlides: true,
                 loop: true,
+                autoplay:true,
                 navigation: {
                     prevEl: `.${this.prevBtnClassName}`,
                     nextEl: `.${this.nextBtnClassName}`,
