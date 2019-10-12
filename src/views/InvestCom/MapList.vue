@@ -21,7 +21,7 @@
         <div class="project-container__wrapper map-container__wrapper">
             <div class="project-container">
                 <div class="map-container">
-                    <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
+                    <ChinaMap ref="map"  class="map" @change="handleMapChange" @back="handleMapChange"/>
                     <ul class="detail">
                         <p class="caption">
                             <!-- 默认展示北京市 -->
@@ -41,7 +41,7 @@
                                 省城投个数（个）：
                             </p>
                             <p class="value">
-                                ???
+                                {{currentGovDetail.count || '/'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -59,7 +59,7 @@
                                 一般公共预算（亿元）：
                             </p>
                             <p class="value">
-                                ???
+                                {{currentGovDetail.budget || '/'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -154,8 +154,14 @@
             },
             loadList() {
                 const page = this.pagination.page, size = this.pagination.limit;
+                const { currentYear, currentGovLevel, govNameStack } = this;
+
                 this.http.get(this.api.companyData.comListByYear, {
                     year: this.currentYear.getFullYear(),
+                    directly: currentGovLevel, // 获取当前级别的所有数据
+                    province: govNameStack[1] || '',
+                    city: govNameStack[2] || '',
+                    district: govNameStack[3] || '',
                     page,
                     limit: size,
                 }).then(res => {
@@ -173,6 +179,7 @@
 
             },
             setMapTooltip() {
+
                 this.map.setOption(option => {
                     // add tooltip，由于echarts问题，多次触发
                     option.tooltip = {
@@ -213,7 +220,7 @@
                                 省城投个数（个）：
                             </p>
                             <p class="value">
-                                ？？？
+                                ${detail.count}
                             </p>
                         </li>
                         <li class="item">
@@ -229,7 +236,7 @@
                                 一般公共预算（亿元）：
                             </p>
                             <p class="value">
-                                ？？？
+                                ${detail.budget}
                             </p>
                         </li>
                         <li class="item">
@@ -267,14 +274,13 @@
             handleMapChange({ nameStack, levelStack }) {
                 this.govNameStack = nameStack;
                 this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
-
                 this.currentGovLevel = ({
                     'province': '省级',
                     'city': '市级',
                     'district': '区级',
                 })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel;
-
                 this.loadMapData();
+                this.loadList()
             },
             loadMapData() {
                 const { currentYear, currentGovLevel, govNameStack } = this;
