@@ -3,17 +3,17 @@
 </template>
 
 <script>
-    import echarts from 'echarts'
-    import Chart from '@components/Chart'
+    import echarts from 'echarts';
+    import Chart from '@components/Chart';
 
     export default {
         name: 'LeftChart1',
         components: {
             Chart,
         },
+        inject: ['dataStore'],
         data() {
-
-            this.chart = null
+            this.chart = null;
             this.option = {
                 textStyle: {
                     fontFamily: 'PingFang-SC',
@@ -84,7 +84,24 @@
                 series: [{
                     type: 'bar',
                     barWidth: Chart.getSize(19),
-                    data: [300, 412, 602, 321],
+                    data: [
+                        {
+                            value: 0,
+                            name: 'AAA',
+                        },
+                        {
+                            value: 0,
+                            name: 'AA+',
+                        },
+                        {
+                            value: 0,
+                            name: 'AA',
+                        },
+                        {
+                            value: 0,
+                            name: '其它',
+                        },
+                    ],
                     itemStyle: {
                         normal: {
                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -110,13 +127,27 @@
                         fontSize: Chart.getSize(14),
                     },
                 }]
-            }
-            return {}
+            };
+            return {};
         },
         mounted() {
-            this.chart = this.$refs.chart.getChart()
+            this.chart = this.$refs.chart.getChart();
+            this.$watch('dataStore.rate', data => {
+                const targetSeries = this.option.series[0].data;
+                const indexMapOfSeriesItem = targetSeries.reduce((acc, item, index) => (acc[item.name] = index, acc), {});
+                data.forEach(item => {
+                    // 不存在的话，就认为是其它（以最后一条数据为准）
+                    if (!item._id) {
+                        item._id = '其它';
+                    }
+
+                    indexMapOfSeriesItem.hasOwnProperty(item._id) && (targetSeries[indexMapOfSeriesItem[item._id]].value = item.rateMain);
+                });
+
+                this.chart.setOption(this.option);
+            });
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

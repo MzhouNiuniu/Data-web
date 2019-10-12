@@ -29,7 +29,7 @@
                             总资产(亿元）
                         </p>
                         <div class="content">
-                            345.00
+                            {{ dataStore.title && dataStore.title.allNum || 0 }}
                         </div>
                     </div>
                     <div class="card">
@@ -37,7 +37,8 @@
                             总数目(项）
                         </p>
                         <div class="content">
-                            345
+                            {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
+                            dataStore.title.totalAsset[0].totalAsset || 0 }}
                         </div>
                     </div>
                 </div>
@@ -116,36 +117,7 @@
                         发行债券
                     </p>
                     <div class="content">
-                        <ul class="list">
-                            <ul class="header">
-                                <li>
-                                    城市
-                                </li>
-                                <li>
-                                    发行人
-                                </li>
-                                <li>
-                                    债券简称
-                                </li>
-                                <li>
-                                    债券规模
-                                </li>
-                            </ul>
-                            <ul class="item" v-for="item in 3" :key="item">
-                                <li>
-                                    南京
-                                </li>
-                                <li>
-                                    李毅
-                                </li>
-                                <li>
-                                    新区城投
-                                </li>
-                                <li>
-                                    其他
-                                </li>
-                            </ul>
-                        </ul>
+                        <Table :columns="[]"/>
                     </div>
                 </div>
             </div>
@@ -154,11 +126,13 @@
 </template>
 
 <script>
-    import LeftChart1 from './LeftChart1'
-    import LeftChart2 from './LeftChart2'
-    import Map from './Map'
-    import RightChart1 from './RightChart1'
-    import RightChart2 from './RightChart2'
+    import LeftChart1 from './LeftChart1';
+    import LeftChart2 from './LeftChart2';
+    import Map from './Map';
+    import RightChart1 from './RightChart1';
+    import RightChart2 from './RightChart2';
+
+    import Table from './Table';
 
     export default {
         name: 'BigData',
@@ -168,8 +142,44 @@
             Map,
             RightChart1,
             RightChart2,
+            Table,
         },
-    }
+        provide() {
+            return {
+                dataStore: this.dataStore,
+            };
+        },
+        data() {
+            return {
+                dataStore: {
+                    // 存储所有数据，子组件自行获取
+                    /* eslint-disable */
+                    /**
+                     Level：对应 行政级别     （没有就没有返回 但是你要做判断）
+                     mainType 对应主题类型 （没有就没有返回 但是你要做判断）
+                     Title  对应中间
+                      Rate 评级 数量   （没有就没有返回 但是你要做判断）
+                     totalAssetS  主营业收入   （没有就没有返回 但是你要做判断）
+                     Pc：省投  
+                     Fi  发行债卷
+                     */
+                },
+            };
+        },
+        created() {
+            this.http.get(this.api.home.bigData).then(res => {
+                if (res.status !== 200) {
+                    return;
+                }
+                res = res.data;
+                console.log(res);
+
+                for (let k in res) {
+                    res[k] && this.$set(this.dataStore, k, res[k]);
+                }
+            });
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

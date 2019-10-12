@@ -3,15 +3,16 @@
 </template>
 
 <script>
-    import Chart from '@components/Chart'
+    import Chart from '@components/Chart';
 
     export default {
         name: 'LeftChart1',
         components: {
             Chart,
         },
+        inject: ['dataStore'],
         data() {
-            this.chart = null
+            this.chart = null;
             this.option = {
                 textStyle: {
                     fontFamily: 'PingFang-SC',
@@ -60,21 +61,21 @@
                         roseType: 'radius',
                         data: [
                             {
-                                value: 60,
+                                value: 0,
                                 name: '省级',
                                 itemStyle: {
                                     color: '#FFF428'
                                 },
                             },
                             {
-                                value: 95,
+                                value: 0,
                                 name: '市级',
                                 itemStyle: {
                                     color: '#00E8FF'
                                 },
                             },
                             {
-                                value: 120,
+                                value: 0,
                                 name: '区县级',
                                 itemStyle: {
                                     color: '#0000FC'
@@ -102,13 +103,24 @@
                         animationEasing: 'elasticOut',
                     }
                 ],
-            }
-            return {}
+            };
+            return {};
         },
         mounted() {
-            this.chart = this.$refs.chart.getChart()
+            this.chart = this.$refs.chart.getChart();
+            this.$watch('dataStore.level', data => {
+                // 省 province 0
+                // 市 city     1
+                // 区 district 2
+
+                const targetSeries = this.option.series[1].data;
+                targetSeries[0].value = data.province || 0;
+                targetSeries[1].value = data.city || 0;
+                targetSeries[2].value = data.district || 0;
+                this.chart.setOption(this.option);
+            });
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

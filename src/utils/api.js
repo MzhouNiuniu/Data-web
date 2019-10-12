@@ -9,6 +9,7 @@ export default {
     home: {
         banner: `${baseUrl}/indexConfig/getDetails`,
         news:`${baseUrl}/indexConfig/getIndex`,
+        bigData:`${baseUrl}/indexConfig/getBigData`,
     },
     /* 项目合作 */
     projectUnion: {

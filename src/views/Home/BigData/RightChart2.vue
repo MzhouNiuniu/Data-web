@@ -3,27 +3,19 @@
 </template>
 
 <script>
-    import echarts from 'echarts'
-    import Chart from '@components/Chart'
+    import echarts from 'echarts';
+    import Chart from '@components/Chart';
+
     export default {
         name: 'LeftChart1',
         components: {
             Chart,
         },
+        inject: ['dataStore'],
         data() {
 
-            this.chart = null
+            this.chart = null;
 
-            const data = [311, 578, 421, 512, 624, 548, 912, 324, 545]
-
-            console.log(data.map((item, index) => [
-                {
-                    coord: [index, 0],
-                },
-                {
-                    coord: [index, item],
-                }
-            ]))
             this.option = {
                 textStyle: {
                     fontFamily: 'PingFang-SC',
@@ -91,7 +83,44 @@
                         zlevel: 1,
                         type: 'line',
                         symbol: "none",
-                        data,
+                        data: [
+                            {
+                                value: 0,
+                                name: '城投',
+                            },
+                            {
+                                value: 0,
+                                name: '新区城投',
+                            },
+                            {
+                                value: 0,
+                                name: '交投',
+                            },
+                            {
+                                value: 0,
+                                name: '水投',
+                            },
+                            {
+                                value: 0,
+                                name: '文旅投',
+                            },
+                            {
+                                value: 0,
+                                name: '工投',
+                            },
+                            {
+                                value: 0,
+                                name: '农投',
+                            },
+                            {
+                                value: 0,
+                                name: '地铁',
+                            },
+                            {
+                                value: 0,
+                                name: '其它',
+                            },
+                        ],
                         lineStyle: {
                             width: 0,
                         },
@@ -119,28 +148,52 @@
                             label: {
                                 show: true,
                                 position: 'end',
-                                align:'left',
+                                align: 'left',
                                 color: '#fff',
                             },
-                            data: data.map((item, index) => [
-                                {
-                                    coord: [index, 0],
-                                },
-                                {
-                                    coord: [index, item],
-                                    value: item,
-                                }
-                            ]),
+                            data: [],
                         },
                     },
                 ]
-            }
-            return {}
+            };
+
+            this.updateMarkLine();
+            return {};
+        },
+        methods: {
+            updateMarkLine() {
+                const targetSeries = this.option.series[0];
+                targetSeries.markLine.data = targetSeries.data.map((item, index) => [
+                    {
+                        coord: [index, 0],
+                    },
+                    {
+                        coord: [index, item.value],
+                        value: item.value,
+                    }
+                ]);
+            },
         },
         mounted() {
-            this.chart = this.$refs.chart.getChart()
+            this.chart = this.$refs.chart.getChart();
+            this.$watch('dataStore.totalAssetS', data => {
+                const targetSeries = this.option.series[0].data;
+                const indexMapOfSeriesItem = targetSeries.reduce((acc, item, index) => (acc[item.name] = index, acc), {});
+                data.forEach(item => {
+                    // 不存在的话，就认为是其它（以最后一条数据为准）
+                    if (!item._id) {
+                        item._id = '其它';
+                    }
+                    // item.totalAsset = 200 // 测试，看效果
+
+                    indexMapOfSeriesItem.hasOwnProperty(item._id) && (targetSeries[indexMapOfSeriesItem[item._id]].value = item.totalAsset);
+                });
+
+                this.updateMarkLine();
+                this.chart.setOption(this.option);
+            });
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
