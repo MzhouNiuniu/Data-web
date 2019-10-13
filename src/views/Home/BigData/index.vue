@@ -3,17 +3,17 @@
         <div class="top-container flex-container">
             <div class="left">
                 <div class="card">
-                    <p class="title">
+                    <router-link tag="p" class="title" to="/ChartPreview?name=行政级别">
                         行政级别
-                    </p>
+                    </router-link>
                     <div class="content">
                         <LeftChart1/>
                     </div>
                 </div>
                 <div class="card mt-50">
-                    <p class="title">
+                    <router-link tag="p" class="title" to="/ChartPreview?name=主体类型">
                         主体类型
-                    </p>
+                    </router-link>
                     <div class="content">
                         <LeftChart2/>
                     </div>
@@ -48,17 +48,17 @@
             </div>
             <div class="right">
                 <div class="card">
-                    <p class="title right">
+                    <router-link tag="p" class="title right" to="/ChartPreview?name=评级数量">
                         评级数量
-                    </p>
+                    </router-link>
                     <div class="content">
                         <RightChart1/>
                     </div>
                 </div>
                 <div class="card mt-50">
-                    <p class="title right">
+                    <router-link tag="p" class="title right" to="/ChartPreview?name=主营收入">
                         主营收入
-                    </p>
+                    </router-link>
                     <div class="content">
                         <RightChart2/>
                     </div>
@@ -173,23 +173,27 @@
                 },
             };
         },
-        created() {
-            this.http.get(this.api.home.bigData).then(res => {
-                if (res.status !== 200) {
-                    return;
-                }
-                res = res.data;
-                console.log(res);
+        methods: {
+            loadDataStore() {
+                return this.http.get(this.api.home.bigData).then(res => {
+                    if (res.status !== 200) {
+                        return;
+                    }
+                    res = res.data;
 
-                if (res.pc) {
-                    res.pc.forEach((item, index) => {
-                        item.index = index + 1;
-                    });
-                }
-                for (let k in res) {
-                    res[k] && this.$set(this.dataStore, k, res[k]);
-                }
-            });
+                    if (res.pc) {
+                        res.pc.forEach((item, index) => {
+                            item.index = index + 1;
+                        });
+                    }
+                    for (let k in res) {
+                        res[k] && this.$set(this.dataStore, k, res[k]);
+                    }
+                });
+            },
+        },
+        created() {
+            this.loadDataStore();
         },
     };
 </script>
@@ -223,6 +227,7 @@
 
             font-size: 22px;
             font-weight: 500;
+            cursor: pointer;
 
             &.right {
                 left: auto;

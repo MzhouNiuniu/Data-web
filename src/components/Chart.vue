@@ -3,21 +3,22 @@
 </template>
 
 <script>
-    import echarts from 'echarts'
-    const chartInstanceMap = {}
+    import echarts from 'echarts';
 
-    let resizeTimer = null
+    const chartInstanceMap = {};
+
+    let resizeTimer = null;
     window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer)
+        clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-            let chart = null
+            let chart = null;
             for (let k in chartInstanceMap) {
-                chart = chartInstanceMap[k].getChart()
-                chart.setOption(chartInstanceMap[k].option)
-                chart.resize()
+                chart = chartInstanceMap[k].getChart();
+                chart.setOption(chartInstanceMap[k].option);
+                chart.resize();
             }
-        }, 100)
-    })
+        }, 100);
+    });
 
     const Chart = {
         props: {
@@ -27,61 +28,82 @@
             },
         },
         data() {
-            this.chart = null
-            return {}
+            this.chart = null;
+            return {};
         },
         methods: {
             getChart() {
-                return this.chart
+                return this.chart;
             },
             init() {
-                this.chart = echarts.init(this.$el)
-                this.chart.setOption(this.option)
-                chartInstanceMap[this._uid] = this
+                this.chart = echarts.init(this.$el);
+                this.chart.setOption(this.option);
+                chartInstanceMap[this._uid] = this;
             },
         },
         watch: {
             option: {
                 deep: true,
                 handler(option) {
-                    this.chart.setOption(option)
+                    this.chart.setOption(option);
                 },
             },
         },
         mounted() {
             if (this.option) {
-                this.init()
+                this.init();
             } else {
                 const unWatcher = this.$watch('option', function () {
-                    unWatcher()
-                    this.init()
-                })
+                    unWatcher();
+                    this.init();
+                });
             }
         },
         beforeDestroy() {
             if (chartInstanceMap[this._uid]) {
-                chartInstanceMap[this._uid].getChart().dispose()
-                delete chartInstanceMap[this._uid]
+                chartInstanceMap[this._uid].getChart().dispose();
+                delete chartInstanceMap[this._uid];
             }
         },
-    }
+    };
 
     if (window && window.__1px__) {
+        let isFullScreenMode = false;
+        let fullScreenTimer = null;
+
+        const handleRouterChange = function () {
+            isFullScreenMode = false;
+        };
+        window.addEventListener('hashchange', handleRouterChange);
+        window.addEventListener('popstate', handleRouterChange);
+
         Chart.getSize = function (size) {
             return {
                 valueOf() {
-                    return size * (window.__1px__ || 1)
+                    if (isFullScreenMode) {
+                        clearTimeout(fullScreenTimer);
+                        fullScreenTimer = setTimeout(function () {
+                            isFullScreenMode = false;
+                        }, 200);
+                        return size * 1.5;
+                    }
+                    if (/ChartPreview\?name=/g.test(window.location.href)) {
+                        isFullScreenMode = true;
+                        return;
+                    }
+
+                    return size * (window.__1px__ || 1);
                 },
-            }
-        }
+            };
+        };
     } else {
-        Chart.getSize = function (size) {
-            return size
-        }
+        Chart.getSize = Chart.getSize = function (size) {
+            return size;
+        };
     }
 
 
-    export default Chart
+    export default Chart;
 </script>
 
 <style scoped>
