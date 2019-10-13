@@ -72,42 +72,7 @@
                         省级城投一览
                     </p>
                     <div class="content">
-                        <ul class="list">
-                            <ul class="header">
-                                <li>
-                                    序号
-                                </li>
-                                <li>
-                                    省份
-                                </li>
-                                <li>
-                                    城投
-                                </li>
-                                <li>
-                                    新区城投
-                                </li>
-                                <li>
-                                    其他
-                                </li>
-                            </ul>
-                            <ul class="item" v-for="item in 3" :key="item">
-                                <li>
-                                    1
-                                </li>
-                                <li>
-                                    南京
-                                </li>
-                                <li>
-                                    城投
-                                </li>
-                                <li>
-                                    新区城投
-                                </li>
-                                <li>
-                                    其他
-                                </li>
-                            </ul>
-                        </ul>
+                        <Table :columns="pcColumns" :data="dataStore.pc"/>
                     </div>
                 </div>
             </div>
@@ -117,7 +82,7 @@
                         发行债券
                     </p>
                     <div class="content">
-                        <Table :columns="[]"/>
+                        <Table :columns="fiColumns" :data="dataStore.fi"/>
                     </div>
                 </div>
             </div>
@@ -150,6 +115,48 @@
             };
         },
         data() {
+
+            this.pcColumns = [
+                {
+                    name: '序号',
+                    field: 'index',
+                },
+                {
+                    name: '省份',
+                    field: '',
+                },
+                {
+                    name: '城投',
+                    field: '',
+                },
+                {
+                    name: '开发区数据',
+                    field: '',
+                },
+                {
+                    name: '其他',
+                    field: '',
+                },
+            ];
+            this.fiColumns = [
+                {
+                    name: '城市',
+                    field: '',
+                },
+                {
+                    name: '发行人',
+                    field: '',
+                },
+                {
+                    name: '债券简称',
+                    field: '',
+                },
+                {
+                    name: '债券规模',
+                    field: '',
+                },
+            ];
+
             return {
                 dataStore: {
                     // 存储所有数据，子组件自行获取
@@ -174,6 +181,11 @@
                 res = res.data;
                 console.log(res);
 
+                if (res.pc) {
+                    res.pc.forEach((item, index) => {
+                        item.index = index + 1;
+                    });
+                }
                 for (let k in res) {
                     res[k] && this.$set(this.dataStore, k, res[k]);
                 }
@@ -313,33 +325,6 @@
 
         .card .content {
             padding: 40px 20px 6px; // 凑够200px
-        }
-    }
-
-    ul.list {
-        text-align: center;
-
-        // ul.header、ul.body
-        .header, .item {
-            display: flex;
-            flex-wrap: nowrap;
-            padding: 10px 0;
-            line-height: 1;
-            font-size: 18px;
-
-            & > * {
-                flex: 1;
-            }
-        }
-
-        .header {
-            background: rgba(18, 12, 254, 1);
-        }
-
-        .item {
-            &:nth-child(odd) {
-                background: rgba(255, 255, 255, 0.08);
-            }
         }
     }
 

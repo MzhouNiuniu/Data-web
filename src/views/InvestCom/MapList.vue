@@ -21,7 +21,7 @@
         <div class="project-container__wrapper map-container__wrapper">
             <div class="project-container">
                 <div class="map-container">
-                    <ChinaMap ref="map"  class="map" @change="handleMapChange" @back="handleMapChange"/>
+                    <ChinaMap ref="map" class="map" @change="handleMapChange" @back="handleMapChange"/>
                     <ul class="detail">
                         <p class="caption">
                             <!-- 默认展示北京市 -->
@@ -280,7 +280,7 @@
                     'district': '区级',
                 })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel;
                 this.loadMapData();
-                this.loadList()
+                this.loadList();
             },
             loadMapData() {
                 const { currentYear, currentGovLevel, govNameStack } = this;
@@ -310,7 +310,7 @@
                     let maxDataRange = 1;
                     res.data.list.forEach(item => {
                         item.name = item.district || item.city || item.province;
-                        item.value = 100; // todo 暂无
+                        item.value = item.count;
 
                         if (item.value > maxDataRange) {
                             maxDataRange = item.value;
