@@ -262,6 +262,7 @@
                 }
                 .trade-list{
                     padding: 0 20px;
+                    width: 100%;
                 }
 
             }

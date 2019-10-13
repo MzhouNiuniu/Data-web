@@ -166,13 +166,17 @@
                 });
             },
             handleChartClick(params) {
+
+                console.log(params)
                 if (params.componentType !== 'series' && params.seriesName !== 'map') {
                     return;
                 }
 
-
                 // 获取地图
+                console.log(this.currentCode)
+                // return
                 const currentBlockData = echarts.getMap(this.currentCode).geoJson;
+                console.log
                 const targetBlock = currentBlockData.features.find(item => item.properties.name === params.name);
                 if (!targetBlock) {
                     return;

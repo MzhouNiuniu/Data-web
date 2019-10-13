@@ -5,8 +5,11 @@
                 <span>关于我们</span>
                 <span>about us</span>
             </p>
-            <div class="mt-30 content">
-               {{info}}
+            <div class="mt-30 content" v-for="items in info">
+                <p  class="info-title">{{items.company}}</p>
+               <div class="info-content">
+                   {{items.content}}
+               </div>
             </div>
         </div>
         <div class="bottom">
@@ -30,14 +33,14 @@
         data() {
             return {
                 aptitude: [],
-                info:''
+                info:[]
             }
         },
         created() {
             this.http.get(this.api.about.index).then(res => {
                 try {
                     this.aptitude = res.data.aptitude
-                    this.info=res.data.info[0].content
+                    this.info=res.data.info
                 } catch (e) {
                     this.aptitude = []
                 }
@@ -47,6 +50,12 @@
 </script>
 
 <style lang="scss" scoped>
+    .info-title{
+        font-weight: 600;
+    }
+    .info-content{
+        font-size: 15px;
+    }
     .part-title {
         text-align: center;
         color: rgba(51, 51, 51, 1);

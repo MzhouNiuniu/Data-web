@@ -137,9 +137,9 @@
                 const indexMapOfSeriesItem = targetSeries.reduce((acc, item, index) => (acc[item.name] = index, acc), {});
                 data.forEach(item => {
                     // 不存在的话，就认为是其它（以最后一条数据为准）
-                    if (!item._id) {
-                        item._id = '其它';
-                    }
+                    // if (!item._id) {
+                    //     item._id = '其它';
+                    // }
 
                     indexMapOfSeriesItem.hasOwnProperty(item._id) && (targetSeries[indexMapOfSeriesItem[item._id]].value = item.rateMain);
                 });

@@ -34,14 +34,14 @@
                     <ul class="menu-content">
                         <li v-for="item in list" :key="item._id">
                             <router-link class="look-detail" :to="`/newsDetail/${item._id}?type=行业动态`">
-                                了解更多
+                                了解详情
                             </router-link>
                             <div class="header">
                                 <router-link class="title ue-link text-ellipsis" :to="`/newsDetail/${item._id}?type=行业动态`">
                                     {{item.title}}
                                 </router-link>
                                 <p class="date">
-                                    {{item.releaseTime}}
+                                    [{{item.releaseTime}}]
                                 </p>
                             </div>
                             <p class="content">
@@ -103,11 +103,10 @@
         },
         created() {
             this.http.get(this.api.home.news).then(res => {
-                try {
+
                     this.news = res.data.news
                     this.list=this.news.industryDynamic
-                } catch (e) {
-                }
+
             })
         },
     }
@@ -178,7 +177,9 @@
             font-size: 14px;
             font-weight: 500;
             color: rgba(102, 102, 102, 1);
+            margin-right: 10px;
         }
+
 
         .intro {
             padding-top: 10px;
@@ -288,6 +289,7 @@
                     line-height: 14px;
                     font-size: 14px;
                     font-weight: 400;
+                    margin-right: 10px;
                     color: rgba(51, 51, 51, 1);
                 }
             }

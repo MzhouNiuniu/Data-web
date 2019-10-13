@@ -2,10 +2,10 @@
     <section class="project-container__wrapper mt-24">
         <div class="project-container">
             <p class="detail-page-caption">
-                <span>虚拟数据</span>
+                <span>城投公司</span>
             </p>
             <h1 class="com-name mt-30">
-                这是一个虚拟公司注册名称
+                {{detail.name}}
             </h1>
             <div class="intro mt-30">
                 <ul class="left base-info">
@@ -105,7 +105,6 @@
 <script>
     import AttachmentList from '@components/AttachmentList'
     import UIDescription from '@ui/Description'
-
     function primaryHeaderRender(h, leftName, rightName) {
         return (
             <div class="primary-header">
@@ -158,20 +157,21 @@
                     key: 'business',
                 },
                 {
-                    width: 220,
+                    width: 252,
                     title: '主营业务收入（亿元）',
                     key: 'mainBusiness',
                 },
-                {
-                    width: 180,
-                    title: '净利润（亿元）',
-                    key: 'netProfit',
-                },
-                {
-                    width: 200,
-                    title: '利润总额（亿元）',
-                    key: 'totalProfit',
-                },
+                // {
+                //     width: 180,
+                //     title: '净利润（亿元）',
+                //     key: 'netProfit',
+                // },
+                // {
+                //     width: 200,
+                //     title: '利润总额（亿元）',
+                //     key: 'totalProfit',
+                // },
+
             ]
             this.rateColumns = [
                 {
@@ -210,9 +210,9 @@
                 }
 
                 // 只能将id传递下去，详情组件再次获取数据
+                let imgs = require('./zq.png')
                 return (
-                    <router-link
-                        to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}>{info.abbreviation}</router-link>
+                    <router-link to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}><img  style="width:30px" src={require('./zq.png')} /> </router-link>
                 )
             }
 
@@ -325,7 +325,7 @@
                     this.detail = res.data[0]
                 })
             },
-            toDetail(id,type){
+            toDetail(id){
                 console.log(id)
                 this.$router.push({path:`/newsDetail/${id}`,query:{type:'新闻'}})
             },

@@ -11,7 +11,7 @@
             <li v-for="(item,index) in list" :key="index">
                 <span class="prefix"></span>
                 {{item.name}}
-                <button class="download-btn" @click="download(item.file)">下载</button>
+                <button class="download-btn" @click="download(item.url)">下载</button>
             </li>
         </ul>
     </section>

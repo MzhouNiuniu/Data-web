@@ -1,7 +1,7 @@
 <template>
     <section class="project-container">
         <div class="search-bar clearfix">
-            <SearchInput class="search-input" placeholder="请输入企业名称"/>
+            <SearchInput v-model="searchParams.keyWords"  @change="handleSearchParamsChange('keyWords')" class="search-input" placeholder="请输入企业名称"/>
             <router-link class="mode-btn" to="/InvestCom/Map">
                 <img src="~@public/icon/china.png" alt="" class="icon">
                 <p class="text">
@@ -244,6 +244,7 @@
                 ],
             };
             this.list = [];
+
             return {
                 searchParams: this.getSearchParams(),
                 buttonParams: this.getButtonParams(),
@@ -251,6 +252,9 @@
             };
         },
         methods: {
+            search(value){
+                console.log(value)
+            },
             getData(time){
                 // console.log(start)
 
@@ -270,11 +274,10 @@
 
             },
             getSearchParams() {
+
                 const {query} = this.$route;
-
                 const params = {
-                    projectName: query.projectName,
-
+                    keyWords: query.keyWords,
                     min: query.min ? Number(query.min) : null,
                     max: query.max ? Number(query.min) : null,
                 }
@@ -285,7 +288,7 @@
                         query.endCreateTime,
                     ]
                 }
-
+                console.log(params.keyWords)
                 return params;
             },
             getButtonParams() {
@@ -319,6 +322,7 @@
                 if (fieldName === 'scale') {
                     otherParams.min = otherParams.max = undefined; // 清除url参数
                 }
+
                 this.query(otherParams);
 
             },
@@ -328,6 +332,9 @@
                 }
 
                 const searchParams = {...this.searchParams};
+                // if(searchParams.keyWords){
+                //     searchParams.keyWords = searchParams.createTime[0].toISOString()
+                // }
                 if (searchParams.createTime && searchParams.createTime[0] && searchParams.createTime[1]) {
                     console.log(searchParams.createTime)
                     searchParams.startCreateTime = searchParams.createTime[0].toISOString()
@@ -347,7 +354,6 @@
                     path: this.$route.path,
                     query: Object.assign(query, this.buttonParams, otherParams),
                 });
-                // this.getList(1, 9)
             },
             async getList(size, current) {
                 console.log({limit: size, page: current, ...this.$route.query})

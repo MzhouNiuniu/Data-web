@@ -2,7 +2,7 @@
     <section>
         <div class="project-container">
             <div class="search-bar clearfix">
-                <SearchInput class="search-input" placeholder="请输入地区/发行人"/>
+                <SearchInput class="search-input" placeholder="请输入地区"/>
                 <router-link class="mode-btn" to="/InvestCom">
                     <img src="~@public/icon/list.png" alt="" class="icon">
                     <p class="text">
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="project-container mt-30">
-            <Table class="project-ivu-table" stripe :columns="columns" :data="comList"/>
+            <Table @on-row-click="handleTab" class="project-ivu-table" stripe :columns="columns" :data="comList"/>
 
             <Pagination
                     class="mt-30 text-right"
@@ -115,11 +115,11 @@
                 },
                 {
                     title: '总资产规模（亿元）',
-                    key: 'index',
+                    key: 'totalAsset',
                 },
                 {
                     title: '评级数据',
-                    key: 'index',
+                    key: 'rateMain',
                 },
                 {
                     title: '主体类型',
@@ -147,6 +147,10 @@
             };
         },
         methods: {
+            handleTab(val){
+              console.log(val)
+                this.$router.push({path:`/InvestComDetail/${val._id}`});
+            },
             handlePageChange({ page, limit }) {
                 this.pagination.page = page;
                 this.pagination.limit = limit;
@@ -154,7 +158,7 @@
             },
             loadList() {
                 const page = this.pagination.page, size = this.pagination.limit;
-                const { currentYear, currentGovLevel, govNameStack } = this;
+                const { currentGovLevel, govNameStack } = this;
 
                 this.http.get(this.api.companyData.comListByYear, {
                     year: this.currentYear.getFullYear(),

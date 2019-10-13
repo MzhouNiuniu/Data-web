@@ -21,12 +21,13 @@
             </div>
         </div>
         <div class="footer">
-            <img :src="detail.Tphotos" alt="推广码" class="qr-code">
+            <img :src="detail.Tphotos" alt="推广码" class="qr-code" v-if="detail.Tphotos">
+            <img src="./tg.png" alt="推广码" class="qr-code" v-else>
             <p class="com-name">
-                {{detail.Tcompany}}
+                {{detail.Tcompany?detail.Tcompany:'智慧城投信息科技股份有限公司'}}
             </p>
             <p class="tel">
-                {{detail.Tcontact}}
+                {{detail.Tcontact?detail.Tcontact:'13457688910'}}
             </p>
         </div>
     </section>
@@ -51,7 +52,19 @@
                 this.http.get(this.api.projectUnion.detail, {
                     id: this.id,
                 }).then(res => {
+
+                    res.data[0].accessory.map((item,index)=>{
+                      // console.log(item)
+                        res.data[0].accessory[index]={
+                            name:'附件',
+                            url: item
+                        }
+                    })
+
                     const formData = res.data && res.data[0];
+
+
+
                     if (!formData) {
                         this.$router.replace('/projectUnion');
                         alert('数据不存在');

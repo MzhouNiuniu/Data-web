@@ -203,10 +203,10 @@
                 }
 
                 const stack = [];
-                detail.aboutFile && stack.push(detail.aboutFile);
-                detail.specification && stack.push(detail.specification);
-                detail.report && stack.push(detail.report);
-                return stack.join(',');
+                detail.aboutFile && stack.push({name:'相关文件',url:detail.aboutFile});
+                detail.specification && stack.push({name:'招募文件',url:detail.specification});
+                detail.report && stack.push({name:'评级报告',url:detail.specification});
+                return stack;
             },
         },
         methods: {

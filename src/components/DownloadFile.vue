@@ -1,7 +1,10 @@
 <template>
     <div class="download-file">
         <a target="_blank" :href="url" title="下载文件" :download="url">
-            {{name || url}}
+            <span v-if="name">
+                {{name}}
+            </span>
+            <img src="./fj.png" style="width: 30px" alt="" v-else>
         </a>
     </div>
 </template>

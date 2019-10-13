@@ -34,7 +34,6 @@
     .basic-layout-container {
         width: 100%;
         height: 100%;
-        padding-top: $layout-header-height;
         padding-bottom: $layout-footer-height;
         border-top: 1px solid transparent;
     }
@@ -50,7 +49,6 @@
 
     .header {
         position: relative;
-        top: -1* $layout-header-height;
     }
 
     .main {
