@@ -53,7 +53,7 @@
                 }],
                 yAxis: [{
                     // max:800,
-                    name: '数目（项）',
+                    name: '数目（个）',
                     nameGap: Chart.getSize(26),
                     nameTextStyle: {
                         color: '#fff',

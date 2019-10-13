@@ -34,7 +34,7 @@
                     </div>
                     <div class="card">
                         <p class="title right">
-                            总数目(项）
+                            总数目(个）
                         </p>
                         <div class="content">
                             {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
@@ -69,7 +69,7 @@
             <div class="left">
                 <div class="card">
                     <p class="title">
-                        省级城投一览
+                        各省城投
                     </p>
                     <div class="content">
                         <Table :columns="pcColumns" :data="dataStore.pc"/>
@@ -123,37 +123,37 @@
                 },
                 {
                     name: '省份',
-                    field: '',
+                    field: '_id',
                 },
                 {
                     name: '城投',
-                    field: '',
+                    field: 'ct',
                 },
                 {
-                    name: '开发区数据',
-                    field: '',
+                    name: '新区城投',
+                    field: 'xq',
                 },
                 {
                     name: '其他',
-                    field: '',
+                    field: 'qt',
                 },
             ];
             this.fiColumns = [
                 {
                     name: '城市',
-                    field: '',
+                    field: 'province',
                 },
                 {
                     name: '发行人',
-                    field: '',
+                    field: 'issuer',
                 },
                 {
                     name: '债券简称',
-                    field: '',
+                    field: 'abbreviation',
                 },
                 {
                     name: '债券规模',
-                    field: '',
+                    field: 'scale',
                 },
             ];
 
