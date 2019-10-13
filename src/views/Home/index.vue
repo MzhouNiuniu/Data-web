@@ -1,5 +1,5 @@
 <template>
-    <section style="margin-bottom: -22px;">
+    <section style="margin-bottom: -10px;">
         <Banner/>
         <NewsPost/>
         <BigData/>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-    import Banner from './Banner'
-    import NewsPost from './NewsPost'
-    import BigData from './BigData'
-    import About from './About'
+    import Banner from './Banner';
+    import NewsPost from './NewsPost';
+    import BigData from './BigData';
+    import About from './About';
 
     export default {
         name: 'Home',
@@ -22,13 +22,13 @@
             About,
         },
         data() {
-            return {}
+            return {};
         },
         created() {
-            this.$store.commit('app/setBgColor1')
+            this.$store.commit('app/setBgColor1');
         },
 
-    }
+    };
 </script>
 <style lang="scss" scoped>
 

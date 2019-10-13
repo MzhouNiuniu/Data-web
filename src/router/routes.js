@@ -64,6 +64,11 @@ export default [
                 component: lazyLoad('Home')
             },
             {
+                path: '/ChartPreview',
+                name: 'ChartPreview',
+                component: lazyLoad('Home/ChartPreview')
+            },
+            {
                 path: '/about',
                 name: 'about',
                 component: lazyLoad('About')
