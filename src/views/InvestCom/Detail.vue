@@ -81,7 +81,7 @@
             </UIDescription>
 
             <div class="hr-dashed"></div>
-            <UIDescription title="公司新闻" class="mt-20" v-if="detail.news.length>0">
+            <UIDescription title="公司新闻" class="mt-20" v-if="detail.news && detail.news.length > 0">
                 <div class="last-list">
                     <ul class="trade-list">
                         <li @click="toDetail(item._id,1) " class="pr-20 c" v-for=" item in detail.news" :key="item._id">

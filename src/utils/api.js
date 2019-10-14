@@ -59,6 +59,7 @@ export default {
     companyData: {
         getListBySearch: `${baseUrl}/companyData/getListBySearch`,
         comListByYear: `${baseUrl}/companyData/getListByYear`,
+        searchOptionList: `${baseUrl}/companyData/getMapSearch`,
 
         detail: `${baseUrl}/companyData/getDetails`,
         govInfo: `${baseUrl}/basicData/getListByWeb`,
