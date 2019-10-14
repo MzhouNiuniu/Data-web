@@ -81,7 +81,7 @@
             </UIDescription>
 
             <div class="hr-dashed"></div>
-            <UIDescription title="公司新闻" class="mt-20" v-if="detail.news.length>0">
+            <UIDescription title="公司新闻" class="mt-20" v-if="detail.news&&detail.news.length>0">
                 <div class="last-list">
                     <ul class="trade-list">
                         <li @click="toDetail(item._id,1) " class="pr-20 c" v-for=" item in detail.news" :key="item._id">
@@ -322,6 +322,14 @@
         methods: {
             loadDetail() {
                 this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
+                    console.log(res.data[0].other)
+                    if(res.data[0].other.length>0){
+                        res.data[0].other.map(item=>{
+                            item.url=item.file
+                        })
+                    }
+                    console.log(31)
+                    console.log(res.data[0].other)
                     this.detail = res.data[0]
                 })
             },

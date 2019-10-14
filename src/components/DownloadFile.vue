@@ -4,7 +4,7 @@
             <span v-if="name">
                 {{name}}
             </span>
-            <img src="./fj.png" style="width: 30px" alt="" v-else>
+            <img src="./fj.png" style="width: 30px" alt="" v-if="!name&&url">
         </a>
     </div>
 </template>

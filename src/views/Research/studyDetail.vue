@@ -14,7 +14,7 @@
                 </div>
                 <p class="time">上传时间：{{data.releaseTime}}</p>
             </div>
-            <div class="content" v-html="data.content">
+            <div class="content"  v-html="data.content">
 
             </div>
             <div class="pl-6 pr-6">

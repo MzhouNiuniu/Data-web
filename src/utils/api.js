@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.9.105:3000';
+const baseUrl = 'http://47.110.10.44:80'
 
 export default {
     //新闻
