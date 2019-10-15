@@ -31,7 +31,7 @@
                                 {{item.name}}
                             </router-link>
                             <p class="info text-ellipsis">
-                                所在城市：{{item.province}}
+                                所在城市：{{item.city}}
                                 <span class="ml-30">
                                    【{{item.releaseTime}}】
                                </span>

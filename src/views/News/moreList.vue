@@ -15,7 +15,6 @@
                     </div>
                 </div>
 
-
             </div>
             <div class="right-wrapper">
                 <img src="./img/news-bg.png" alt="">
@@ -26,7 +25,23 @@
                         <div class="square"></div>
                     </li>
                 </ul>
+                <div class="newList" >
+                    <div class="title">
+                        最新新闻
+                    </div>
+                    <div class="img" v-if="data[0]"  :style="{backgroundImage:`url(${data[0].cover ?data[0].cover : require('../../../public/image/noData.png')})`}"  @click="toDetail(data[0]._id,'最新新闻')">
+                           <div class="titles"> {{data[0].title}}</div>
+                    </div>
+                    <div class="img" v-if="data[1]" :style="{backgroundImage:`url(${data[1].cover ?data[1].cover : require('../../../public/image/noData.png')})`}" @click="toDetail(data[1]._id,'最新新闻')">
+                        <div class="titles"> {{data[1].title}}</div>
+                    </div>
+                    <div class="img" v-if="data[2]" :style="{backgroundImage:`url(${data[2].cover ?data[2].cover : require('../../../public/image/noData.png')})`}" @click="toDetail(data[2]._id,'最新新闻')">
+                        <div class="titles"> {{data[2].title}}</div>
+                    </div>
+
+                </div>
             </div>
+
         </section>
         <section class="project-container pages">
             <Pagination
@@ -113,6 +128,43 @@
 </script>
 
 <style lang="scss" scoped>
+    .newList{
+        margin-top: 15px;
+        .title{
+            text-align: center;
+            font-size: 19px;
+            background: #0567FF;
+            color: #fff;
+            padding: 10px 0;
+        }
+        .img{
+            margin-top: 5px;
+            width: 100%;
+            height: 110px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            cursor: pointer;
+            .titles{
+                position: absolute;
+                bottom: 0;
+                height: 20px;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.5);
+                width: 100%;
+                font-size: 14px;
+                width: 198px;
+                display:-moz-box;
+                display: box;
+                display: -webkit-box;
+                word-break: break-all;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                color: #fff;
+            }
+        }
+    }
     .project-container{
         margin-top: 20px;
         display: flex;

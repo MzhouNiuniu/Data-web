@@ -34,25 +34,28 @@ export default [
 
     {
         name: '智库平台',
-        path: '/organizationRepo',
+        path: '/expertRepo',
         children: [
-            {
-                name: '机构库',
-                path: '/organizationRepo',
-            },
             {
                 name: '专家库',
                 path: '/expertRepo',
             },
+            {
+                name: '机构库',
+                path: '/organizationRepo',
+            }
+
         ],
     },
     {
         name: '行业研究',
         path: '/research', // 点击的同时是否可以跳转路由，例如/about
+        hiddenShowchildren:true,
         children: [
             {
                 name: '经典案例',
                 path: '/classicList',
+
             },
             {
                 name: '专题报告',
@@ -71,6 +74,7 @@ export default [
     {
         name: '新闻动态',
         path: '/news',
+        hiddenShowchildren:true,
         children: [
             {
                 name: '行业动态',
@@ -98,6 +102,7 @@ export default [
         name: '政策法规',
         path: '/policy',
         className: 'long',
+        hiddenShowchildren:true,
         children: [
             {
                 name: '政策法规',

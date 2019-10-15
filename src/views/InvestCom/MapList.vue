@@ -56,7 +56,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                一般公共预算（亿元）：
+                                公共财政收入（亿元）：
                             </p>
                             <p class="value">
                                 {{currentGovDetail.budget || '/'}}
@@ -237,7 +237,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                一般公共预算（亿元）：
+                                公共财政收入（亿元）：
                             </p>
                             <p class="value">
                                 ${detail.budget}
