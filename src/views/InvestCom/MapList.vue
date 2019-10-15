@@ -54,7 +54,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                省城投个数（个）：
+                                区域城投个数（个）：
                             </p>
                             <p class="value">
                                 {{currentGovDetail.count || '/'}}
@@ -161,7 +161,7 @@
 
                 comList: [],
 
-                currentYear: new Date(),
+                currentYear: new Date((new Date().getFullYear()-1).toString()),
                 currentGovName: this.defaultCurrentGovName,
                 currentGovLevel: this.defaultCurrentGovLevel,
                 currentGovDetail: {},
@@ -262,7 +262,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                省城投个数（个）：
+                                区域城投个数（个）：
                             </p>
                             <p class="value">
                                 ${detail.count}

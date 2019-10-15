@@ -1,5 +1,5 @@
 <template>
-    <section class="project-container__wrapper">
+    <section class="project-container__wrapper" style="margin-bottom: 20px;">
         <div class="project-container">
             <div class="title-wrap">
                 <div class="title">行业动态</div>
@@ -37,8 +37,8 @@
                 <span class="more-wrapper c" @click="toMore(2)">了解更多</span>
             </div>
             <div class="smart-wrap">
-                <div class="noData c" :style="{backgroundImage:`url(${item.cover ? item.cover : require('../../../public/image/noData.png')})`}" v-for="(item,index) in ideaDynamic" :key="index"  @click="toDetail(item._id,'智库动态')">
-                    <p class="title">{{item.title}}</p>
+                <div class="noData c" :style="{backgroundImage:`url(${ideaDynamic[0].cover ?ideaDynamic[0].cover : require('../../../public/image/noData.png')})`}" :key="index"  @click="toDetail(ideaDynamic[0].item._id,'智库动态')">
+                    <!--<p class="title">{{item.title}}</p>-->
                 </div>
                 <ul>
                     <li class="c" v-for="(item,index) in ideaDynamic" :key="index"  @click="toDetail(item._id)">
@@ -56,13 +56,13 @@
                         <p>{{item.title}}</p>
                     </li>
                 </ul>
-                <div v-if="projectDynamic[5]"  @click="toDetail(projectDynamic[5]._id)">
-                    <div class="noData" :style="{backgroundImage:`url(${projectDynamic[5].cover ? projectDynamic[5].cover : require('../../../public/image/noData.png')})`}"></div>
+                <div v-if="projectDynamic[0]"  @click="toDetail(projectDynamic[0]._id)">
+                    <div class="noData" :style="{backgroundImage:`url(${projectDynamic[0].cover ? projectDynamic[0].cover : require('../../../public/image/noData.png')})`}"></div>
                     <div>
-                        <p class="title">{{projectDynamic[5].title}}</p>
-                        <p class="source">来源：{{projectDynamic[5].source}}</p>
-                        <p class="time">发布时间：{{projectDynamic[5].releaseTime}}</p>
-                        <p class="content" v-html="projectDynamic[5].content"></p>
+                        <p class="title">{{projectDynamic[0].title}}</p>
+                        <p class="source">来源：{{projectDynamic[0].source}}</p>
+                        <p class="time">发布时间：{{projectDynamic[0].releaseTime}}</p>
+                        <p class="content" v-html="projectDynamic[0].content"></p>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
         .title {
             display: inline-block;
             font-size: 24px;
-            color: $sign-color;
+            color: #222222;
             font-weight: 600;
             border-bottom: 4px solid $primary-color;
             padding-bottom: 10px;
@@ -173,7 +173,7 @@
                 margin:20px 0;
                 display: -webkit-box;
                 word-break: break-all;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
@@ -213,10 +213,11 @@
                 webkit-box-flex: 1;
                 -ms-flex: 1;
                 flex: 1;
+                font-size: 14px;
                 margin-left: 20px;
                 display: -webkit-box;
                 word-break: break-all;
-                -webkit-line-clamp: 3;
+                -webkit-line-clamp: 5;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
 
@@ -313,7 +314,7 @@
 
             &>div{
                 display: inline-block;
-
+                float: left;
                 .title{
                     font-size: 18px;
                     color: #333;
@@ -331,10 +332,11 @@
                 .content{
                     display: -webkit-box;
                     word-break: break-all;
-                    -webkit-line-clamp: 3;
+                    -webkit-line-clamp: 4;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     font-size: 15px;
+                    height: 85px !important;
                     color: #333;
                 }
             }

@@ -68,7 +68,7 @@
 <style lang="scss" scoped>
     .chart-preview {
         position: absolute;
-        top: 0;
+        top: 60px;
         right: 0;
         bottom: 0;
         left: 0;

@@ -69,6 +69,11 @@ export default [
                 component: lazyLoad('Home/ChartPreview')
             },
             {
+                path: '/BigData',
+                name: 'BigData',
+                component: lazyLoad('Home/BigData/Entry')
+            },
+            {
                 path: '/about',
                 name: 'about',
                 component: lazyLoad('About')

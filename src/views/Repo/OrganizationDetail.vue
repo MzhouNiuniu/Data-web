@@ -176,6 +176,7 @@
                 margin-left: $label-width;
                 font-size: 16px;
                 color: #333333;
+                height: 26px;
             }
         }
 

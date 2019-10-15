@@ -178,12 +178,12 @@
             line-height: 45px;
             border-bottom: 1px solid #BFC5CA;
             margin-top: 15px;
-            height: 45px;
             .title {
                 display: inline-block;
                 font-size: 24px;
-                color: $sign-color;
+                color: #222222;
                 font-weight: 600;
+                border-bottom: 4px solid #0567FF;
                 padding-bottom: 10px;
             }
         }
