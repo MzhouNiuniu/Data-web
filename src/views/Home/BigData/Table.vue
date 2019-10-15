@@ -13,7 +13,7 @@
                     :style="{backgroundColor:index % 2 === 0 ? 'unset':'rgba(255, 255, 255, 0.08)'}"
             >
                 <li v-for="(headerItem,headerIndex) in columns" :key="headerIndex">
-                    {{item[headerItem.field] || '/'}}
+                    {{item[headerItem.field] || '-'}}
                 </li>
             </ul>
         </div>
@@ -42,6 +42,20 @@
                 type: Number,
                 default: 3, // 3 条
             },
+
+            // 动画时长
+            duration: {
+                type: Number,
+                default: 1.5,
+            },
+            speed: {
+                type: Number,
+                default: 4,
+            },
+
+
+            // events
+            // @scroll(currentIndex,data)
         },
         data() {
             this.index = 0;  // 省去操作ref数组时间
@@ -52,10 +66,18 @@
         },
         watch: {
             data() {
-                this.anim();
+                this.init();
             },
         },
         methods: {
+            init() {
+                // 动画开始之前，默认触发一次滚动
+                this.handlePostScroll();
+                this.anim();
+            },
+            handlePostScroll() {
+                this.$emit('scroll', this.data, this.index);
+            },
             getRealItemHeight() {
                 return this.itemHeight * (window.__1px__ || 1);
             },
@@ -72,18 +94,22 @@
                     // 手动实现，否则需要拷贝一份数据
                     const { rows, rowContainer } = this.$refs;
                     this.animTimer = setInterval(() => {
-                        const firstNode = rows[this.index++];
+                        const firstNode = rows[this.index];
                         firstNode.style.marginTop = -1 * this.realItemHeight + 'px';
 
+                        // handle next loop
+                        this.index++;
+                        if (this.index >= this.data.length) {
+                            this.index = 0;
+                        }
+                        this.handlePostScroll();
+
+                        // anim
                         setTimeout(() => {
                             firstNode.style.marginTop = 0;
-
                             rowContainer.appendChild(firstNode);
-                            if (this.index >= this.data.length) {
-                                this.index = 0;
-                            }
-                        }, 1100); // 动画时长1s
-                    }, 2500); // 切换速度
+                        }, this.duration * 1000); // 动画时长1s
+                    }, this.speed * 1000); // 切换速度
                 });
             },
 
@@ -93,7 +119,7 @@
         },
         mounted() {
             window.addEventListener('resize', this.handleResize);
-            this.anim();
+            this.init();
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.handleResize);

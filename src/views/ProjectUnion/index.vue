@@ -11,6 +11,7 @@
                     <div class="main">
                         <router-link class="title" :to="`/projectUnionDetail/${item._id}`">
                             <TextEllipsis
+                                    style="height: 50px;-webkit-line-clamp: 2;line-height: 1.5;"
                                     fill
                                     :rows="2"
                                     :value="item.name"

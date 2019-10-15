@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="map">
-                    <Map/>
+                    <Map ref="map"/>
                 </div>
             </div>
             <div class="right">
@@ -82,7 +82,7 @@
                         发行债券
                     </p>
                     <div class="content">
-                        <Table :columns="fiColumns" :data="dataStore.fi"/>
+                        <Table :columns="fiColumns" :data="dataStore.fi" @scroll="handleRightTableScroll"/>
                     </div>
                 </div>
             </div>
@@ -191,6 +191,12 @@
                     }
                 });
             },
+            handleRightTableScroll(data, index) {
+                if (!data.length) {
+                    return;
+                }
+                this.$refs.map.changeMarker(data[index].province);
+            },
         },
         created() {
             this.loadDataStore();
@@ -251,6 +257,7 @@
 
     .big-data {
         position: relative;
+        z-index: 1; // fix bg zIndex:0
         padding: 68px 0 20px;
         background: url("./image/title-bg.png") no-repeat scroll top left / 100% auto;
 

@@ -1,7 +1,8 @@
 <template>
     <section class="project-container">
         <div class="search-bar clearfix">
-            <SearchInput v-model="searchParams.keyWords"  @change="handleSearchParamsChange('keyWords')" class="search-input" placeholder="请输入企业名称"/>
+            <SearchInput v-model="searchParams.keyWords" @change="handleSearchParamsChange('keyWords')"
+                         class="search-input" placeholder="请输入企业名称"/>
             <router-link class="mode-btn" to="/InvestCom/Map">
                 <img src="~@public/icon/china.png" alt="" class="icon">
                 <p class="text">
@@ -51,7 +52,7 @@
                 <span class="title">
                     成立时间：
                 </span>
-                <DatePicker  type="daterange" style="width: 350px"
+                <DatePicker type="daterange" style="width: 350px"
                             v-model="searchParams.createTime"
 
                 />
@@ -81,33 +82,33 @@
         </div>
         <Row :gutter="30" class="com-list">
             <Col span="8" v-for="(item,index) in list" :key="index">
-            <div class="item">
-                <p class="com-type">
-                <p class="com-type">
-                    {{item.mainType}}
-                </p>
-                <router-link class="com-name ue-link" :to="`/InvestComDetail/${item._id}`">
-                    {{item.name}}
-                </router-link>
-                <p class="location">
-                    所在城市：{{item.province}}
-                </p>
-                <div class="tag-group mt-15">
-                    <p class="item">
-                        评级类型：{{item.rateMain?item.rateMain:'暂无'}}
+                <div class="item">
+                    <p class="com-type">
+                    <p class="com-type">
+                        {{item.mainType}}
                     </p>
-                    <p class="item">
-                        总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
+                    <router-link class="com-name ue-link" :to="`/InvestComDetail/${item._id}`">
+                        {{item.name}}
+                    </router-link>
+                    <p class="location">
+                        所在城市：{{item.province}}
+                    </p>
+                    <div class="tag-group mt-15">
+                        <p class="item">
+                            评级类型：{{item.rateMain?item.rateMain:'暂无'}}
+                        </p>
+                        <p class="item">
+                            总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
+                        </p>
+                    </div>
+                    <p class="intro mt-10">
+                        <TextEllipsis
+                                fill
+                                :rows="2"
+                                :value="item.info"
+                        />
                     </p>
                 </div>
-                <p class="intro mt-10">
-                    <TextEllipsis
-                            fill
-                            :rows="2"
-                            :value="item.info"
-                    />
-                </p>
-            </div>
             </Col>
         </Row>
         <Pagination
@@ -252,13 +253,13 @@
             };
         },
         methods: {
-            search(value){
-                console.log(value)
+            search(value) {
+                console.log(value);
             },
-            getData(time){
+            getData(time) {
                 // console.log(start)
 
-                this.searchParams.createTime=time
+                this.searchParams.createTime = time;
 
             },
             getProvinceList() {
@@ -275,24 +276,26 @@
             },
             getSearchParams() {
 
-                const {query} = this.$route;
+                const { query } = this.$route;
                 const params = {
                     keyWords: query.keyWords,
                     min: query.min ? Number(query.min) : null,
                     max: query.max ? Number(query.min) : null,
-                }
+
+
+                };
 
                 if (query.startCreateTime && query.endCreateTime) {
                     params.createTime = [
                         query.startCreateTime,
                         query.endCreateTime,
-                    ]
+                    ];
                 }
-                console.log(params.keyWords)
+                console.log(params.keyWords);
                 return params;
             },
             getButtonParams() {
-                const {query} = this.$route;
+                const { query } = this.$route;
                 return {
                     province: query.province,
                     mainType: query.mainType,
@@ -302,14 +305,14 @@
                 };
             },
             getPagination() {
-                const {query} = this.$route;
+                const { query } = this.$route;
                 return {
                     page: query.page || 1,
                     limit: query.limit || 9,
                     total: 0,
                 };
             },
-            handlePageChange({page, limit}) {
+            handlePageChange({ page, limit }) {
                 this.pagination.page = page;
                 this.pagination.limit = limit;
                 this.query({
@@ -331,42 +334,43 @@
                     this.buttonParams.scale = undefined;
                 }
 
-                const searchParams = {...this.searchParams};
+                const searchParams = { ...this.searchParams };
                 // if(searchParams.keyWords){
                 //     searchParams.keyWords = searchParams.createTime[0].toISOString()
                 // }
                 if (searchParams.createTime && searchParams.createTime[0] && searchParams.createTime[1]) {
-                    console.log(searchParams.createTime)
-                    searchParams.startCreateTime = searchParams.createTime[0].toISOString()
-                    searchParams.endCreateTime = searchParams.createTime[1].toISOString()
-                }else{
-                    searchParams.startCreateTime =   searchParams.endCreateTime = undefined // 清除url参数
+                    console.log(searchParams.createTime);
+                    searchParams.startCreateTime = searchParams.createTime[0].toISOString();
+                    searchParams.endCreateTime = searchParams.createTime[1].toISOString();
+                } else {
+                    searchParams.startCreateTime = searchParams.endCreateTime = undefined; // 清除url参数
                 }
 
-                delete searchParams.createTime
+                delete searchParams.createTime;
 
                 this.query(searchParams);
 
             },
             query(otherParams) {
-                const query = {...this.$route.query};
+                const query = { ...this.$route.query };
                 this.$router.push({
                     path: this.$route.path,
                     query: Object.assign(query, this.buttonParams, otherParams),
                 });
             },
             async getList(size, current) {
-                console.log({limit: size, page: current, ...this.$route.query})
+                console.log({ limit: size, page: current, ...this.$route.query });
                 let res = await this.http.get(this.api.companyData.getListBySearch, {
                     limit: size,
                     page: current, ...this.$route.query
-                })
-                console.log(res.data.docs)
-                this.list = res.data.docs
-                this.$forceUpdate()
+                });
+                console.log(res.data.docs);
+                this.list = res.data.docs;
+                this.pagination.total = res.data.total;
+                this.$forceUpdate();
             },
             loadList() {
-                this.getList()
+                this.getList();
             },
         },
         created() {
@@ -379,6 +383,15 @@
                     this.$forceUpdate();
                 });
             }
+
+
+            setTimeout(() => {
+                this.query({
+                    a: 1,
+                    b: 1,
+                    c: 1,
+                });
+            });
         },
     };
 </script>
@@ -425,7 +438,7 @@
             }
 
             .title {
-                width:171px;
+                width: 171px;
                 display: inline-block;
                 margin-right: 8px;
                 line-height: 35px;

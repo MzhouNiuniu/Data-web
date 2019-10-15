@@ -67,23 +67,15 @@
 
 <style lang="scss" scoped>
     .chart-preview {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        height: 100%;
         background: url("./BigData/image/bg.png") no-repeat scroll top left / cover;
-
-        // 是否隐藏footer
-        bottom: -60px;
-        z-index: 99;
 
         h1 {
             position: absolute;
             z-index: 1;
             text-align: center;
             width: 100%;
-            top: 20px;
+            top: 50px;
             letter-spacing: 7px;
             color: #fff;
             font-weight: 400;
