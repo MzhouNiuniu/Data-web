@@ -157,6 +157,7 @@ img {
 .project-ivu-table {
   td, th {
     text-align: center !important;
+    cursor: pointer;
   }
 
   .ivu-table-stripe .ivu-table-row:nth-child(2n) td {
