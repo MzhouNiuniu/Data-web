@@ -1,6 +1,22 @@
 <template>
     <section>
         <div class="project-container">
+            <div>
+                <Select
+                        clearable
+                        filterable
+                        remote
+                        v-model="currentSearchWords"
+                        :remote-method="loadSearchOption"
+                        :loading="isLoadSearchOption"
+                        @on-change="handleSearchChange"
+                        @on-clear="loadSearchOption()"
+                >
+                    <Option
+                            v-for="(option, index) in searchOptionList" :value="option.name" :key="index"
+                    ><!--fix-br-->{{option.name}}<!--fix-br--></Option>
+                </Select>
+            </div>
             <div class="search-bar clearfix">
                 <SearchInput class="search-input" placeholder="请输入地区"/>
                 <router-link class="mode-btn" to="/InvestCom">
@@ -137,8 +153,13 @@
                     limit: 10,
                     total: 0,
                 },
-                comList: [],
+                searchDebounceTimer: null,
+                searchOptionList: [],
+                currentSearchWords: '',
+                isLoadSearchOption: false,
 
+
+                comList: [],
 
                 currentYear: new Date((new Date().getFullYear()-1).toString()),
                 currentGovName: this.defaultCurrentGovName,
@@ -147,9 +168,30 @@
             };
         },
         methods: {
-            handleTab(val){
-              console.log(val)
-                this.$router.push({path:`/InvestComDetail/${val._id}`});
+            loadSearchOption(keyWords = '') {
+                if (this.currentSearchWords && this.currentSearchWords === keyWords) { // 点击option时不需要处理
+                    return;
+                }
+                this.isLoadSearchOption = true;
+                clearTimeout(this.searchDebounceTimer);
+                this.searchDebounceTimer = setTimeout(() => {
+                    this.http.get(this.api.companyData.searchOptionList, { keyWords }).then(res => {
+                        if (res.status !== 200) {
+                            this.searchOptionList = [];
+                            return;
+                        }
+                        this.searchOptionList = res.data.docs;
+
+                        this.isLoadSearchOption = false;
+                    });
+                }, 300);
+            },
+            handleSearchChange() {
+                console.log(arguments);
+            },
+            handleTab(val) {
+                console.log(val);
+                this.$router.push({ path: `/InvestComDetail/${val._id}` });
             },
             handlePageChange({ page, limit }) {
                 this.pagination.page = page;
@@ -183,7 +225,6 @@
 
             },
             setMapTooltip() {
-
                 this.map.setOption(option => {
                     // add tooltip，由于echarts问题，多次触发
                     option.tooltip = {
@@ -328,6 +369,8 @@
             },
         },
         created() {
+            // 加载默认option
+            this.loadSearchOption();
             this.loadList();
         },
         mounted() {
@@ -335,6 +378,7 @@
 
             this.setMapTooltip();
             this.loadMapData();
+
         },
     };
 </script>

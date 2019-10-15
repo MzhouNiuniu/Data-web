@@ -1,9 +1,10 @@
 <template>
-    <Chart :option="option"/>
+    <Chart ref="chart" :option="option"/>
 </template>
 
 <script>
-    import Chart from '@components/Chart'
+    import echarts from 'echarts';
+    import Chart from '@components/Chart';
 
     export default {
         name: 'Map',
@@ -11,6 +12,9 @@
             Chart,
         },
         data() {
+            this.mapName = 100000;
+
+            this.chart = null;
             this.option = {
                 grid: {
                     top: 0,
@@ -22,10 +26,10 @@
                     top: 0,
                     right: 0,
                     left: 0,
-                    bottom: 0,
+                    // bottom: 0,
 
                     show: true,
-                    map: 'china',
+                    map: this.mapName,
                     itemStyle: {
                         areaColor: 'transparent',
                     },
@@ -35,11 +39,11 @@
                         left: 0,
                         top: 0,
                         right: 0,
-                        bottom: 0,
+                        // bottom: 0,
 
                         name: 'map',
                         type: 'map',
-                        mapType: 'china',
+                        mapType: this.mapName,
                         label: {
                             show: true,
                             color: '#fff',
@@ -63,10 +67,8 @@
                     {
                         type: 'effectScatter',
                         coordinateSystem: 'geo',
-                        symbolSize: Chart.getSize(30),
-                        data: [
-                            [101.963815, 30.050663, '甘孜藏族自治州'],
-                        ],
+                        symbolSize: Chart.getSize(40),
+                        data: [],
                         symbol: 'image://data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAjCAMAAAAkGTMsAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACTFBMVEX71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71ET71EQAAAAoIGoaAAAAw3RSTlMABCEnDgwjHCodEysQFCQPARYSERoeBQYlJigpIA0iBxgZCiwLFVJkTR8JCGBONFA4Fz1iQ11eOzNRMV8bA1xUN32egC5bV0lLkoR7lWhhQkdBmXCbeI+IPFlYVloyeZpruL7AnHOYbzBGZS8ti4q/srWstHaNTFNIOZbT6N+7pcKUbFUCT0qTxq3k1a+mx3WJhtjeqrew7qlqhTrI17ax1H5uvdnEs9vKcny5xeDhembMzqE+h66fnTV3kUV0YzY/QGf5qKu0AAAAAWJLR0TDimiOQgAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB+MHBBE2LMdmvBoAAAOxSURBVDjLhZTpexNVFMaHzJLJzGSmuTdpZslknQSy2JLSNkuTNpW2VlCbiixpkyJQSiChILWkBRW1UhDQKmoVUCqugGgBqyLW9S/zXvoUW0F8P8yHeX7PPee897yXIP6lNSaSIv5PNMmYWcuaR0McbxEoq0hKj2DqLLxNAgBSdt5R/1+QU1aAALAkwKjcwyFKcwkIEnSIPpJdc3seAnl5H4WO8XsD0MCcYNJsDxqgBTHksYTWrgt7JA5151WZyCrIrzIQV4uysccaGmPraQN3B8NsfAUU5M0SqkLrTRuaeZZvagkxfnwyZVVletkAB+/F/6LBxtYEmUyllWRjW5MQBbi7sJbJYsgjy9gAGHW3dyTVXOfjG5vJrkR3jxjFfwWrougEATUXrqYbuQ1P8GTvk5t6Nj/1dFLt6n2mzxoV8BRhlrBpdgRxfikf69e02LNbWp7b2rpte6/C7igMsDRuzscQikUHgKMzg8UGtTS0s/X5Xbv3DBf3juxL8+X9B3J+CCQmQ9hEPJy7JVWp9h0c7dh06PALR8Z2vdg+Pnq0XK1NOAHkZIpwKjaIqLbJ6v5jG7tHdh85/tLLr5x4daTltdcDk1OkAaBXfoMgXA50mHFyujpxamD49Jtnzp7bc+b4W2/PvLOu2jcIIYCOMDJCINHAdKlQLm/d/O7h8++9/8Hs2IeHPrpw8VLlaN6PLBPxdmRxSSpTSCjFbQdmP/5k7PLc6U8vn7qypas8UEGTATKKXbWLOoB6c41cv/2zY59/8eVXs19fnescL5C5okUCgt1UhymDRNWjfHuJuXb9+jc3vj17/ru5c/MX+7V8LycAXVy68Dq3hQIUrE2Q0wdvjt26evv2jVvfX5ln+YFLyC2B1JduG1kGgXNhsBT4YV/njz/duTO889roWvnnbjUCJB+TXaLqlTjq31xYYGPDQ0Pzd2dm7o7/0swvhqwUkEyO5fVyOZAZ/pPT5cm9v164+Vtbsae2WKqE8k60E+L9lEj3LEsXSiVV1ViW5flAtZwcTEcAtMn3I5eVkWWSr7Aj/XtuMrHwR3/fYj4/1YayCc3MPxvtY5Bl9J9/1aY6kGqhUCqVmkqgtYHuFYtPqwD1722oBFTZ7cjEg5AynBEOUaSxIh7YMo5yRiN+v0HrFCUJEGccxsXsCurelj0oypRZFVolLgmCICEJAvIYcFarNRjkeLgqti45bs+YHWGXCcntdjMiI4oiKa5+emjFbTK5XK6wJeOL2zgo6UbEU7/82v0NB0K+wn1kdkUAAAAASUVORK5CYII=',
                         showEffectOn: 'render',
                         rippleEffect: {
@@ -75,10 +77,37 @@
                         hoverAnimation: true,
                     },
                 ],
-            }
-            return {}
+            };
+
+            this.lngLatStore = {
+                // '北京':[经,纬,省会名]
+            };
+            return {};
         },
-    }
+        methods: {
+            // 提供一个方法，修改高亮点的位置
+            changeMarker(provinceName) {
+                this.option.series[1].data[0] = this.gegLngLatByName(provinceName) || []; // 每次只展示一个地点
+                this.chart.setOption(this.option);
+            },
+            gegLngLatByName(provinceName) {
+                if (this.lngLatStore[provinceName]) {
+                    return this.lngLatStore[provinceName];
+                }
+                const features = echarts.getMap(this.mapName).geoJson.features;
+                const target = features.find(item => item.properties.name === provinceName);
+                if (!target) {
+                    this.lngLatStore[provinceName] = null; // null也会保存
+                } else {
+                    this.lngLatStore[provinceName] = target.properties.center.concat(provinceName);
+                }
+                return this.lngLatStore[provinceName];
+            },
+        },
+        mounted() {
+            this.chart = this.$refs.chart.getChart();
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -10,6 +10,16 @@ export default [
         component: lazyLoad('Login')
     },
     {
+        path: '/BigData',
+        name: 'BigData',
+        component: lazyLoad('Home/BigData/Entry')
+    },
+    {
+        path: '/ChartPreview',
+        name: 'ChartPreview',
+        component: lazyLoad('Home/ChartPreview')
+    },
+    {
         path: '/',
         component: BasicLayout,
         children: [
@@ -62,11 +72,6 @@ export default [
                 path: '/',
                 name: 'home',
                 component: lazyLoad('Home')
-            },
-            {
-                path: '/ChartPreview',
-                name: 'ChartPreview',
-                component: lazyLoad('Home/ChartPreview')
             },
             {
                 path: '/about',

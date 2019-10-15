@@ -113,7 +113,7 @@
         },
         methods: {
             handleMapChange(geoInfo) {
-                console.log(geoInfo)
+                // console.log(geoInfo)
             },
         },
         created() {
