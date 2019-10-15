@@ -28,10 +28,10 @@
                         <div class="hr-dashed"></div>
                     </li>
                     <li>
-                        <p class="label">
+                        <p class="label " >
                             经营范围：
                         </p>
-                        <p class="value">
+                        <p class="value bc">
                             {{detail.scope}}
                         </p>
                         <div class="hr-dashed"></div>
@@ -40,13 +40,13 @@
                         <p class="label">
                             专业领域：
                         </p>
-                        <p class="value">
+                        <p class="value bc">
                             投融资领域、工程领域
                         </p>
                     </li>
                 </ul>
                 <div class="hr-slide-style-1 ml-20 mr-20" style="margin-top: 15px;"></div>
-                <p class="introduce">
+                <p class="introduce bc">
                     {{detail.intro}}
                 </p>
             </div>
@@ -131,7 +131,9 @@
 
 <style lang="scss" scoped>
     @import "./public";
-
+    .bc{
+        background: #f6fbff
+    }
     .project-container__wrapper {
         margin-top: 30px;
         padding-bottom: 20px;
@@ -176,7 +178,7 @@
                 margin-left: $label-width;
                 font-size: 16px;
                 color: #333333;
-                height: 26px;
+                min-height: 26px;
             }
         }
 

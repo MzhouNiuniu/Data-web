@@ -37,8 +37,11 @@
                 <span class="more-wrapper c" @click="toMore(2)">了解更多</span>
             </div>
             <div class="smart-wrap">
-                <div class="noData c" :style="{backgroundImage:`url(${ideaDynamic[0].cover ?ideaDynamic[0].cover : require('../../../public/image/noData.png')})`}" :key="index"  @click="toDetail(ideaDynamic[0].item._id,'智库动态')">
-                    <!--<p class="title">{{item.title}}</p>-->
+                <div class="noData c" v-if="ideaDynamic[0]" :style="{backgroundImage:`url(${ideaDynamic[0].cover ?ideaDynamic[0].cover : require('../../../public/image/noData.png')})`}" :key="index"  @click="toDetail(ideaDynamic[0].item._id,'智库动态')">
+                    <p class="title">{{ideaDynamic[0].title}}</p>
+                </div>
+                <div class="noData c" v-if="ideaDynamic[1]" :style="{backgroundImage:`url(${ideaDynamic[1].cover ?ideaDynamic[1].cover : require('../../../public/image/noData.png')})`}" :key="index"  @click="toDetail(ideaDynamic[1].item._id,'智库动态')">
+                    <p class="title">{{ideaDynamic[1].title}}</p>
                 </div>
                 <ul>
                     <li class="c" v-for="(item,index) in ideaDynamic" :key="index"  @click="toDetail(item._id)">
@@ -138,7 +141,6 @@
             font-size: 15px;
             line-height: 28px;
             padding: 5px 15px;
-            display: none;
         }
     }
     .title-wrap {
@@ -311,7 +313,7 @@
         & > div{
             float: right;
             width: 60%;
-
+            cursor: pointer;
             &>div{
                 display: inline-block;
                 float: left;

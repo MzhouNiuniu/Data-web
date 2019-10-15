@@ -3,7 +3,7 @@
         <ul class="nav">
             <li v-for="(item,index) in navList" :key="index" class="nav__item">
                 <router-link
-                        v-if="!item.children"
+                        v-if="!item.children||item.hiddenShowchildren"
                         :to="item.path"
                         class="nav__item__header"
                         active-class="active"
@@ -20,7 +20,7 @@
                         {{item.name}}
                         <Icon type="ios-arrow-down" class="nav__item__header__arrow"/>
                     </router-link>
-                    <ul class="hide-nav">
+                    <ul class="hide-nav" >
                         <li v-for="(item,index) in item.children" :key="index" class="hide-nav__item">
                             <router-link :to="item.path">{{item.name}}</router-link>
                         </li>

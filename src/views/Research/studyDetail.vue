@@ -9,8 +9,8 @@
                 <p class="title">{{data.name}}</p>
 
                 <div class="sign">
-                    <span>研究人:{{data.human}}</span>
-                    <span>研究人所属机构:{{data.organization}}</span>
+                    <span>研究人员:{{data.human}}</span>
+                    <span>研究机构:{{data.organization}}</span>
                 </div>
                 <p class="time">上传时间：{{data.releaseTime}}</p>
             </div>

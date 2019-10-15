@@ -107,13 +107,8 @@
     import UIDescription from '@ui/Description'
     function primaryHeaderRender(h, leftName, rightName) {
         return (
-            <div class="primary-header">
-                <p class="left">
-                    {leftName}
-                </p>
-                <p class="right">
-                    {rightName}
-                </p>
+            <div class="primary-header" style="font-size: 18px;font-weight: 500;">
+                年份
             </div>
         )
     }
@@ -187,7 +182,7 @@
                     key: 'main',
                 },
                 {
-                    title: '展望评级',
+                    title: '评级展望',
                     key: 'wish',
                 },
                 {
@@ -195,8 +190,8 @@
                     key: 'organization',
                 },
                 {
-                    title: '评级报告',
-                    key: 'report',
+                    title: '评级时间',
+                    key: 'year',
                     tooltip: true,
                 },
             ]
@@ -448,12 +443,12 @@
             th {
                 height: 38px;
                 border: none;
+                background-color: #ebf7ff !important;
             }
         }
 
 
         .primary-column {
-            background-color: #ebf7ff !important;
         }
 
         .primary-header {

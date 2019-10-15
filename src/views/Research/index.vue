@@ -30,34 +30,34 @@
                     <!--<router-link class="toDetail" >查看详情</router-link>-->
                 </div>
             </div>
-            <div class="center-list">
-                <div>
-                    <div>
-                        <span class="list-title">专题报告</span>
-                        <span class="more-wrapper c" @click="toMore('/studyList/',0)">了解更多</span>
-                    </div>
-                    <ul class="trade-list fl">
-                        <li class="c" @click="toDetail(item._id)" v-for="item in special" :key="item._id">
-                            <div class="circle "></div>
-                            <p>{{item.name}}</p>
-                            <span class="date">【{{item.releaseTime}}】</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <div>
-                        <span class="list-title">定期报告</span>
-                        <span class="more-wrapper c" @click="toMore('/studyList/',1)">了解更多</span>
-                    </div>
-                    <ul class="trade-list fl">
-                        <li class="c" @click="toDetail(item._id)" v-for="item in regular" :key="item._id">
-                            <div class="circle c"></div>
-                            <p>{{item.name}}</p>
-                            <span class="date">【{{item.releaseTime}}】</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <!--<div class="center-list">-->
+                <!--<div>-->
+                    <!--<div>-->
+                        <!--<span class="list-title">专题报告</span>-->
+                        <!--<span class="more-wrapper c" @click="toMore('/studyList/',0)">了解更多</span>-->
+                    <!--</div>-->
+                    <!--<ul class="trade-list fl">-->
+                        <!--<li class="c" @click="toDetail(item._id)" v-for="item in special" :key="item._id">-->
+                            <!--<div class="circle "></div>-->
+                            <!--<p>{{item.name}}</p>-->
+                            <!--<span class="date">【{{item.releaseTime}}】</span>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<div>-->
+                        <!--<span class="list-title">定期报告</span>-->
+                        <!--<span class="more-wrapper c" @click="toMore('/studyList/',1)">了解更多</span>-->
+                    <!--</div>-->
+                    <!--<ul class="trade-list fl">-->
+                        <!--<li class="c" @click="toDetail(item._id)" v-for="item in regular" :key="item._id">-->
+                            <!--<div class="circle c"></div>-->
+                            <!--<p>{{item.name}}</p>-->
+                            <!--<span class="date">【{{item.releaseTime}}】</span>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="title-wrap">
                 <div class="title">经典案例</div>
                 <span class="more-wrapper c" @click="toMore('/classicList')">了解更多</span>
@@ -158,7 +158,6 @@
             & >p{
                 flex: 1;
                 color: $list-title-color;
-                font-weight: bold;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -193,8 +192,8 @@
             margin-top: 20px;
 
             & > .listImg{
-                width: 220px;
-                height: 200px;
+                width: 148px;
+                height: 210px;
                 background:center no-repeat;
                 -webkit-background-size: cover;
                 background-size: cover;
