@@ -42,15 +42,7 @@
         methods: {
             async getDetail() {
                 let res = await this.http.get(this.api.research.detail, {id: this.$route.params.id})
-                console.log( res.data[0].accessory)
-                res.data[0].accessory=[{
-                    name:'附件',
-                    flie: res.data[0].accessory
-                }]
-                console.log( res.data[0].accessory)
                 this.data = res.data[0]
-
-                console.log(res)
             }
         }
     }

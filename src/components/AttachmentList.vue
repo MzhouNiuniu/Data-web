@@ -11,14 +11,13 @@
             <li v-for="(item,index) in list" :key="index">
                 <span class="prefix"></span>
                 {{item.name}}
-                <button class="download-btn" @click="download(item.url)">下载</button>
+                <button class="download-btn" @click="download(item)">下载</button>
             </li>
         </ul>
     </section>
 </template>
 
 <script>
-    import axios from 'axios'
     export default {
         name: "AttachmentList",
         props: {
@@ -67,11 +66,12 @@
                     url: item,
                 }))
             },
-            download(url) {
+            download({name,url}) {
                 let a = document.createElement('a')
-                a.href =url
+                a.href =`${this.api.downloadFileByUrl}?name=${name}&url=${url}`
+                a.target = '_blank'
                 a.click();
-
+                a = null
                 // alert(url)
             },
         },

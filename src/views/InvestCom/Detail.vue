@@ -317,19 +317,10 @@
         methods: {
             loadDetail() {
                 this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
-                    console.log(res.data[0].other)
-                    if(res.data[0].other.length>0){
-                        res.data[0].other.map(item=>{
-                            item.url=item.file
-                        })
-                    }
-                    console.log(31)
-                    console.log(res.data[0].other)
                     this.detail = res.data[0]
                 })
             },
             toDetail(id){
-                console.log(id)
                 this.$router.push({path:`/newsDetail/${id}`,query:{type:'新闻'}})
             },
         },
