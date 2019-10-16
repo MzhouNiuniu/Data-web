@@ -151,7 +151,6 @@
 
             this.defaultCurrentGovName = '北京市'; // 默认北京
             this.defaultCurrentGovLevel = ''; // 默认为空，代表首页
-
             this.govNameStack = []; // 参考地图
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
