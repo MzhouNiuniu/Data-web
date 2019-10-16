@@ -1,24 +1,26 @@
 <template>
     <section>
         <div class="project-container">
-            <div>
-                <Select
-                        clearable
-                        filterable
-                        remote
-                        v-model="currentSearchWords"
-                        :remote-method="loadSearchOption"
-                        :loading="isLoadSearchOption"
-                        @on-change="handleSearchChange"
-                        @on-clear="loadSearchOption()"
-                >
-                    <Option
-                            v-for="(option, index) in searchOptionList" :value="option.name" :key="index"
-                    ><!--fix-br-->{{option.name}}<!--fix-br--></Option>
-                </Select>
-            </div>
             <div class="search-bar clearfix">
-                <SearchInput class="search-input" placeholder="请输入地区"/>
+                <div class="search-input">
+                    <Select
+                            placeholder="请输入地区"
+                            clearable
+                            filterable
+                            remote
+                            v-model="currentSearchWords"
+                            :loading="isLoadSearchOption"
+                            :remote-method="loadSearchOption"
+                            @on-query-change="fixOnSearchChange"
+                    >
+                        <Option
+                                v-for="(option, index) in searchOptionList" :value="option.name" :key="index"
+                        ><!--fix-br-->{{option.name}}<!--fix-br--></Option>
+                    </Select>
+                    <button @click="handleSearch">
+                        搜索
+                    </button>
+                </div>
                 <router-link class="mode-btn" to="/InvestCom">
                     <img src="~@public/icon/list.png" alt="" class="icon">
                     <p class="text">
@@ -105,15 +107,14 @@
 </template>
 
 <script>
-    import SearchInput from '@components/SearchInput';
     import ChinaMap from '@components/ChinaMap';
     import Pagination from '@components/Pagination';
 
 
+    // todo 对数据流进行说明
     export default {
         name: "InvestMapList",
         components: {
-            SearchInput,
             ChinaMap,
             Pagination,
         },
@@ -145,7 +146,7 @@
 
             this.defaultCurrentGovName = '北京市'; // 默认北京
             this.defaultCurrentGovLevel = ''; // 默认为空，代表首页
-            this.govNameStack = []; // 0:中国；从1开始，例如 ["中华人民共和国", "山西省"]
+            this.govNameStack = []; // 参考地图
             return {
                 // 因为不是列表，所以不放在路由了，不然每次都要重新渲染地图~
                 pagination: {
@@ -153,42 +154,27 @@
                     limit: 10,
                     total: 0,
                 },
+
+                currentYear: new Date((new Date().getFullYear() - 1).toString()),
+
+                // 搜索
                 searchDebounceTimer: null,
                 searchOptionList: [],
-                currentSearchWords: '',
                 isLoadSearchOption: false,
+                currentSearchWords: '',
 
 
+                // 底部列表
                 comList: [],
 
-                currentYear: new Date((new Date().getFullYear()-1).toString()),
+                // 地图
                 currentGovName: this.defaultCurrentGovName,
                 currentGovLevel: this.defaultCurrentGovLevel,
                 currentGovDetail: {},
             };
         },
         methods: {
-            loadSearchOption(keyWords = '') {
-                if (this.currentSearchWords && this.currentSearchWords === keyWords) { // 点击option时不需要处理
-                    return;
-                }
-                this.isLoadSearchOption = true;
-                clearTimeout(this.searchDebounceTimer);
-                this.searchDebounceTimer = setTimeout(() => {
-                    this.http.get(this.api.companyData.searchOptionList, { keyWords }).then(res => {
-                        if (res.status !== 200) {
-                            this.searchOptionList = [];
-                            return;
-                        }
-                        this.searchOptionList = res.data.docs;
-
-                        this.isLoadSearchOption = false;
-                    });
-                }, 300);
-            },
-            handleSearchChange() {
-                console.log(arguments);
-            },
+            // 底部表格
             handleTab(val) {
                 console.log(val);
                 this.$router.push({ path: `/InvestComDetail/${val._id}` });
@@ -224,6 +210,51 @@
                 });
 
             },
+
+            // 搜索相关
+            loadSearchOption(keyWords = '') {
+                if (this.currentSearchWords && this.currentSearchWords === keyWords) { // 点击option时不需要处理
+                    return;
+                }
+
+                this.isLoadSearchOption = true;
+                clearTimeout(this.searchDebounceTimer);
+                this.searchDebounceTimer = setTimeout(() => {
+                    this.http.get(this.api.companyData.searchOptionList, { keyWords }).then(res => {
+                        if (res.status !== 200) {
+                            this.searchOptionList = [];
+                            return;
+                        }
+                        this.searchOptionList = res.data.docs;
+
+                        this.isLoadSearchOption = false;
+                    });
+                }, 300);
+            },
+            fixOnSearchChange(v) {
+                if (v === this.currentSearchWords) {
+                    return;
+                }
+                if (v === '') {
+                    this.loadSearchOption();
+                }
+            },
+            handleSearch() {
+                if (this.currentSearchWords === undefined) {
+                    this.$refs.map.reset();
+                    return;
+                }
+                const option = this.searchOptionList.find(item => item.name === this.currentSearchWords); // 此变量可忽略
+                if (!option) {
+                    return;
+                }
+
+                // 获取当前选择的山区
+                const blockStack = [option.province, option.city, option.district];
+                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省': 1, '市': 2, '区': 3 })[option.level])); // todo
+            },
+
+            // 地图相关
             setMapTooltip() {
                 this.map.setOption(option => {
                     // add tooltip，由于echarts问题，多次触发
@@ -316,17 +347,6 @@
                     option.series[0].itemStyle.normal.areaColor = '#e3e3e3';
                 });
             },
-            handleMapChange({ nameStack, levelStack }) {
-                this.govNameStack = nameStack;
-                this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
-                this.currentGovLevel = ({
-                    'province': '省级',
-                    'city': '市级',
-                    'district': '区级',
-                })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel;
-                this.loadMapData();
-                this.loadList();
-            },
             loadMapData() {
                 const { currentYear, currentGovLevel, govNameStack } = this;
                 const params = {
@@ -367,9 +387,19 @@
                     });
                 });
             },
+            handleMapChange({ nameStack, levelStack }) {
+                this.govNameStack = nameStack;
+                this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
+                this.currentGovLevel = ({
+                    'province': '省级',
+                    'city': '市级',
+                    'district': '区级',
+                })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel; // todo
+                this.loadMapData();
+                this.loadList();
+            },
         },
         created() {
-            // 加载默认option
             this.loadSearchOption();
             this.loadList();
         },
@@ -378,7 +408,6 @@
 
             this.setMapTooltip();
             this.loadMapData();
-
         },
     };
 </script>
@@ -465,7 +494,7 @@
     }
 </style>
 <!--global style-->
-<style lang="scss">
+<style lang="scss" scoped>
     .invest-com__map-list__map-tooltip {
         margin: -5px;
         padding: 15px;
@@ -494,6 +523,44 @@
 
             .value {
 
+            }
+        }
+    }
+
+    .search-input {
+        $height: 44px;
+        display: flex;
+        width: 100%;
+
+        ::v-deep {
+            .ivu-select-selection {
+                height: $height;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .ivu-select-input {
+                line-height: $height;
+                height: $height;
+                padding-left: 20px;
+                font-size: 14px;
+            }
+        }
+
+        button {
+            min-width: 76px;
+            height: $height;
+            line-height: 1;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            background-color: $primary-color !important;
+
+
+            &:hover {
+                background-color: $primary-color-light !important;
             }
         }
     }
