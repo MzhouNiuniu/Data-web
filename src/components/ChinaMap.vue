@@ -83,12 +83,6 @@
         },
         methods: {
             // 工具
-            getGeoData(code) {
-                return axios.get('/geo-json/' + code + '_full.json').then(res => res.data).catch(err => {
-                    console.log(err);
-                    this.back(true);
-                });
-            },
             getChart() {
                 return this.chart;
             },
@@ -107,6 +101,14 @@
                 this.chart.setOption(this.option);
                 // this.$forceUpdate(); // option 非响应式数据
             },
+            getGeoData(code) {
+                return axios.get('/geo-json/' + code + '_full.json').then(res => res.data).catch(err => {
+                    console.log(err);
+                    this.back(true);
+                });
+            },
+
+            // 装载地图，并且将当前地图的数据返回
             loadGeoData(code) {
                 const set = () => {
                     this.option.series[0].mapType = code;
@@ -114,20 +116,37 @@
                 };
 
                 if (echarts.getMap(code)) {
-                    this.$nextTick(() => {
+                    return Promise.resolve().then(() => {
                         set();
+                        return echarts.getMap(code).geoJson;
                     });
-                    return;
                 }
 
-                this.getGeoData(code).then(data => {
+                return this.getGeoData(code).then(data => {
                     echarts.registerMap(code, data);
                     set();
+                    return data;
                 });
             },
 
+
             // 切换地图的时候，需要保持地区名字、地区code的历史记录
-            beforeToPrevLevel() {
+            updateModel() {
+                this.$emit('change', {
+                    nameStack: this.nameStack,
+                    codeStack: this.codeStack,
+                    levelStack: this.levelStack,
+                });
+            },
+            cleanStack() {
+                // 重置到中国
+                this.nameStack.length = 1;
+                this.codeStack.length = 1;
+                this.levelStack.length = 1
+
+                this.nameStack.push(1), this.nameStack.pop(); // 触发computed更新 + $forceUpdate()
+            },
+            popStack() {
                 this.nameStack.pop();
                 this.codeStack.pop();
 
@@ -137,7 +156,7 @@
                 }
                 levelStack.pop();
             },
-            beforeToNextLevel(name, code) {
+            pushStack(name, code) {
                 this.nameStack.push(name);
                 this.codeStack.push(code);
 
@@ -150,52 +169,10 @@
                     levelStack.push('district');
                 }
             },
-            back(isSilent) {
-                // isSilent:：是否静默回退
-                if (this.isRoot) {
-                    return;
-                }
-                this.beforeToPrevLevel();
-                this.loadGeoData(this.currentCode);
-
-
-                if (!isSilent) {
-                    this.$emit('back', {
-                        nameStack: this.nameStack,
-                        codeStack: this.codeStack,
-                        levelStack: this.levelStack,
-                    });
-                }
-            },
             toggleBlock(name, code) {
-                this.beforeToNextLevel(name, code);
-
+                this.pushStack(name, code);
+                this.updateModel();
                 this.loadGeoData(code);
-                this.$emit('change', {
-                    nameStack: this.nameStack,
-                    codeStack: this.codeStack,
-                    levelStack: this.levelStack,
-                });
-            },
-            skipTo(blockStack) {
-                // blockStack：[['河南',410000],['郑州',410100]]
-                if (!Array.isArray(blockStack)) {
-                    return;
-                }
-
-                blockStack.forEach(([name, code], index, arr) => {
-                    // last
-                    // if (index === arr.length - 1) {
-                    //     this.toggleBlock(item[0], item[1]);
-                    // } else {
-                    //     this.beforeToNextLevel(item[0], item[1]);
-                    // }
-                    if (index === arr.length - 1) {
-                        this.toggleBlock(name, code);
-                    } else {
-                        this.beforeToNextLevel(name, code);
-                    }
-                });
             },
             handleMapSelectChange(params) {
                 const triggerBlock = params.batch[0];
@@ -213,6 +190,65 @@
 
                 this.toggleBlock(targetBlock.properties.name, targetBlock.properties.adcode);
             },
+
+            // 接口
+            back(isSilent = false) {
+                // isSilent:：是否静默回退
+                if (this.isRoot) {
+                    return;
+                }
+                this.popStack();
+                this.loadGeoData(this.currentCode);
+
+
+                isSilent || this.updateModel();
+            },
+            skipTo(blockStack) {
+                // blockStack：[['河南',410000],['郑州',410100]]
+                if (!Array.isArray(blockStack)) {
+                    return;
+                }
+                this.cleanStack();
+
+                blockStack.forEach(([name, code], index, arr) => {
+                    // last
+                    // if (index === arr.length - 1) {
+                    //     this.toggleBlock(item[0], item[1]);
+                    // } else {
+                    //     this.pushStack(item[0], item[1]);
+                    // }
+                    if (index === arr.length - 1) {
+                        this.toggleBlock(name, code);
+                    } else {
+                        this.pushStack(name, code);
+                    }
+                });
+            },
+            async jumpTo(nameStack) {
+                // nameStack：['河南省','郑州市'] // 第一个元素，只能是中国下的地区
+                const blockStack = [];
+                let target = echarts.getMap(100000).geoJson; // 内置了100000地图
+                for (let i = 0; i < nameStack.length; i++) {
+                    let nextBlockCode = target.features.find(item => item.properties.name === nameStack[i]);
+                    if (!nextBlockCode) {
+                        return;
+                    }
+
+                    nextBlockCode = nextBlockCode.properties.adcode;
+                    blockStack.push([
+                        nameStack[i],
+                        nextBlockCode,
+                    ]);
+                    target = await this.loadGeoData(nextBlockCode);
+                }
+
+                this.skipTo(blockStack);
+            },
+            reset() {
+                this.cleanStack();
+                this.updateModel();
+                this.loadGeoData(this.currentCode);
+            },
         },
         created() {
             this.loadGeoData(this.currentCode);
@@ -222,9 +258,13 @@
             this.chart.on('mapselectchanged', this.handleMapSelectChange);
 
             // 模拟回显
-            setTimeout(() => {
-                this.skipTo([['河南', 410000], ['郑州', 410100]]);
-            }, 2000);
+            // setTimeout(() => {
+            //     // this.skipTo([['河南', 410000], ['郑州', 410100]]);
+            // this.jumpTo(['河南省', '郑州市']);
+            // setTimeout(() => {
+            //     this.jumpTo(['江苏省', '南京市']);
+            // }, 2000);
+            // // }, 2000);
         },
     };
 </script>

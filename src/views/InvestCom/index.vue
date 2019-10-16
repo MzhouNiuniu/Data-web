@@ -332,9 +332,7 @@
 
             },
             handlePageChange({ page, limit }) {
-                this.pagination.page = page;
-                this.pagination.limit = limit;
-                this.query(page, limit,);
+                this.query(page, limit);
             },
 
             // 根据本地存储的参数，计算出服务端需要的参数
