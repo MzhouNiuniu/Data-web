@@ -75,6 +75,12 @@
             </UIDescription>
 
             <div class="hr-dashed"></div>
+            <UIDescription title="2016-2018年公司营业收入及利润情况（单位：亿元、%）" class="mt-20">
+                <Table class="project-ivu-table" :max-height="222" stripe border :columns="incomeColumns"
+                       :data="detail.incomeInfo"/>
+            </UIDescription>
+
+            <div class="hr-dashed"></div>
             <UIDescription title="融资信息" class="mt-20">
                 <Table class="project-ivu-table" :max-height="222" stripe :columns="financingColumns"
                        :data="detail.financing"/>
@@ -86,7 +92,7 @@
                     <ul class="trade-list">
                         <li @click="toDetail(item._id,1) " class="pr-20 c" v-for=" item in detail.news" :key="item._id">
                             <div class="circle"></div>
-                            <p >{{item.title}}</p>
+                            <p>{{item.title}}</p>
                             <span class="date">【{{item.releaseTime}}】</span>
 
                         </li>
@@ -103,15 +109,8 @@
 </template>
 
 <script>
-    import AttachmentList from '@components/AttachmentList'
-    import UIDescription from '@ui/Description'
-    function primaryHeaderRender(h, leftName, rightName) {
-        return (
-            <div class="primary-header" style="font-size: 18px;font-weight: 500;">
-                年份
-            </div>
-        )
-    }
+    import AttachmentList from '@components/AttachmentList';
+    import UIDescription from '@ui/Description';
 
     export default {
         name: "InvestDetail",
@@ -120,7 +119,43 @@
             UIDescription,
         },
         data() {
-            this.id = this.$route.params.id
+            this.id = this.$route.params.id;
+
+            function primaryHeaderRender(h, leftName, rightName) {
+                return (
+                    <div class="primary-header" style="font-size: 18px;font-weight: 500;">
+                        年份
+                    </div>
+                );
+            }
+
+            function renderIncomeSubHeader(fieldName, fieldKey) {
+                return {
+                    title: fieldName,
+                    key: fieldKey,
+                    children: [
+                        {
+                            width: 80,
+                            renderHeader(h) {
+                                return <span style="font-size:16px">金额</span>;
+                            },
+                            render(h, { row }) {
+                                return <span>{row[fieldKey].amount || '-'}</span>;
+                            },
+                        },
+                        {
+                            width: 80,
+                            renderHeader(h) {
+                                return <span style="font-size:16px">占比</span>;
+                            },
+                            render(h, { row }) {
+                                return <span>{row[fieldKey].per || '-'}</span>;
+                            },
+                        },
+                    ],
+                };
+            }
+
             this.financialColumns = [
                 {
                     className: 'primary-column',
@@ -128,7 +163,7 @@
                     width: 185,
                     key: 'year',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '财务信息', '汇总年份')
+                        return primaryHeaderRender(h, '财务信息', '汇总年份');
                     },
                 },
                 {
@@ -167,14 +202,14 @@
                 //     key: 'totalProfit',
                 // },
 
-            ]
+            ];
             this.rateColumns = [
                 {
                     className: 'primary-column',
                     width: 185,
                     key: 'year',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '评级信息', '汇总年份')
+                        return primaryHeaderRender(h, '评级信息', '汇总年份');
                     },
                 },
                 {
@@ -194,21 +229,40 @@
                     key: 'year',
                     tooltip: true,
                 },
-            ]
+            ];
+            this.incomeColumns = [
+                {
+                    className: 'primary-column',
+                    width: 185,
+                    key: 'year',
+                    renderHeader(h) {
+                        return primaryHeaderRender(h, '项目类型', '汇总年份');
+                    },
+                },
+                renderIncomeSubHeader('营业收入', 'doBizCost'),
+                renderIncomeSubHeader('工程建设收入', 'buildingCost'),
+                renderIncomeSubHeader('销售收入', 'saleCost'),
+                renderIncomeSubHeader('租金收入', 'rentCost'),
+                renderIncomeSubHeader('物业管理', 'estateCost'),
+                renderIncomeSubHeader('检测费收入', 'testCost'),
+                renderIncomeSubHeader('餐费收入', 'mealCost'),
+            ];
 
-            financingRender.id = this.id
+            financingRender.id = this.id;
 
             function financingRender(h, { column, index, row }) {
-                const info = row[column.key]
+                const info = row[column.key];
                 if (!info) {
-                    return <span>/</span>
+                    return <span>/</span>;
                 }
 
                 // 只能将id传递下去，详情组件再次获取数据
-                let imgs = require('./zq.png')
+                let imgs = require('./zq.png');
                 return (
-                    <router-link to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}><img  style="width:30px" src={require('./zq.png')} /> </router-link>
-                )
+                    <router-link to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}><img style="width:30px"
+                                                                                                      src={require('./zq.png')}/>
+                    </router-link>
+                );
             }
 
             this.financingColumns = [
@@ -218,7 +272,7 @@
                     width: 185,
                     key: 'year',
                     renderHeader(h) {
-                        return primaryHeaderRender(h, '债券类型', '汇总年份')
+                        return primaryHeaderRender(h, '债券类型', '汇总年份');
                     },
                 },
                 {
@@ -305,35 +359,35 @@
                     key: 'GN',
                     render: financingRender,
                 },
-            ]
+            ];
 
             this.list = Array(10).fill({
                 name: '省级城投机构',
-            },)
+            },);
             return {
                 detail: {},
-            }
+            };
         },
         methods: {
             loadDetail() {
                 this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
-                    this.detail = res.data[0]
-                })
+                    this.detail = res.data[0];
+                });
             },
-            toDetail(id){
-                this.$router.push({path:`/newsDetail/${id}`,query:{type:'新闻'}})
+            toDetail(id) {
+                this.$router.push({ path: `/newsDetail/${id}`, query: { type: '新闻' } });
             },
         },
         created() {
-            this.$store.commit('app/setBgColor1')
-            this.loadDetail()
+            this.$store.commit('app/setBgColor1');
+            this.loadDetail();
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
     @function getBorder() {
-        @return 1px solid rgba(191, 197, 202, 1)
+        @return 1px solid #D8D8D8
     }
 
     .project-container__wrapper {
@@ -433,7 +487,7 @@
         .ivu-table-header, .ivu-table-fixed-header {
             th {
                 height: 38px;
-                border: none;
+                /*border: none;*/
                 background-color: #ebf7ff !important;
             }
         }
@@ -494,17 +548,18 @@
             }
         }
     }
-    .trade-list{
-        li{
+
+    .trade-list {
+        li {
             display: flex;
             border-bottom: 1px solid #eee;
             padding: 15px 0;
             font-size: 18px;
-            align-items:center;
+            align-items: center;
             width: 100%;
 
 
-            & > .circle{
+            & > .circle {
                 width: 10px;
                 height: 10px;
                 background: #D8D8D8;
@@ -513,7 +568,8 @@
                 border-radius: 10px;
                 margin-right: 15px;
             }
-            & >p{
+
+            & > p {
                 flex: 1;
                 font-size: 15px;
 
@@ -523,7 +579,8 @@
                 margin-right: 10px;
                 width: 338px;
             }
-            & > span{
+
+            & > span {
                 font-size: 14px;
             }
         }
