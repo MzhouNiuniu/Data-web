@@ -41,11 +41,12 @@
     .magazine {
         margin-right: -40px;
         padding-top: 4px;
+        min-height: 690px;
 
         img {
             display: inline-block;
-            width: 235px;
-            height: 333px;
+            width: 220px;
+            height: 290px;
             margin-right: 40px;
             margin-top: 26px;
             cursor: pointer;
