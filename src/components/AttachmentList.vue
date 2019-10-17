@@ -11,7 +11,9 @@
             <li v-for="(item,index) in list" :key="index">
                 <span class="prefix"></span>
                 {{item.name}}
-                <button class="download-btn" @click="download(item)">下载</button>
+                <DownloadFile :file="item" class="download-btn">
+                    下载
+                </DownloadFile>
             </li>
         </ul>
     </section>
@@ -36,54 +38,46 @@
         data() {
             return {
                 list: this.getList(),
-            }
+            };
         },
         methods: {
             // 根据value生成
             getList() {
-                let { value } = this
+                let { value } = this;
                 if (!value) {
-                    return undefined
+                    return undefined;
                 }
                 if (Array.isArray(value)) {
                     if (!value[0]) {
-                        return undefined
+                        return undefined;
                     }
                     if (Object.prototype.toString.call(value[0]) === '[object Object]') {
-                        return value
+                        return value;
                     }
                 } else {
                     // 与data-admin项目中的上传组件一致
                     if (value.indexOf(';base64,') >= 0) {
-                        value = value.split('#')
+                        value = value.split('#');
                     } else {
-                        value = value.split(',')
+                        value = value.split(',');
                     }
                 }
 
                 return value.map(item => ({
                     name: item,
                     url: item,
-                }))
-            },
-            download({name,url}) {
-                let a = document.createElement('a')
-                a.href =`${this.api.downloadFileByUrl}?name=${name}&url=${url}`
-                a.target = '_blank'
-                a.click();
-                a = null
-                // alert(url)
+                }));
             },
         },
         mounted() {
             if (!this.value) {
                 const unwatch = this.$watch('value', () => {
-                    unwatch()
-                    this.list = this.getList()
-                })
+                    unwatch();
+                    this.list = this.getList();
+                });
             }
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -160,9 +154,8 @@
                 border-radius: 5px;
                 font-weight: 800;
                 color: rgba(5, 103, 255, 1);
-                outline: none;
-                border: none;
                 cursor: pointer;
+                text-align: center;
 
                 &:hover {
                     color: #fff;

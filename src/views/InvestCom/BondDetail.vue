@@ -135,14 +135,12 @@
 <script>
     import AttachmentList from '@components/AttachmentList';
     import UIDescription from '@components/ui/Description';
-    import DownloadFile from '@components/DownloadFile';
 
     export default {
         name: 'BoundDetail',
         components: {
             AttachmentList,
             UIDescription,
-            DownloadFile,
         },
         data() {
             this.id = this.$route.params.id;
@@ -180,12 +178,12 @@
                 {
                     width: 180,
                     title: '相关文件',
-                    render: (h, { row }) => <DownloadFile url={row.aboutFile}/>,
+                    render: (h, { row }) => <DownloadFile file={row.aboutFile}/>,
                 },
                 {
                     minWidth: 180,
                     title: '其他',
-                    render: (h, { row }) => <DownloadFile url={row.other}/>,
+                    render: (h, { row }) => <DownloadFile file={row.other}/>,
                 },
             ];
 
