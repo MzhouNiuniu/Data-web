@@ -1,7 +1,7 @@
 <template>
     <section class="project-container">
         <div class="search-bar clearfix">
-            <SearchInput v-model="searchParams.keyWords" @change="handleSearchParamsChange('keyWords')"
+            <SearchInput v-model="searchParams.keyWords" @change="query()"
                          class="search-input" placeholder="请输入企业名称"/>
             <router-link class="mode-btn" to="/InvestCom/Map">
                 <img src="~@public/icon/china.png" alt="" class="icon">
@@ -17,7 +17,7 @@
                         title="省级行政区域"
                         v-model="buttonParams.province"
                         :options="searchOptions.province"
-                        @change="handleOptionButtonChange('province')"
+                        @change="query()"
                 />
                 <div class="border-bottom hr-dashed"></div>
             </div>
@@ -26,7 +26,7 @@
                         title="主体类型"
                         v-model="buttonParams.mainType"
                         :options="searchOptions.mainType"
-                        @change="handleOptionButtonChange('mainType')"
+                        @change="query()"
                 />
                 <div class="border-bottom hr-dashed"></div>
             </div>
@@ -35,7 +35,7 @@
                         title="营业收入（亿元）"
                         v-model="buttonParams.income"
                         :options="searchOptions.income"
-                        @change="handleOptionButtonChange('income')"
+                        @change="query()"
                 />
                 <div class="border-bottom hr-dashed"></div>
             </div>
@@ -44,7 +44,7 @@
                         title="评级"
                         v-model="buttonParams.rateMain"
                         :options="searchOptions.rateMain"
-                        @change="handleOptionButtonChange('rate')"
+                        @change="query()"
                 />
                 <div class="border-bottom hr-dashed"></div>
             </div>
@@ -52,11 +52,12 @@
                 <span class="title">
                     成立时间：
                 </span>
-                <DatePicker type="daterange" style="width: 350px"
-                            v-model="searchParams.createTime"
-
+                <DatePicker
+                        type="daterange"
+                        style="width: 350px"
+                        v-model="searchParams.createTime"
                 />
-                <button class="confirm-button ml-20" @click="handleSearchParamsChange('createTime')">确定</button>
+                <button class="confirm-button ml-20" @click="query()">确定</button>
                 <div class="border-bottom hr-dashed"></div>
             </div>
             <div class="item totalAsset">
@@ -64,7 +65,7 @@
                         title="总资产规模（亿元）"
                         v-model="buttonParams.scale"
                         :options="searchOptions.scale"
-                        @change="handleOptionButtonChange('scale')"
+                        @change="searchParams.min = searchParams.max = null;query()"
                 >
                     <div class="slot">
                         <span class="title">
@@ -73,12 +74,41 @@
                         <InputNumber v-model="searchParams.min"/>
                         -
                         <InputNumber v-model="searchParams.max"/>
-                        <button class="confirm-button ml-20" @click="handleSearchParamsChange('totalAssetRange')">确定
+                        <button class="confirm-button ml-20" @click="buttonParams.scale = undefined;query()">确定
                         </button>
                     </div>
                 </OptionButton>
                 <div class="border-bottom hr-slide-style-1"></div>
             </div>
+        </div>
+        <div class="sort-bar">
+            <ul>
+                <li>
+                    筛选排序
+                </li>
+                <li
+                        v-for="(item,index) in sortOptionList"
+                        :key="index"
+                        :class="{active:item.value === searchParams.sortField}"
+                        @click="searchParams.sortField=item.value;query()"
+                >
+                    {{item.label}}
+                </li>
+            </ul>
+            <ul>
+                <li
+                        :class="{active:1 === searchParams.sortFieldValue}"
+                        @click="searchParams.sortFieldValue = 1;query()"
+                >
+                    升序
+                </li>
+                <li
+                        :class="{active:-1 === searchParams.sortFieldValue}"
+                        @click="searchParams.sortFieldValue = -1;query()"
+                >
+                    降序
+                </li>
+            </ul>
         </div>
         <Row :gutter="30" class="com-list">
             <Col span="8" v-for="(item,index) in list" :key="index">
@@ -137,6 +167,21 @@
             TextEllipsis,
         },
         data() {
+            // 1正序  -1  倒叙
+            this.sortOptionList = [
+                {
+                    label: '总资产',
+                    value: 'totalAsset',
+                },
+                {
+                    label: '成立时间',
+                    value: 'creationTime',
+                },
+                {
+                    label: '主营收入',
+                    value: 'businessCount',
+                },
+            ];
             this.searchOptions = {
                 province: [],
                 mainType: [
@@ -247,20 +292,32 @@
             this.list = [];
 
             return {
-                searchParams: this.getSearchParams(),
-                buttonParams: this.getButtonParams(),
-                pagination: this.getPagination(),
+                searchParams: {
+                    keyWords: '',
+                    min: null,
+                    max: null,
+                    createTime: [],
+
+                    sortField: 'totalAsset', // 默认按照总资产排序
+                    sortFieldValue: 1, // 默认正序
+                },
+                buttonParams: {
+                    province: null,
+                    mainType: null,
+                    rateMain: null,
+                    income: null,
+                    scale: null,
+                },
+                pagination: {
+                    page: 1,
+                    limit: 9,
+                    total: 0,
+                },
             };
         },
         methods: {
             search(value) {
                 console.log(value);
-            },
-            getData(time) {
-                // console.log(start)
-
-                this.searchParams.createTime = time;
-
             },
             getProvinceList() {
                 return this.http.base.get('/geo-json/100000_full.json').then(res => {
@@ -274,107 +331,50 @@
                 });
 
             },
-            getSearchParams() {
-
-                const { query } = this.$route;
-                const params = {
-                    keyWords: query.keyWords,
-                    min: query.min ? Number(query.min) : null,
-                    max: query.max ? Number(query.min) : null,
-
-
-                };
-
-                if (query.startCreateTime && query.endCreateTime) {
-                    params.createTime = [
-                        query.startCreateTime,
-                        query.endCreateTime,
-                    ];
-                }
-                console.log(params.keyWords);
-                return params;
-            },
-            getButtonParams() {
-                const { query } = this.$route;
-                return {
-                    province: query.province,
-                    mainType: query.mainType,
-                    rateMain: query.rateMain,
-                    income: query.income,
-                    scale: query.scale,
-                };
-            },
-            getPagination() {
-                const { query } = this.$route;
-                return {
-                    page: query.page || 1,
-                    limit: query.limit || 9,
-                    total: 0,
-                };
-            },
             handlePageChange({ page, limit }) {
+                this.query(page, limit);
+            },
+
+            // 根据本地存储的参数，计算出服务端需要的参数
+            getParams() {
+                // todo 字段之间的关联处理，将函数简化到了内联js，需要重新抽离。。
+
+                const result = { ...this.buttonParams, ...this.searchParams };
+
+                // 时间范围选择器
+                if (result.createTime && result.createTime[0] && result.createTime[1]) {
+                    result.startCreateTime = result.createTime[0].toISOString();
+                    result.endCreateTime = result.createTime[1].toISOString();
+                } else {
+                    result.startCreateTime = result.endCreateTime = undefined; // 清除url参数
+                }
+                delete result.createTime;
+
+                // 筛选排序
+                result.sort = JSON.stringify({ [result.sortField]: result.sortFieldValue, stick: -1 });
+                delete result.sortField;
+                delete result.sortFieldValue;
+
+                return result;
+            },
+            async query(page = 1, limit = 9) {
+                // 一般参数变化之后需要重置分页，通过默认值进行判断是否重置
                 this.pagination.page = page;
                 this.pagination.limit = limit;
-                this.query({
-                    page: page,
-                    limit,
-                });
-            },
-            handleOptionButtonChange(fieldName) {
-                const otherParams = {};
-                if (fieldName === 'scale') {
-                    otherParams.min = otherParams.max = undefined; // 清除url参数
-                }
 
-                this.query(otherParams);
-
-            },
-            handleSearchParamsChange(fieldName) {
-                if (fieldName === 'totalAssetRange') {
-                    this.buttonParams.scale = undefined;
-                }
-
-                const searchParams = { ...this.searchParams };
-                // if(searchParams.keyWords){
-                //     searchParams.keyWords = searchParams.createTime[0].toISOString()
-                // }
-                if (searchParams.createTime && searchParams.createTime[0] && searchParams.createTime[1]) {
-                    console.log(searchParams.createTime);
-                    searchParams.startCreateTime = searchParams.createTime[0].toISOString();
-                    searchParams.endCreateTime = searchParams.createTime[1].toISOString();
-                } else {
-                    searchParams.startCreateTime = searchParams.endCreateTime = undefined; // 清除url参数
-                }
-
-                delete searchParams.createTime;
-
-                this.query(searchParams);
-
-            },
-            query(otherParams) {
-                const query = { ...this.$route.query };
-                this.$router.push({
-                    path: this.$route.path,
-                    query: Object.assign(query, this.buttonParams, otherParams),
-                });
-            },
-            async getList(size, current) {
-                console.log({ limit: size, page: current, ...this.$route.query });
                 let res = await this.http.get(this.api.companyData.getListBySearch, {
-                    limit: size,
-                    page: current, ...this.$route.query
+                    page,
+                    limit,
+                    ...this.getParams(),
                 });
-                console.log(res.data.docs);
                 this.list = res.data.docs;
+
                 this.pagination.total = res.data.total;
                 this.$forceUpdate();
             },
-            loadList() {
-                this.getList();
-            },
         },
         created() {
-            this.loadList();
+            this.query();
             if (provinceList) {
                 this.searchOptions.province = provinceList;
             } else {
@@ -383,15 +383,6 @@
                     this.$forceUpdate();
                 });
             }
-
-
-            setTimeout(() => {
-                this.query({
-                    a: 1,
-                    b: 1,
-                    c: 1,
-                });
-            });
         },
     };
 </script>
@@ -467,6 +458,63 @@
                     font-size: 14px;
                     font-weight: 600;
                     color: rgba(49, 54, 58, 1);
+                }
+            }
+        }
+    }
+
+    .sort-bar {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        line-height: 60px;
+        background: rgba(191, 197, 202, 0.2);
+        border: 1px solid rgba(191, 197, 202, 1);
+        color: #666666;
+
+        li {
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        & > ul {
+            display: flex;
+
+            // 左
+            &:first-child {
+                .base-active {
+                    color: rgba(5, 103, 255, 1);
+                    background: #fff;
+                }
+
+                li {
+                    padding: 0 25px;
+
+
+                    &:first-child {
+                        padding: 0 58px;
+                        @extend .base-active;
+                    }
+
+                    &.active {
+                        @extend .base-active;
+                        border: solid rgba(191, 197, 202, 1);
+                        border-width: 0 1px 0;
+                    }
+                }
+
+            }
+
+            // 右
+            &:last-child {
+                li {
+                    padding: 0 15px;
+
+                    &.active {
+                        background-color: $sign-color;
+                        color: #fff;
+                    }
                 }
             }
         }

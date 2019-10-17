@@ -52,15 +52,6 @@
                 this.http.get(this.api.projectUnion.detail, {
                     id: this.id,
                 }).then(res => {
-
-                    res.data[0].accessory.map((item,index)=>{
-                      // console.log(item)
-                        res.data[0].accessory[index]={
-                            name:'附件',
-                            url: item
-                        }
-                    })
-
                     const formData = res.data && res.data[0];
 
 
