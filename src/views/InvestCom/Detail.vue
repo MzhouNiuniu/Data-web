@@ -74,11 +74,13 @@
                 <Table class="project-ivu-table" :max-height="222" stripe :columns="rateColumns" :data="detail.rate"/>
             </UIDescription>
 
-            <div class="hr-dashed"></div>
-            <UIDescription title="2016-2018年公司营业收入及利润情况（单位：亿元、%）" class="mt-20">
-                <Table class="project-ivu-table" :max-height="222" stripe border :columns="incomeColumns"
-                       :data="detail.incomeInfo"/>
-            </UIDescription>
+            <div v-if="incomeColumns">
+                <div class="hr-dashed"></div>
+                <UIDescription title="2016-2018年公司营业收入及利润情况（单位：亿元、%）" class="mt-20">
+                    <Table class="project-ivu-table" :max-height="222" stripe border :columns="incomeColumns"
+                           :data="detail.incomeInfo"/>
+                </UIDescription>
+            </div>
 
             <div class="hr-dashed"></div>
             <UIDescription title="融资信息" class="mt-20">
@@ -112,6 +114,14 @@
     import AttachmentList from '@components/AttachmentList';
     import UIDescription from '@ui/Description';
 
+    function primaryHeaderRender(h, leftName, rightName) {
+        return (
+            <div class="primary-header" style="font-size: 18px;font-weight: 500;">
+                年份
+            </div>
+        );
+    }
+
     export default {
         name: "InvestDetail",
         components: {
@@ -121,40 +131,6 @@
         data() {
             this.id = this.$route.params.id;
 
-            function primaryHeaderRender(h, leftName, rightName) {
-                return (
-                    <div class="primary-header" style="font-size: 18px;font-weight: 500;">
-                        年份
-                    </div>
-                );
-            }
-
-            function renderIncomeSubHeader(fieldName, fieldKey) {
-                return {
-                    title: fieldName,
-                    key: fieldKey,
-                    children: [
-                        {
-                            width: 80,
-                            renderHeader(h) {
-                                return <span style="font-size:16px">金额</span>;
-                            },
-                            render(h, { row }) {
-                                return <span>{row[fieldKey].amount || '-'}</span>;
-                            },
-                        },
-                        {
-                            width: 80,
-                            renderHeader(h) {
-                                return <span style="font-size:16px">占比</span>;
-                            },
-                            render(h, { row }) {
-                                return <span>{row[fieldKey].per || '-'}</span>;
-                            },
-                        },
-                    ],
-                };
-            }
 
             this.financialColumns = [
                 {
@@ -230,23 +206,7 @@
                     tooltip: true,
                 },
             ];
-            this.incomeColumns = [
-                {
-                    className: 'primary-column',
-                    width: 185,
-                    key: 'year',
-                    renderHeader(h) {
-                        return primaryHeaderRender(h, '项目类型', '汇总年份');
-                    },
-                },
-                renderIncomeSubHeader('营业收入', 'doBizCost'),
-                renderIncomeSubHeader('工程建设收入', 'buildingCost'),
-                renderIncomeSubHeader('销售收入', 'saleCost'),
-                renderIncomeSubHeader('租金收入', 'rentCost'),
-                renderIncomeSubHeader('物业管理', 'estateCost'),
-                renderIncomeSubHeader('检测费收入', 'testCost'),
-                renderIncomeSubHeader('餐费收入', 'mealCost'),
-            ];
+
 
             financingRender.id = this.id;
 
@@ -366,21 +326,89 @@
             },);
             return {
                 detail: {},
+                incomeColumns: null,
             };
         },
         methods: {
             loadDetail() {
-                this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
+                return this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
                     this.detail = res.data[0];
                 });
             },
             toDetail(id) {
                 this.$router.push({ path: `/newsDetail/${id}`, query: { type: '新闻' } });
             },
+            initIncomeColumns() {
+                // todo 宽度问题
+
+                if (!Array.isArray(this.detail.incomeInfo)) {
+                    return;
+                }
+
+                const incomeColumns = [
+                    {
+                        className: 'primary-column',
+                        width: 185,
+                        key: 'year',
+                        renderHeader(h) {
+                            return primaryHeaderRender(h, '项目类型', '汇总年份');
+                        },
+                    },
+                ];
+
+                // format innerData to map && pick colName
+                const allColNameMap = {};
+                this.detail.incomeInfo.forEach(item => {
+                    if (!item.data) {
+                        return;
+                    }
+                    item.data = item.data.reduce((acc, item) => {
+                        if (!allColNameMap[item.name]) {
+                            incomeColumns.push(renderIncomeSubHeader(item.name));
+                        }
+                        allColNameMap[item.name] = 1;
+
+                        acc[item.name] = item;
+                        return acc;
+                    }, {});
+                });
+                this.incomeColumns = incomeColumns;
+                return;
+
+                function renderIncomeSubHeader(fieldName) {
+                    return {
+                        title: fieldName,
+                        key: fieldName,
+                        children: [
+                            {
+                                width: 80,
+                                renderHeader(h) {
+                                    return <span style="font-size:16px">金额</span>;
+                                },
+                                render(h, { row }) {
+                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '-'}</span>;
+                                },
+                            },
+                            {
+                                width: 80,
+                                renderHeader(h) {
+                                    return <span style="font-size:16px">占比</span>;
+                                },
+                                render(h, { row }) {
+                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '-'}</span>;
+                                },
+                            },
+                        ],
+                    };
+                }
+            },
         },
         created() {
             this.$store.commit('app/setBgColor1');
-            this.loadDetail();
+            this.loadDetail().then(() => {
+                //
+                this.initIncomeColumns();
+            });
         },
     };
 </script>
