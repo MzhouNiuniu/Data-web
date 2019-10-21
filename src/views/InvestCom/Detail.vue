@@ -74,7 +74,7 @@
                 <Table class="project-ivu-table" :max-height="222" stripe :columns="rateColumns" :data="detail.rate"/>
             </UIDescription>
 
-            <div v-if="incomeColumns">
+            <div v-if="incomeColumns && isIncomeDataValid">
                 <div class="hr-dashed"></div>
                 <UIDescription title="2016-2018年公司营业收入及利润情况（单位：亿元、%）" class="mt-20">
                     <Table class="project-ivu-table" :max-height="222" stripe border :columns="incomeColumns"
@@ -327,6 +327,7 @@
             return {
                 detail: {},
                 incomeColumns: null,
+                isIncomeDataValid: true,
             };
         },
         methods: {
@@ -341,6 +342,37 @@
             initIncomeColumns() {
                 if (!Array.isArray(this.detail.incomeInfo)) {
                     return;
+                }
+
+
+                renderIncomeSubHeader.runNum = 0;
+
+                function renderIncomeSubHeader(fieldName) {
+                    renderIncomeSubHeader.runNum++;
+                    return {
+                        title: fieldName,
+                        key: fieldName,
+                        children: [
+                            {
+                                minWidth: 80,
+                                renderHeader(h) {
+                                    return <span style="font-size:16px">金额</span>;
+                                },
+                                render(h, { row }) {
+                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '/'}</span>;
+                                },
+                            },
+                            {
+                                minWidth: 80,
+                                renderHeader(h) {
+                                    return <span style="font-size:16px">占比</span>;
+                                },
+                                render(h, { row }) {
+                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '/'}</span>;
+                                },
+                            },
+                        ],
+                    };
                 }
 
                 const incomeColumns = [
@@ -370,35 +402,12 @@
                         return acc;
                     }, {});
                 });
-                this.incomeColumns = incomeColumns;
-                return;
 
-                function renderIncomeSubHeader(fieldName) {
-                    return {
-                        title: fieldName,
-                        key: fieldName,
-                        children: [
-                            {
-                                minWidth: 80,
-                                renderHeader(h) {
-                                    return <span style="font-size:16px">金额</span>;
-                                },
-                                render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '/'}</span>;
-                                },
-                            },
-                            {
-                                minWidth: 80,
-                                renderHeader(h) {
-                                    return <span style="font-size:16px">占比</span>;
-                                },
-                                render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '/'}</span>;
-                                },
-                            },
-                        ],
-                    };
+                // fix 如果1列都没有。。
+                if (renderIncomeSubHeader.runNum === 0) {
+                    this.isIncomeDataValid = false;
                 }
+                this.incomeColumns = incomeColumns;
             },
         },
         created() {
