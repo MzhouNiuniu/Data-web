@@ -339,8 +339,6 @@
                 this.$router.push({ path: `/newsDetail/${id}`, query: { type: '新闻' } });
             },
             initIncomeColumns() {
-                // todo 宽度问题
-
                 if (!Array.isArray(this.detail.incomeInfo)) {
                     return;
                 }
@@ -381,21 +379,21 @@
                         key: fieldName,
                         children: [
                             {
-                                width: 80,
+                                minWidth: 80,
                                 renderHeader(h) {
                                     return <span style="font-size:16px">金额</span>;
                                 },
                                 render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '-'}</span>;
+                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '/'}</span>;
                                 },
                             },
                             {
-                                width: 80,
+                                minWidth: 80,
                                 renderHeader(h) {
                                     return <span style="font-size:16px">占比</span>;
                                 },
                                 render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '-'}</span>;
+                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '/'}</span>;
                                 },
                             },
                         ],
