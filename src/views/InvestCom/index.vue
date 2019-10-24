@@ -135,7 +135,7 @@
                         <TextEllipsis
                                 fill
                                 :rows="2"
-                                :value="item.info"
+                                :value="item.businessScope"
                         />
                     </p>
                 </div>
@@ -342,9 +342,10 @@
                 const result = { ...this.buttonParams, ...this.searchParams };
 
                 // 时间范围选择器
+                console.log(result.createTime)
                 if (result.createTime && result.createTime[0] && result.createTime[1]) {
-                    result.startCreateTime = result.createTime[0].toISOString();
-                    result.endCreateTime = result.createTime[1].toISOString();
+                    result.startCreateTime = result.createTime[0];
+                    result.endCreateTime = result.createTime[1];
                 } else {
                     result.startCreateTime = result.endCreateTime = undefined; // 清除url参数
                 }

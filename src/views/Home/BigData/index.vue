@@ -29,7 +29,8 @@
                             总资产(亿元）
                         </p>
                         <div class="content">
-                            {{ dataStore.title && dataStore.title.allNum || 0 }}
+                            {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
+                            dataStore.title.totalAsset[0].totalAsset || 0 }}
                         </div>
                     </div>
                     <div class="card">
@@ -37,8 +38,9 @@
                             总数目(个）
                         </p>
                         <div class="content">
-                            {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
-                            dataStore.title.totalAsset[0].totalAsset || 0 }}
+                            {{ dataStore.title && dataStore.title.allNum || 0 }}
+
+
                         </div>
                     </div>
                 </div>

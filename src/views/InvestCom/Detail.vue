@@ -11,10 +11,10 @@
                 <ul class="left base-info">
                     <li>基本信息</li>
                     <li>
-                                <span class="label">
+                                <span class="label" >
                                     实际控制人：
                                 </span>
-                        <span class="value">
+                        <span class="value" :title="detail.controllerMan">
                                     {{detail.controllerMan}}
                                 </span>
                     </li>
@@ -23,9 +23,7 @@
                                     所属政府：
                                 </span>
                         <span class="value">
-                                {{detail.province}}
-                                {{detail.city}}
-                                {{detail.district}}
+                                {{detail.belongGovernment}}
                                 </span>
                     </li>
                     <li>
@@ -41,7 +39,7 @@
                                     成立日期：
                                 </span>
                         <span class="value">
-                                    {{detail.creationTime}}
+                                    {{new Date(detail.creationTime).getFullYear()}}-{{new Date(detail.creationTime).getMonth()}}-{{new Date(detail.creationTime).getDay()}}
                                 </span>
                     </li>
                     <li>
@@ -55,10 +53,10 @@
                 </ul>
                 <div class="right">
                     <p class="caption">
-                        企业概况
+                        经营范围
                     </p>
                     <p class="content project-scroll">
-                        {{detail.info}}
+                        {{detail.businessScope}}
                     </p>
                 </div>
             </div>
@@ -480,6 +478,10 @@
                 }
 
                 .value {
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                    width: 270px;
                     padding-left: 30px;
                     font-size: 14px;
                     color: rgba(0, 0, 52, 1);
