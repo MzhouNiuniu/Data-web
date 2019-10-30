@@ -542,8 +542,13 @@
             }
 
             .com-name {
+                width: 343px;
+                display: inline-block;
                 line-height: 18px;
                 height: 18px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
                 font-size: 18px;
                 font-weight: bold;
                 color: rgba(0, 0, 52, 1);

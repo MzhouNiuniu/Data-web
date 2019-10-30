@@ -53,7 +53,7 @@
                         name: '主题类型',
                         type: 'pie',
                         radius: ['22%', '42%'],
-                        center: ['50%', '40%'],
+                        center: ['50%', '46%'],
                         roseType: 'radius',
                         data: [
                             {

@@ -30,7 +30,7 @@
                         </p>
                         <div class="content">
                             {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
-                            dataStore.title.totalAsset[0].totalAsset || 0 }}
+                            Math.floor(dataStore.title.totalAsset[0].totalAsset  * 100) / 100|| 0 }}
                         </div>
                     </div>
                     <div class="card">
