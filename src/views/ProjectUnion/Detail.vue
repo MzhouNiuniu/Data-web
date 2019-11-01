@@ -22,7 +22,7 @@
         </div>
         <div class="footer">
             <img :src="detail.Tphotos" alt="推广码" class="qr-code" v-if="detail.Tphotos">
-            <img src="./tg.png" alt="推广码" class="qr-code" v-else>
+            <img src="./tg.jpg" alt="推广码" class="qr-code" v-else>
             <p class="com-name">
                 {{detail.Tcompany?detail.Tcompany:'智慧城投信息科技股份有限公司'}}
             </p>

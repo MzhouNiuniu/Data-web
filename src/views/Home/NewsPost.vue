@@ -8,19 +8,21 @@
             <div class="mt-32 content">
 
                 <div class="left">
-                    <div class="cover" :style="{backgroundImage:(list[0].cover==null?`url('/image/noPic.png')`:`url(${list[0].cover})`)}">
+                    <div class="cover" :style="{backgroundImage:(list[0]&&list[0].cover!=null?`url(${list[0].cover})`:`url('/image/noPic.png')`)}">
                         <router-link class="title text-ellipsis" to="/">
-                           {{list[0].title}}
+                           {{list[0]&&list[0].title}}
                         </router-link>
                     </div>
                     <p class="date mt-20">
-                        发布时间：{{list[0].releaseTime}}
+                        发布时间：{{list[0]&&list[0].releaseTime}}
                     </p>
                     <p class="intro mt-16">
+
                         <TextEllipsis
+                                v-if="list[0]&&list[0].content"
                                 fill
                                 :rows="3"
-                                :value="list[0].content"
+                                :value="list[0]&&list[0].content"
                         />
                     </p>
                 </div>
