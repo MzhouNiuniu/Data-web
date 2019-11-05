@@ -69,7 +69,7 @@
                             },
                             {
                                 value: 0,
-                                name: '市级',
+                                name: '地市',
                                 itemStyle: {
                                     color: '#00E8FF'
                                 },

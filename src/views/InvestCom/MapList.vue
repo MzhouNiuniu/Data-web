@@ -382,7 +382,15 @@
 
                     let maxDataRange = 1;
                     res.data.list.forEach(item => {
-                        item.name = item.district || item.city || item.province;
+                        if(!currentGovLevel){
+                            item.name = item.province
+                        }
+                        if(currentGovLevel=='省级'){
+                            item.name = item.city
+                        }
+                        if(currentGovLevel=='市级'){
+                            item.name = item.district
+                        }
                         item.value = item.count;
 
                         if (item.value > maxDataRange) {
