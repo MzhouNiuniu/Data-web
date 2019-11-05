@@ -175,6 +175,10 @@
                 this.loadGeoData(code);
             },
             handleMapSelectChange(params) {
+                if (this.isLastLevel) {
+                    return;
+                }
+
                 const triggerBlock = params.batch[0];
 
                 // 获取地图
@@ -196,6 +200,8 @@
 
             // 接口
             back(isSilent = false) {
+                this.isLastLevel = false;
+
                 // isSilent:：是否静默回退
                 if (this.isRoot) {
                     return;
