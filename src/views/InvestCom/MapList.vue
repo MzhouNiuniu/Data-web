@@ -259,7 +259,7 @@
 
                 // 获取当前选择的山区
                 const blockStack = [option.province, option.city, option.district];
-                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省': 1, '市': 2, '区': 3 })[option.level])); // todo
+                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省': 1, '地市': 2, '区县': 3 })[option.level])); // todo
             },
 
             // 地图相关
@@ -381,21 +381,20 @@
                     this.currentGovDetail = res.data.base || {};
 
                     let maxDataRange = 1;
-                    if( res.data.list.length>0){
+                    if (res.data.list.length > 0) {
                         res.data.list.forEach(item => {
-                            if(!currentGovLevel){
-                                item.name = item.province
+                            if (!currentGovLevel) {
+                                item.name = item.province;
                             }
-                            if(currentGovLevel=='省'){
-                                item.name = item.city
+                            if (currentGovLevel == '省') {
+                                item.name = item.city;
                             }
-                            if(currentGovLevel=='地市'){
-                                item.name = item.district
+                            if (currentGovLevel == '地市') {
+                                item.name = item.district;
                             }
-                            if(currentGovLevel=='区县'){
-                                item.name = item.district
+                            if (currentGovLevel == '区县') {
+                                item.name = item.district;
                             }
-                            console.log(currentGovLevel)
                             item.value = item.count;
 
                             if (item.value > maxDataRange) {
@@ -418,6 +417,7 @@
                     'city': '地市',
                     'district': '区县',
                 })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel; // todo
+
                 this.updateView();
             },
 

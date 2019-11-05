@@ -103,7 +103,7 @@
                 // this.$forceUpdate(); // option 非响应式数据
             },
             getGeoData(code) {
-                return axios.get('/geo-json/' + code + (this.isLastLevel ? '.json' : '_full.json')).then(res => res.data).catch(err => {
+                return axios.get('/geo-json/' + code + (this.levelStack.length > 3 ? '.json' : '_full.json')).then(res => res.data).catch(err => {
                     this.back(true);
                 });
             },
@@ -130,22 +130,7 @@
             },
 
 
-            // 切换地图的时候，需要保持地区名字、地区code的历史记录
-            updateModel() {
-                this.$emit('change', {
-                    nameStack: this.nameStack,
-                    codeStack: this.codeStack,
-                    levelStack: this.levelStack,
-                });
-            },
-            cleanStack() {
-                // 重置到中国
-                this.nameStack.length = 1;
-                this.codeStack.length = 1;
-                this.levelStack.length = 1;
-
-                this.nameStack.push(1), this.nameStack.pop(); // 触发computed更新 + $forceUpdate()
-            },
+            // 维护 名字、code、等级的栈
             popStack() {
                 this.nameStack.pop();
                 this.codeStack.pop();
@@ -169,11 +154,25 @@
                     levelStack.push('district');
                 }
             },
-            toggleBlock(name, code) {
-                this.pushStack(name, code);
-                this.updateModel();
-                this.loadGeoData(code);
+            cleanStack() {
+                // 重置到中国
+                this.nameStack.length = 1;
+                this.codeStack.length = 1;
+                this.levelStack.length = 1;
+
+                this.nameStack.push(1), this.nameStack.pop(); // 触发computed更新 + $forceUpdate()
             },
+
+
+            // 切换地图的时候，需要保持地区名字、地区code的历史记录
+            updateModel() {
+                this.$emit('change', {
+                    nameStack: this.nameStack,
+                    codeStack: this.codeStack,
+                    levelStack: this.levelStack,
+                });
+            },
+
             handleMapSelectChange(params) {
                 if (this.isLastLevel) {
                     return;
@@ -195,7 +194,10 @@
                     this.isLastLevel = false;
                 }
 
-                this.toggleBlock(targetBlock.properties.name, targetBlock.properties.adcode);
+                this.pushStack(targetBlock.properties.name, targetBlock.properties.adcode);
+                this.updateModel();
+
+                this.loadGeoData(targetBlock.properties.adcode);
             },
 
             // 接口
@@ -212,30 +214,11 @@
 
                 isSilent || this.updateModel();
             },
-            skipTo(blockStack) {
-                // blockStack：[['河南',410000],['郑州',410100]]
-                if (!Array.isArray(blockStack)) {
-                    return;
-                }
+
+            async jumpTo(nameStack) {
                 this.cleanStack();
 
-                blockStack.forEach(([name, code], index, arr) => {
-                    // last
-                    // if (index === arr.length - 1) {
-                    //     this.toggleBlock(item[0], item[1]);
-                    // } else {
-                    //     this.pushStack(item[0], item[1]);
-                    // }
-                    if (index === arr.length - 1) {
-                        this.toggleBlock(name, code);
-                    } else {
-                        this.pushStack(name, code);
-                    }
-                });
-            },
-            async jumpTo(nameStack) {
                 // nameStack：['河南省','郑州市'] // 第一个元素，只能是中国下的地区
-                const blockStack = [];
                 let target = echarts.getMap(100000).geoJson; // 内置了100000地图
                 for (let i = 0; i < nameStack.length; i++) {
                     let nextBlockCode = target.features.find(item => item.properties.name === nameStack[i]);
@@ -244,14 +227,13 @@
                     }
 
                     nextBlockCode = nextBlockCode.properties.adcode;
-                    blockStack.push([
-                        nameStack[i],
-                        nextBlockCode,
-                    ]);
+                    this.pushStack(nameStack[i], nextBlockCode);
+                    if (i === nameStack.length - 1) {
+                        this.updateModel();
+                    }
+
                     target = await this.loadGeoData(nextBlockCode);
                 }
-
-                this.skipTo(blockStack);
             },
             reset() {
                 this.cleanStack();
