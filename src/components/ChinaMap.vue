@@ -63,6 +63,7 @@
                         data: [],
                     },
                 ],
+                isLastLevel: false, // @param {boolean} isLastLevel - 如果是最后一级，就不使用_full的数据了
             };
             return {
                 nameStack: [CN_NAME],
@@ -102,8 +103,7 @@
                 // this.$forceUpdate(); // option 非响应式数据
             },
             getGeoData(code) {
-                return axios.get('/geo-json/' + code + '_full.json').then(res => res.data).catch(err => {
-                    console.log(err);
+                return axios.get('/geo-json/' + code + (this.isLastLevel ? '.json' : '_full.json')).then(res => res.data).catch(err => {
                     this.back(true);
                 });
             },
@@ -142,7 +142,7 @@
                 // 重置到中国
                 this.nameStack.length = 1;
                 this.codeStack.length = 1;
-                this.levelStack.length = 1
+                this.levelStack.length = 1;
 
                 this.nameStack.push(1), this.nameStack.pop(); // 触发computed更新 + $forceUpdate()
             },
@@ -185,7 +185,10 @@
                 }
 
                 if (targetBlock.properties.childrenNum === 0) {
-                    return;
+                    this.isLastLevel = true;
+                    // return;
+                } else {
+                    this.isLastLevel = false;
                 }
 
                 this.toggleBlock(targetBlock.properties.name, targetBlock.properties.adcode);
