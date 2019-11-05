@@ -100,7 +100,7 @@ export default [
                 component: lazyLoad('InvestCom/BondRecordList')
             },
             {
-                path: '/BondDetail/:id/:type/:index',
+                path: '/BondDetail/:id',
                 name: 'BondDetail',
                 component: lazyLoad('InvestCom/BondDetail')
             },

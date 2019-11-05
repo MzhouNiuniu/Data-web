@@ -11,7 +11,7 @@
                 <ul class="left base-info">
                     <li>基本信息</li>
                     <li>
-                                <span class="label" >
+                                <span class="label">
                                     实际控制人：
                                 </span>
                         <span class="value" :title="detail.controllerMan">
@@ -81,10 +81,13 @@
             </div>
 
             <div class="hr-dashed"></div>
+            <div v-if="financingColumns.length>1">
             <UIDescription title="融资信息" class="mt-20">
                 <Table class="project-ivu-table" :max-height="222" stripe :columns="financingColumns"
                        :data="detail.financing"/>
             </UIDescription>
+            </div>
+
 
             <div class="hr-dashed"></div>
             <UIDescription title="公司新闻" class="mt-20" v-if="detail.news&&detail.news.length>0">
@@ -114,10 +117,14 @@
 
     function primaryHeaderRender(h, leftName, rightName) {
         return (
-            <div class="primary-header" style="font-size: 18px;font-weight: 500;">
-                年份
-            </div>
-        );
+            < div
+    class
+        = "primary-header"
+        style = "font-size: 18px;font-weight: 500;" >
+            年份
+            < /div>
+    )
+        ;
     }
 
     export default {
@@ -206,118 +213,11 @@
             ];
 
 
-            financingRender.id = this.id;
+            // financingRender.id = this.id;
+            //
 
-            function financingRender(h, { column, index, row }) {
-                const info = row[column.key];
-                if (!info) {
-                    return <span>/</span>;
-                }
+            this.financingColumns=[]
 
-                // 只能将id传递下去，详情组件再次获取数据
-                let imgs = require('./zq.png');
-                return (
-                    <router-link to={`/BondDetail/${financingRender.id}/${column.key}/${index}`}><img style="width:30px"
-                                                                                                      src={require('./zq.png')}/>
-                    </router-link>
-                );
-            }
-
-            this.financingColumns = [
-                {
-                    className: 'primary-column',
-                    fixed: 'left',
-                    width: 185,
-                    key: 'year',
-                    renderHeader(h) {
-                        return primaryHeaderRender(h, '债券类型', '汇总年份');
-                    },
-                },
-                {
-                    title: '企业债券',
-                    width: 200,
-                    key: 'enterpriseBond',
-                    render: financingRender,
-                },
-                {
-                    title: '公司债券',
-                    width: 200,
-                    key: 'companyBond',
-                    render: financingRender,
-                },
-                {
-                    title: '中小企业私募债券',
-                    width: 200,
-                    key: 'middleBond',
-                    render: financingRender,
-                },
-                {
-                    title: '非公开发行债券',
-                    width: 200,
-                    key: 'unpublicBond',
-                    render: financingRender,
-                },
-                {
-                    title: '企业资产支持证券',
-                    width: 200,
-                    key: 'enterpriseAssetBond',
-                    render: financingRender,
-                },
-                {
-                    title: '信贷资产支持证券',
-                    width: 200,
-                    key: 'credit',
-                    render: financingRender,
-                },
-                {
-                    title: '超短期融资券（SCP）',
-                    width: 280,
-                    key: 'SCP',
-                    render: financingRender,
-                },
-                {
-                    title: '短期融资券（CP）',
-                    width: 200,
-                    key: 'CP',
-                    render: financingRender,
-                },
-                {
-                    title: '中期票据（MTN）',
-                    width: 200,
-                    key: 'MTN',
-                    render: financingRender,
-                },
-                {
-                    title: '定向工具（PPN）',
-                    width: 240,
-                    key: 'PPN',
-                    render: financingRender,
-                },
-                {
-                    title: '资产支持票据（ABN）',
-                    width: 240,
-                    key: 'ABN',
-                    render: financingRender,
-                },
-                {
-                    title: '项目收益票据（PRN）',
-                    width: 240,
-                    key: 'PRN',
-                    render: financingRender,
-                },
-                {
-                    title: '债务融资工具（DFI）',
-                    width: 240,
-                    key: 'DFI',
-                    render: financingRender,
-                },
-                {
-                    title: '绿色债务融资工具（GN）',
-                    width: 280,
-                    key: 'GN',
-                    render: financingRender,
-                },
-            ];
 
             this.list = Array(10).fill({
                 name: '省级城投机构',
@@ -330,12 +230,58 @@
         },
         methods: {
             loadDetail() {
-                return this.http.get(this.api.companyData.detail, { id: this.id }).then(res => {
+                function financingRender(h, {column, index, row}) {
+                    let dom=[]
+                    for(var item of row[column.key]){
+                        dom.push(<router-link to={`/BondDetail/${item.id}`} style="padding:0 20px">{item.abbreviation}</router-link>)
+                    }
+                    h('div',dom)
+                    return (h('div',dom))
+                }
+
+                return this.http.get(this.api.companyData.detail, {id: this.id}).then(res => {
+                    console.log(res.data[0].financing)
+                    let list = []
+                    let row=[]
+                    res.data[0].financing.forEach((item) => {
+                        let obj = {}
+                        obj.year = item._id.year
+                        for (var items of item.details) {
+                            if (obj[items.financingType]) {
+                                obj[items.financingType].push({abbreviation: items.abbreviation, id: items.id})
+
+                            } else {
+                                row.push(items.financingType)
+                                obj[items.financingType] = [{abbreviation: items.abbreviation, id: items.id}]
+                            }
+
+                        }
+                        list.push(obj)
+                    })
+
+                    res.data[0].financing=list
+                    let colum = [{
+                            className: 'primary-column',
+                            fixed: 'left',
+                            width: 185,
+                            key: 'year',
+                            renderHeader(h) {
+                                return primaryHeaderRender(h, '债券类型', '汇总年份');
+                            },
+                        }]
+                    for (var item of row) {
+                        colum.push({
+                            title:item,
+                            key:item,
+                            render:financingRender
+                        })
+                    }
+                    this.financingColumns=colum
                     this.detail = res.data[0];
                 });
             },
             toDetail(id) {
-                this.$router.push({ path: `/newsDetail/${id}`, query: { type: '新闻' } });
+                this.$router.push({path: `/newsDetail/${id}`, query: {type: '新闻'}});
             },
             initIncomeColumns() {
                 if (!Array.isArray(this.detail.incomeInfo)) {
@@ -347,6 +293,8 @@
 
                 function renderIncomeSubHeader(fieldName) {
                     renderIncomeSubHeader.runNum++;
+                    console.log('File')
+                    console.log(fieldName)
                     return {
                         title: fieldName,
                         key: fieldName,
@@ -354,26 +302,26 @@
                             {
                                 minWidth: 80,
                                 renderHeader(h) {
-                                    return <span style="font-size:16px">金额</span>;
+                                    return( <span style = "font-size:16px" > 金额 < /span>);
                                 },
-                                render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].amount || '/'}</span>;
+                                render(h, {row}) {
+                                    return (<span> {row.data[fieldName] && row.data[fieldName].amount || '/'}</span>);
                                 },
                             },
                             {
                                 minWidth: 80,
                                 renderHeader(h) {
-                                    return <span style="font-size:16px">占比</span>;
+                                    return (<span style = "font-size:16px" > 占比 < /span>);
                                 },
-                                render(h, { row }) {
-                                    return <span>{row.data[fieldName] && row.data[fieldName].per || '/'}</span>;
+                                render(h, {row}) {
+                                    return (<span > {row.data[fieldName] && row.data[fieldName].per || '/'}</span>);
                                 },
                             },
                         ],
                     };
                 }
 
-                const incomeColumns = [
+                let incomeColumns = [
                     {
                         className: 'primary-column',
                         width: 185,
@@ -390,12 +338,13 @@
                     if (!item.data) {
                         return;
                     }
+                    console.log(item.data.reduce)
                     item.data = item.data.reduce((acc, item) => {
                         if (!allColNameMap[item.name]) {
                             incomeColumns.push(renderIncomeSubHeader(item.name));
                         }
                         allColNameMap[item.name] = 1;
-
+                        console.log(acc)
                         acc[item.name] = item;
                         return acc;
                     }, {});
@@ -405,8 +354,9 @@
                 if (renderIncomeSubHeader.runNum === 0) {
                     this.isIncomeDataValid = false;
                 }
+                console.log(incomeColumns)
                 this.incomeColumns = incomeColumns;
-            },
+    },
         },
         created() {
             this.$store.commit('app/setBgColor1');
@@ -439,7 +389,6 @@
         $row-height: 39px;
         $left-width: 386px;
         $main-height: $row-height * 6 + 1 + 1; // 上下边框
-
 
         overflow: hidden;
 
@@ -479,7 +428,7 @@
 
                 .value {
                     overflow: hidden;
-                    text-overflow:ellipsis;
+                    text-overflow: ellipsis;
                     white-space: nowrap;
                     width: 270px;
                     padding-left: 30px;
@@ -507,7 +456,6 @@
                 padding: 14px 4px 14px 15px;
                 height: $row-height * 5;
 
-
                 font-size: 14px;
                 color: rgba(88, 96, 102, 1);
                 line-height: 30px;
@@ -519,7 +467,6 @@
         }
     }
 
-
     ::v-deep {
         .ivu-table-header, .ivu-table-fixed-header {
             th {
@@ -528,7 +475,6 @@
                 background-color: #ebf7ff !important;
             }
         }
-
 
         .primary-column {
         }
@@ -594,7 +540,6 @@
             font-size: 18px;
             align-items: center;
             width: 100%;
-
 
             & > .circle {
                 width: 10px;

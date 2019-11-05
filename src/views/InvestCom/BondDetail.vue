@@ -55,16 +55,17 @@
                     起息时间
                 </th>
                 <td>
-                    {{detail.startTime}}
+                    {{formateDate(detail.startTime)}}
                 </td>
                 <th>
                     到期时间
                 </th>
                 <td>
-                    {{detail.endTime}}
+                    {{ formateDate(detail.endTime)}}
                 </td>
             </tr>
             <tr>
+
                 <th>
                     还本方式
                 </th>
@@ -208,17 +209,25 @@
             },
         },
         methods: {
+            formateDate(datetime) {
+                function addDateZero(num) {
+                    return (num < 10 ? "0" + num : num);
+                }
+                let d = new Date(datetime);
+                let formatdatetime = d.getFullYear() + '-' + addDateZero(d.getMonth() + 1) + '-' + addDateZero(d.getDate())
+                return formatdatetime;
+            },
+
             loadDetail() {
-                this.http.get(this.api.companyData.detail, { id: this.id }).then(detail => {
+                this.http.get(this.api.companyData.getDetails, { id: this.id }).then(detail => {
                     try {
-                        const { type, index } = this.$route.params;
-                        detail = detail.data[0].financing[index][type];
+
                     } catch (e) {
-                        this.$router.replace('/');
+                        // this.$router.replace('/');
                         return;
                     }
-
-                    this.detail = detail;
+                    console.log(detail.data[0])
+                    this.detail=detail.data[0] ;
                 });
             },
         },

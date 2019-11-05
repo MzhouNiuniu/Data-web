@@ -65,6 +65,8 @@ export default {
 
         detail: `${baseUrl}/companyData/getDetails`,
         govInfo: `${baseUrl}/basicData/getListByWeb`,
+        getDetails: `${baseUrl}/financialing/getDetails`,
+
     }
 
 
