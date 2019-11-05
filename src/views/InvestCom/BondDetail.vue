@@ -220,13 +220,7 @@
 
             loadDetail() {
                 this.http.get(this.api.companyData.getDetails, { id: this.id }).then(detail => {
-                    try {
 
-                    } catch (e) {
-                        // this.$router.replace('/');
-                        return;
-                    }
-                    console.log(detail.data[0])
                     this.detail=detail.data[0] ;
                 });
             },

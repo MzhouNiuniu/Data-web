@@ -116,15 +116,7 @@
     import UIDescription from '@ui/Description';
 
     function primaryHeaderRender(h, leftName, rightName) {
-        return (
-            < div
-    class
-        = "primary-header"
-        style = "font-size: 18px;font-weight: 500;" >
-            年份
-            < /div>
-    )
-        ;
+        return ( < div class = "primary-header" style = "font-size: 18px;font-weight: 500;" > 年份 < /div>);
     }
 
     export default {
@@ -172,6 +164,7 @@
                     title: '主营业务收入（亿元）',
                     key: 'mainBusiness',
                 },
+
                 // {
                 //     width: 180,
                 //     title: '净利润（亿元）',

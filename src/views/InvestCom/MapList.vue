@@ -381,22 +381,29 @@
                     this.currentGovDetail = res.data.base || {};
 
                     let maxDataRange = 1;
-                    res.data.list.forEach(item => {
-                        if(!currentGovLevel){
-                            item.name = item.province
-                        }
-                        if(currentGovLevel=='省级'){
-                            item.name = item.city
-                        }
-                        if(currentGovLevel=='市级'){
-                            item.name = item.district
-                        }
-                        item.value = item.count;
+                    if( res.data.list.length>0){
+                        res.data.list.forEach(item => {
+                            if(!currentGovLevel){
+                                item.name = item.province
+                            }
+                            if(currentGovLevel=='省'){
+                                item.name = item.city
+                            }
+                            if(currentGovLevel=='地市'){
+                                item.name = item.district
+                            }
+                            if(currentGovLevel=='区县'){
+                                item.name = item.district
+                            }
+                            console.log(currentGovLevel)
+                            item.value = item.count;
 
-                        if (item.value > maxDataRange) {
-                            maxDataRange = item.value;
-                        }
-                    });
+                            if (item.value > maxDataRange) {
+                                maxDataRange = item.value;
+                            }
+                        });
+                    }
+
                     this.map.setOption(option => {
                         option.series[0].data = res.data.list;
                         option.visualMap.max = maxDataRange;
@@ -407,9 +414,9 @@
                 this.govNameStack = nameStack;
                 this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
                 this.currentGovLevel = ({
-                    'province': '省级',
-                    'city': '市级',
-                    'district': '区级',
+                    'province': '省',
+                    'city': '地市',
+                    'district': '区县',
                 })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel; // todo
                 this.updateView();
             },
