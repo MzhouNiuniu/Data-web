@@ -18,9 +18,6 @@
     import echarts from 'echarts';
     import Chart from './Chart';
 
-    const CN_CODE = '100000'; // 100000
-    const CN_NAME = '中华人民共和国';
-    const CN_LEVEL = 'country';
     export default {
         name: "ChinaMap",
         components: {
@@ -31,6 +28,10 @@
             // @change
         },
         data() {
+            const CN_CODE = '100000'; // 100000
+            const CN_NAME = '中华人民共和国';
+            const CN_LEVEL = 'country';
+
             this.chart = null;
             // 只需要动态修改mapType，然后使用原生setOption
             this.option = {
@@ -129,7 +130,7 @@
                 });
             },
 
-
+            // 切换地图的时候，需要保持地区名字、地区code的历史记录
             // 维护 名字、code、等级的栈
             popStack() {
                 this.nameStack.pop();
@@ -162,10 +163,7 @@
 
                 this.nameStack.push(1), this.nameStack.pop(); // 触发computed更新 + $forceUpdate()
             },
-
-
-            // 切换地图的时候，需要保持地区名字、地区code的历史记录
-            updateModel() {
+            handleChange() {
                 this.$emit('change', {
                     nameStack: this.nameStack,
                     codeStack: this.codeStack,
@@ -195,7 +193,7 @@
                 }
 
                 this.pushStack(targetBlock.properties.name, targetBlock.properties.adcode);
-                this.updateModel();
+                this.handleChange();
 
                 this.loadGeoData(targetBlock.properties.adcode);
             },
@@ -212,7 +210,7 @@
                 this.loadGeoData(this.currentCode);
 
 
-                isSilent || this.updateModel();
+                isSilent || this.handleChange();
             },
 
             async jumpTo(nameStack) {
@@ -229,7 +227,7 @@
                     nextBlockCode = nextBlockCode.properties.adcode;
                     this.pushStack(nameStack[i], nextBlockCode);
                     if (i === nameStack.length - 1) {
-                        this.updateModel();
+                        this.handleChange();
                     }
 
                     target = await this.loadGeoData(nextBlockCode);
@@ -237,7 +235,7 @@
             },
             reset() {
                 this.cleanStack();
-                this.updateModel();
+                this.handleChange();
                 this.loadGeoData(this.currentCode);
             },
         },
@@ -249,13 +247,7 @@
             this.chart.on('mapselectchanged', this.handleMapSelectChange);
 
             // 模拟回显
-            // setTimeout(() => {
-            //     // this.skipTo([['河南', 410000], ['郑州', 410100]]);
             // this.jumpTo(['河南省', '郑州市']);
-            // setTimeout(() => {
-            //     this.jumpTo(['江苏省', '南京市']);
-            // }, 2000);
-            // // }, 2000);
         },
     };
 </script>
