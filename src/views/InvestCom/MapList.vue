@@ -193,8 +193,8 @@
 
                 const { currentGovLevel, govNameStack } = this;
 
+                console.info('当前搜索关键词：' + this.currentSearchWords);
                 this.http.get(this.api.companyData.comListByYear, {
-                    keyWords: this.currentSearchWords,
                     year: this.currentYear.getFullYear(),
                     directly: currentGovLevel,
                     province: govNameStack[1] || '',
@@ -247,7 +247,7 @@
                 }
             },
             handleSearch() {
-                this.currentSearchWords = this.searchWords;
+                this.currentSearchWords = this.searchWords || '';
                 if (this.searchWords === undefined) {
                     this.$refs.map.reset();
                     return;
