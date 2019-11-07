@@ -409,16 +409,19 @@
                     });
                 });
             },
-            handleMapChange({ nameStack, levelStack }) {
-                this.govNameStack = nameStack;
-                this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
-                this.currentGovLevel = ({
-                    'province': '省',
-                    'city': '地市',
-                    'district': '区县',
-                })[levelStack[levelStack.length - 1]] || this.defaultCurrentGovLevel; // todo
-
-                this.updateView();
+            handleMapChange(blockStack) {
+                try {
+                    // 提取属性，只需要保存name
+                    const nameStack = this.govNameStack = blockStack.map(item => item.properties.name);
+                    this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
+                    this.currentGovLevel = ({
+                        'province': '省',
+                        'city': '地市',
+                        'district': '区县',
+                    })[blockStack[blockStack.length - 1].properties.level] || this.defaultCurrentGovLevel; // todo
+                    this.updateView();
+                } catch (e) {
+                }
             },
 
             updateView() {
@@ -535,6 +538,7 @@
             line-height: 16px;
             font-size: 16px;
             font-weight: 500;
+            user-select: none;
         }
 
         .item {
