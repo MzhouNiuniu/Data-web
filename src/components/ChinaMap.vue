@@ -37,11 +37,13 @@
                 series: [
                     {
                         selectedMode: 'single',
-                        roam: true,
-                        scaleLimit: {
-                            min: .3,
-                            max: 3
-                        },
+                        top: 20,
+                        bottom: 0,
+                        // roam: true,
+                        // scaleLimit: {
+                        //     min: .3,
+                        //     max: 3
+                        // },
 
                         name: 'map',
                         type: 'map',
@@ -141,7 +143,7 @@
                     this.option.series[0].mapType = this.currentBlockCode;
 
                     // 自动设置中心
-                    this.option.series[0].center = this.currentBlockProps.center;
+                    // this.option.series[0].center = this.currentBlockProps.center;
                     this.chart.setOption(this.option);
                 }, 300);
             },
