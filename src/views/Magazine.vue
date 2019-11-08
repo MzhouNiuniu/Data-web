@@ -8,9 +8,12 @@
                 <img :src="item.photos" alt="" v-for="(item,index) in data" :key="index">
             </div>
         </div>
-        <div class="href">
-            详情请跳转至《中国城投》杂志 》》
+        <div>
+            <a class="href" href="http://www.ctllh.com">
+                详情请跳转至《中国城投》杂志 》》
+            </a>
         </div>
+
 
     </section>
 </template>
@@ -57,6 +60,10 @@
         font-size: 18px;
         color: #333;
         text-align: right;
+        float: right;
+    }
+    .href:hover{
+        color: #2d8cf0;
     }
 
 </style>
