@@ -63,7 +63,7 @@
                         itemStyle: {
                             normal: {
                                 borderWidth: 1,
-                                borderColor: '#fff',
+                                borderColor: '#808A87',
                                 areaColor: '#358BFE'
                             },
                             emphasis: {

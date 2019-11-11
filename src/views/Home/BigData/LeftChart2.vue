@@ -37,7 +37,7 @@
                     right: Chart.getSize(108),
                     bottom: Chart.getSize(20),
                     itemWidth: Chart.getSize(12),
-                    itemHeight: Chart.getSize(12),
+                    itemHeight: Chart.getSize(15),
                     itemGap: Chart.getSize(20),
                     icon: 'rect',
                     textStyle: {
@@ -52,9 +52,8 @@
                         zlevel: 1,
                         name: '主题类型',
                         type: 'pie',
-                        radius: ['22%', '42%'],
+                        radius : '40%',
                         center: ['50%', '46%'],
-                        roseType: 'radius',
                         data: [
                             {
                                 value: 0,

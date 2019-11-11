@@ -186,7 +186,7 @@
                     }
                     // item.totalAsset = 200 // 测试，看效果
 
-                    indexMapOfSeriesItem.hasOwnProperty(item._id) && (targetSeries[indexMapOfSeriesItem[item._id]].value = item.totalAsset);
+                    indexMapOfSeriesItem.hasOwnProperty(item._id) && (targetSeries[indexMapOfSeriesItem[item._id]].value =    Math.floor(item.totalAsset));
                 });
 
                 this.updateMarkLine();

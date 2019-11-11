@@ -50,7 +50,7 @@
                                 行政级别：
                             </p>
                             <p class="value">
-                                {{currentGovDetail.directly || '/'}}
+                                {{currentGovDetail.directly || '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -59,7 +59,7 @@
                                 区域城投个数（个）：
                             </p>
                             <p class="value">
-                                {{currentGovDetail.count || '/'}}
+                                {{currentGovDetail.count || '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -68,7 +68,8 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                {{currentGovDetail.GDP || '/'}}
+
+                                {{ Math.floor(currentGovDetail.GDP*100)/100|| '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -77,7 +78,7 @@
                                 公共财政收入（亿元）：
                             </p>
                             <p class="value">
-                                {{currentGovDetail.budget || '/'}}
+                                {{ Math.floor(currentGovDetail.budget*100)/100|| '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -86,7 +87,7 @@
                                 人口（百万）：
                             </p>
                             <p class="value">
-                                {{currentGovDetail.man || '/'}}
+                                {{ Math.floor(currentGovDetail.man*100)/100|| '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -259,7 +260,7 @@
 
                 // 获取当前选择的山区
                 const blockStack = [option.province, option.city, option.district];
-                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省': 1, '地市': 2, '区县': 3 })[option.level])); // todo
+                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省级': 1, '地市级': 2, '区县级': 3 })[option.level])); // todo
             },
 
             // 地图相关
@@ -279,7 +280,7 @@
                                 </p>
                                 <li class="item">
                                     <p class="label">
-                                        /
+                                       -
                                     </p>
                                 </li>
                             </ul>
@@ -312,7 +313,7 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                ${detail.GDP}
+                                ${Math.floor(detail.GDP*100)/100}
                             </p>
                         </li>
                         <li class="item">
@@ -320,7 +321,7 @@
                                 公共财政收入（亿元）：
                             </p>
                             <p class="value">
-                                ${detail.budget}
+                                 ${Math.floor(detail.budget*100)/100}
                             </p>
                         </li>
                         <li class="item">
@@ -328,7 +329,7 @@
                                 人口（百万）：
                             </p>
                             <p class="value">
-                                ${detail.man}
+                            ${Math.floor(detail.man*100)/100}
                             </p>
                         </li>
                     </ul>
@@ -386,13 +387,13 @@
                             if (!currentGovLevel) {
                                 item.name = item.province;
                             }
-                            if (currentGovLevel == '省') {
+                            if (currentGovLevel == '省级') {
                                 item.name = item.city;
                             }
-                            if (currentGovLevel == '地市') {
+                            if (currentGovLevel == '地市级') {
                                 item.name = item.district;
                             }
-                            if (currentGovLevel == '区县') {
+                            if (currentGovLevel == '区县级') {
                                 item.name = item.district;
                             }
                             item.value = item.count;
@@ -415,9 +416,9 @@
                     const nameStack = this.govNameStack = blockStack.map(item => item.properties.name);
                     this.currentGovName = nameStack.length === 1 ? this.defaultCurrentGovName : nameStack[nameStack.length - 1];
                     this.currentGovLevel = ({
-                        'province': '省',
-                        'city': '地市',
-                        'district': '区县',
+                        'province': '省级',
+                        'city': '地市级',
+                        'district': '区县级',
                     })[blockStack[blockStack.length - 1].properties.level] || this.defaultCurrentGovLevel; // todo
                     this.updateView();
                 } catch (e) {

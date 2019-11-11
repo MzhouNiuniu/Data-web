@@ -88,8 +88,8 @@
         data() {
             this.options1 = [
                 {
-                    label: 'AAA+',
-                    value: 'AAA+',
+                    label: 'AAA',
+                    value: 'AAA',
                 },
                 {
                     label: 'AA+',

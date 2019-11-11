@@ -184,7 +184,6 @@ export default {
     width: 1200px;
     flex-wrap: wrap;
     .show-img-box{
-        width: 220px;
         height: 300px;
         margin-right: 40px;
         position: relative;

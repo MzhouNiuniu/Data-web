@@ -15,7 +15,7 @@
                                     实际控制人：
                                 </span>
                         <span class="value" :title="detail.controllerMan">
-                                    {{detail.controllerMan}}
+                                    {{detail.controllerMan?detail.controllerMan:'-'}}
                                 </span>
                     </li>
                     <li>
@@ -23,7 +23,7 @@
                                     所属政府：
                                 </span>
                         <span class="value">
-                                {{detail.belongGovernment}}
+                                {{detail.belongGovernment?detail.belongGovernment:'-'}}
                                 </span>
                     </li>
                     <li>
@@ -31,7 +31,7 @@
                                     行政级别：
                                 </span>
                         <span class="value">
-                                    {{detail.level}}
+                                    {{detail.level?detail.level:'-'}}
                                 </span>
                     </li>
                     <li>
@@ -39,7 +39,7 @@
                                     成立日期：
                                 </span>
                         <span class="value">
-                                    {{new Date(detail.creationTime).getFullYear()}}-{{new Date(detail.creationTime).getMonth()}}-{{new Date(detail.creationTime).getDay()}}
+                                    {{detail.creationTime?(new Date(detail.creationTime).getFullYear()}}-{{new Date(detail.creationTime).getMonth()}}-{{new Date(detail.creationTime).getDay()):'-'}}
                                 </span>
                     </li>
                     <li>
@@ -47,7 +47,7 @@
                                     主体类型：
                                 </span>
                         <span class="value">
-                                    {{detail.mainType}}
+                                    {{detail.mainType?detail.mainType:'-'}}
                                 </span>
                     </li>
                 </ul>
@@ -128,7 +128,10 @@
         data() {
             this.id = this.$route.params.id;
 
+            function Render(h, {column, index, row}) {
 
+                return(<span>{row[column.key]!=null?row[column.key]:'-'}</span>)
+            }
             this.financialColumns = [
                 {
                     className: 'primary-column',
@@ -143,26 +146,31 @@
                     width: 180,
                     title: '总资产（亿元）',
                     key: 'totalAsset',
+                    render:Render
                 },
                 {
                     width: 180,
                     title: '净资产（亿元）',
                     key: 'netAsset',
+                    render:Render
                 },
                 {
                     width: 180,
                     title: '负债率（%）',
                     key: 'liabilities',
+                    render:Render
                 },
                 {
                     width: 220,
                     title: '营业收入额（亿元）',
                     key: 'business',
+                    render:Render
                 },
                 {
                     width: 252,
                     title: '主营业务收入（亿元）',
                     key: 'mainBusiness',
+                    render:Render
                 },
 
                 // {
@@ -189,19 +197,23 @@
                 {
                     title: '主体评级',
                     key: 'main',
+                    render:Render
                 },
                 {
                     title: '评级展望',
                     key: 'wish',
+                    render:Render
                 },
                 {
                     title: '评级机构',
                     key: 'organization',
+                    render:Render
                 },
                 {
                     title: '评级时间',
                     key: 'year',
                     tooltip: true,
+                    render:Render
                 },
             ];
 
@@ -226,7 +238,7 @@
                 function financingRender(h, {column, index, row}) {
                     let dom=[]
                     for(var item of row[column.key]){
-                        dom.push(<router-link to={`/BondDetail/${item.id}`} style="padding:0 20px">{item.abbreviation}</router-link>)
+                        dom.push(<router-link to={`/BondDetail/${item.id}`} style="padding:0 20px">{item.abbreviation!=null?item.abbreviation:'-'}</router-link>)
                     }
                     h('div',dom)
                     return (h('div',dom))

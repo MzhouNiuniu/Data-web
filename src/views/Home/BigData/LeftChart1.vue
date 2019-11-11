@@ -28,7 +28,7 @@
                         fontSize: Chart.getSize(16),
                         lineHeight: Chart.getSize(16),
                     },
-                    data: ['省级', '市级', '区县级']
+                    data: ['省级', '地市级', '区县级']
                 },
                 series: [
                     {
@@ -58,7 +58,6 @@
                         type: 'pie',
                         radius: ['30%', '50.5%'],
                         center: ['50%', '50%'],
-                        roseType: 'radius',
                         data: [
                             {
                                 value: 0,
@@ -69,7 +68,7 @@
                             },
                             {
                                 value: 0,
-                                name: '地市',
+                                name: '地市级',
                                 itemStyle: {
                                     color: '#00E8FF'
                                 },

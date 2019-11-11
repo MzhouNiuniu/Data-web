@@ -223,10 +223,7 @@
                     },
                 ],
                 rateMain: [
-                    {
-                        label: 'AAA+',
-                        value: 'AAA+',
-                    },
+
                     {
                         label: 'AAA',
                         value: 'AAA',
@@ -299,7 +296,7 @@
                     createTime: [],
 
                     sortField: 'totalAsset', // 默认按照总资产排序
-                    sortFieldValue: 1, // 默认正序
+                    sortFieldValue: -1, // 默认正序
                 },
                 buttonParams: {
                     province: null,
@@ -314,6 +311,21 @@
                     total: 0,
                 },
             };
+        },
+        watch:{
+            'searchParams.sortField'(val){
+                console.log(val)
+                if(val=="totalAsset"){
+                    this.searchParams.sortFieldValue=-1
+                }
+                if(val=="creationTime"){
+                    this.searchParams.sortFieldValue=1
+                }
+                if(val=="businessCount"){
+                    this.searchParams.sortFieldValue=-1
+                }
+
+            }
         },
         methods: {
             search(value) {

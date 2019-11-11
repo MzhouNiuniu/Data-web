@@ -110,6 +110,14 @@
                     this.list=this.news.industryDynamic
 
             })
+            setInterval(()=>{
+                if(this.activeMenuIndex==0){
+                    this.activeMenuIndex=1
+                }
+                else{
+                    this.activeMenuIndex=0
+                }
+            },10000)
         },
     }
 </script>
@@ -254,7 +262,7 @@
             li {
                 position: relative;
                 margin-bottom: 20px;
-                padding: 13px 0 6px 20px;
+                padding: 13px 0 2px 20px;
                 border: 1px solid rgba(191, 197, 202, 1);
 
                 &:last-child {

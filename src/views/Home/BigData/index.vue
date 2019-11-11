@@ -21,7 +21,7 @@
             </div>
             <div class="center">
                 <h1 class="big-data-title">
-                    中国城投数据
+                    中国城投大数据
                 </h1>
                 <div class="report flex-container">
                     <div class="card">
@@ -30,7 +30,7 @@
                         </p>
                         <div class="content">
                             {{ dataStore.title && dataStore.title.totalAsset && dataStore.title.totalAsset.length &&
-                            Math.floor(dataStore.title.totalAsset[0].totalAsset  * 100) / 100|| 0 }}
+                            Math.floor(dataStore.title.totalAsset[0].totalAsset ) || 0 }}
                         </div>
                     </div>
                     <div class="card">
@@ -58,8 +58,8 @@
                     </div>
                 </div>
                 <div class="card mt-50">
-                    <router-link tag="p" class="title right" to="/ChartPreview?name=主营收入">
-                        主营收入
+                    <router-link tag="p" class="title right" to="/ChartPreview?name=营业收入">
+                        营业收入
                     </router-link>
                     <div class="content">
                         <RightChart2/>
