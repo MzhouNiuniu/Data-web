@@ -135,6 +135,7 @@
                 // this.$forceUpdate(); // option 非响应式数据
             },
             getGeoData(code) {
+                console.log(code)
                 return axios.get('/geo-json/' + code + (this.blockStack.length > 3 ? '.json' : '_full.json')).then(res => res.data).catch(err => {
                     this.back(true);
                 });

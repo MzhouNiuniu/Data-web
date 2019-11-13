@@ -48,7 +48,7 @@
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    size: query.size || 6,
+                    size: query.size || 8,
                     total: 0,
                 };
             },
@@ -59,7 +59,8 @@
             },
 
             async getList(size,current){
-                let res = await this.http.get(this.api.researchScriptures.list,{limit:size,page:current})
+                console.log(size)
+                let res = await this.http.get(this.api.researchScriptures.list,{limit:6,page:current})
                 this.pagination.total = res.data.total
                 this.data = res.data.docs
             },

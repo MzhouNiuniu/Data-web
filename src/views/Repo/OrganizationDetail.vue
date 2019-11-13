@@ -23,7 +23,7 @@
                             所在地：
                         </p>
                         <p class="value">
-                            {{detail.province}}{{detail.city}}{{detail.district}} ，{{detail.address}}
+                            {{detail.province}}{{detail.city}}{{detail.district}}{{detail.address}}
                         </p>
                         <div class="hr-dashed"></div>
                     </li>

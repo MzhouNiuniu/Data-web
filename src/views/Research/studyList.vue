@@ -6,18 +6,26 @@
                     <span>{{title}}</span>
                 </p>
 
-                <div class="content-wrapper c" v-for="(item,index) in data" :key="index" @click="toDetail(item._id,title)">
-                    <img src="./img/right.png" alt="">
+                <div class="content-wrapper c" v-for="(item,index) in data" :key="index"
+                     @click="toDetail(item._id,title)">
                     <div class="content">
-                        <p>{{item.name}}</p>
-                        <div>{{item.brief}}</div>
+                        <div>
+                            <img :src="item.cover" alt="">
+                        </div>
+                        <div class="character">
+                            <p>{{item.name}}</p>
+                            <div class="man">研究人：{{item.human}}</div>
+                            <div class="man">研究人：{{item.organization}}</div>
+                            <div class="brief">{{item.brief}}</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="right-wrapper">
                 <img src="./img/news-bg.png" alt="">
                 <ul>
-                    <li v-for="(item,index) in navTitle" :key="index" :class="item.class"  @click="setActiveAttr(index)">
+                    <li v-for="(item,index) in navTitle" :key="index" :class="item.class" @click="setActiveAttr(index)">
                         <span>{{item.name}}</span>
                         <img :src="require(`./img/${item.class}.png`)" alt="">
                         <div class="square"></div>
@@ -41,19 +49,19 @@
 
     export default {
         name: "study",
-        data(){
+        data() {
             return {
-                navTitle:[{
-                    name:'专题报告',
-                    class:'unActive'
-                },{
-                    name:'定期报告',
-                    class:'unActive'
+                navTitle: [{
+                    name: '专题报告',
+                    class: 'unActive'
+                }, {
+                    name: '定期报告',
+                    class: 'unActive'
                 }],
-                title:'专题报告',
+                title: '专题报告',
                 pagination: this.getPagination(),
-                newsType:0,
-                data:[]
+                newsType: 0,
+                data: []
             }
         },
         components: {
@@ -64,17 +72,17 @@
         },
         methods: {
             getPagination() {
-                const { query } = this.$route;
+                const {query} = this.$route;
                 return {
                     page: query.page || 1,
                     size: query.size || 6,
                     total: 0,
                 };
             },
-            handlePageChange({ page, limit }) {
+            handlePageChange({page, limit}) {
                 this.pagination.page = page;
                 this.pagination.size = limit;
-                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
+                this.getList(3, this.pagination.page, this.newsType)
             },
             setActiveAttr(index) {
                 this.navTitle.forEach((item) => {
@@ -85,31 +93,31 @@
                 this.newsType = index
                 this.getList(6, 1, index)
             },
-            async getList(size,current,type){
-                let res = await this.http.get(this.api.research.list,{limit:size,page:current,keyWords:'',type})
+            async getList(size, current, type) {
+                let res = await this.http.get(this.api.research.list, {limit: size, page: current, keyWords: '', type})
                 this.pagination.total = res.data.total
                 this.data = res.data.docs
             },
-            toDetail(id){
-                this.$router.push({path:`/studyDetail/${id}`})
+            toDetail(id) {
+                this.$router.push({path: `/studyDetail/${id}`})
             },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .project-container{
+    .project-container {
         margin-top: 20px;
         display: flex;
         min-height: 715px;
-        .left-wrapper{
+        .left-wrapper {
             flex: 1;
             margin-right: 30px;
 
-            .detail-top{
+            .detail-top {
                 border-bottom: 1px solid $sign-color;
 
-                & > .detail-top-title{
+                & > .detail-top-title {
                     border-left: 5px solid $primary-color;
                     font-size: 24px;
                     color: $sign-color;
@@ -118,58 +126,51 @@
                     font-weight: bold;
                 }
             }
-            .content-wrapper{
+            .content-wrapper {
                 margin: 20px 10px;
                 display: flex;
 
-                & > img{
+                & > img {
                     width: 16px;
                     height: 16px;
                     margin-top: 5px;
                 }
-                .content{
-                    flex: 1;
+                .content {
+                    display: flex;
                     margin-left: 15px;
                     border-bottom: 1px solid #BFC5CA;
-
-                    & > p:first-child{
-                        color: $list-title-color;
-                        font-size: 18px;
-                        font-weight: bold;
-                        margin-bottom: 10px;
+                    img {
+                        width: 130px;
+                        height: 184px;
+                        display: block;
+                        margin-bottom: 8px;
                     }
-                    & > div{
-                        margin-bottom: 5px;
+                    .character {
+                        margin-left: 20px;
+                        p {
+                            font-size: 18px;
+                            color: #000;
+                            padding-bottom: 10px;
 
-                        & >div{
-                            display: inline-block;
-                            margin-right: 20px;
-
-                            &>img{
-                                width: 16px;
-                                height: 16px;
-                                margin-right: 10px;
-                            }
-                            &>span{
-                                color: #A8ACAF;
-                                font-size: 12px;
-                            }
+                        }
+                        .man{
+                            font-size: 13px;
+                            padding-bottom: 10px;
+                        }
+                        .brief{
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 4;
+                            font-size: 13px;
+                            overflow: hidden;
+                            line-height: 1.6;
                         }
                     }
-                    & > div:last-child{
-                        color: #586066;
-                        font-size: 14px;
-                        display: -webkit-box;
-                        word-break: break-all;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                        height: 42px;
-                    }
+
                 }
             }
         }
-        .right-wrapper{
+        .right-wrapper {
             flex: 0 1 200px;
             width: 200px;
             height: 194px;
@@ -183,45 +184,46 @@
                 width: 100%;
                 height: 65px;
             }
-            & > ul > li{
+            & > ul > li {
                 position: relative;
                 height: 60px;
                 line-height: 60px;
                 color: #586066;
-                font-size:16px;
+                font-size: 16px;
                 background: #fff;
                 text-align: center;
                 border-bottom: 1px dashed #BFC5CA;
 
-                & > img{
+                & > img {
                     width: 16px;
                     height: 16px;
                     margin-left: 15px;
                 }
-                .square{
+                .square {
                     position: absolute;
                     right: 0;
                     top: calc(50% - 10px);
-                    border:10px solid #fff;
+                    border: 10px solid #fff;
                     border-top-color: transparent;
                     border-bottom-color: transparent;
                     border-left-color: transparent;
                 }
             }
-            & > ul > li:last-child{
+            & > ul > li:last-child {
                 border: none;
             }
-            & > ul > li.active{
+            & > ul > li.active {
                 background: $primary-color;
                 color: #fff;
             }
-            & > ul > li.unActive{
+            & > ul > li.unActive {
                 background: #fff;
-                color:#586066
+                color: #586066
             }
         }
     }
-    .pages{
+
+    .pages {
         margin-top: 5px;
         margin-bottom: 20px;
         /* text-align: center; */

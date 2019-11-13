@@ -193,7 +193,9 @@
                 this.pagination.limit = limit;
 
                 const { currentGovLevel, govNameStack } = this;
-
+                if(currentGovLevel=='区县级'&&!govNameStack[3]){
+                    return
+                }
                 console.info('当前搜索关键词：' + this.currentSearchWords);
                 this.http.get(this.api.companyData.comListByYear, {
                     year: this.currentYear.getFullYear(),
@@ -361,12 +363,14 @@
                 const params = {
                     year: currentYear.getFullYear(),
                     directly: currentGovLevel, // 获取当前级别的所有数据
-
                     province: govNameStack[1] || '',
                     city: govNameStack[2] || '',
                     district: govNameStack[3] || '',
                 };
-
+                if(currentGovLevel=='区县级'&&!govNameStack[3])
+                {
+                    return
+                }
                 this.http.get(this.api.companyData.govInfo, params).then(res => {
                     if (res.status !== 200) {
                         // 清除侧栏信息

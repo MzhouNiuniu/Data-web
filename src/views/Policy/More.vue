@@ -81,7 +81,7 @@
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    size: query.size || 10,
+                    size: query.size ||8,
                     total: 0,
                 };
             },

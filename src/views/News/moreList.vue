@@ -102,7 +102,7 @@
             handlePageChange({ page, limit }) {
                 this.pagination.page = page;
                 this.pagination.size = limit;
-                this.getList(this.pagination.size,this.pagination.page ,this.newsType)
+                this.getList(6,this.pagination.page ,this.newsType)
             },
             setActiveAttr(index){
                 this.navTitle.forEach((item)=>{

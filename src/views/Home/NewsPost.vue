@@ -279,7 +279,7 @@
                 font-size: 14px;
                 font-weight: 500;
                 text-align: center;
-                background: rgba(5, 103, 255, 1);
+                background: rgba(5, 103, 255, 0.5);
                 color: rgba(255, 255, 255, 1);
             }
 
