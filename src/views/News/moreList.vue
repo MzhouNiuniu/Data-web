@@ -47,6 +47,8 @@
             <Pagination
                     class="mt-20"
                     v-bind="pagination"
+                    :total="total"
+                    :pageSize="pageSize"
                     @change="handlePageChange"
             />
         </section>
@@ -77,6 +79,8 @@
                 title:'行业动态',
                 pagination: this.getPagination(),
                 newsType:0,
+                total:0,
+                pageSize:6,
                 data:[]
             }
         },
@@ -95,13 +99,14 @@
                 const { query } = this.$route;
                 return {
                     page: query.page || 1,
-                    size: query.size || 6,
+                    size: 6,
                     total: 0,
                 };
             },
             handlePageChange({ page, limit }) {
                 this.pagination.page = page;
                 this.pagination.size = limit;
+                console.log(this.pagination)
                 this.getList(6,this.pagination.page ,this.newsType)
             },
             setActiveAttr(index){
@@ -115,7 +120,7 @@
             },
             async getList(size,current,type){
                 let res = await this.http.get(this.api.getNewsList,{limit:size,page:current,keyWords:'',type})
-                this.pagination.total = res.data.total
+                this.total = res.data.total
                 this.data = res.data.docs
             },
             toDetail(id,type){

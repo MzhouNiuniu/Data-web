@@ -84,7 +84,7 @@
                         发行债券
                     </p>
                     <div class="content">
-                        <Table :columns="fiColumns" :data="dataStore.fi" @scroll="handleRightTableScroll"/>
+                        <Table itemHeight="57"  showItemNumber="2" :columns="fiColumns" :data="dataStore.fi" @scroll="handleRightTableScroll"/>
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     field: 'xq',
                 },
                 {
-                    name: '其他',
+                    name: '其它',
                     field: 'qt',
                 },
             ];
@@ -262,7 +262,10 @@
         z-index: 1; // fix bg zIndex:0
         padding: 68px 0 20px;
         background: url("./image/title-bg.png") no-repeat scroll top left / 100% auto;
-
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
         &::after {
             content: '';
             position: absolute;

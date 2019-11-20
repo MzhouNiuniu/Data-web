@@ -113,7 +113,7 @@
                             },
                             {
                                 value: 0,
-                                name: '其他',
+                                name: '其它',
                                 itemStyle: {
                                     color: '#DE4443'
                                 },

@@ -33,8 +33,8 @@
             <div class="item">
                 <OptionButton
                         title="营业收入（亿元）"
-                        v-model="buttonParams.income"
-                        :options="searchOptions.income"
+                        v-model="buttonParams.operatingReceipt"
+                        :options="searchOptions.operatingReceipt"
                         @change="query()"
                 />
                 <div class="border-bottom hr-dashed"></div>
@@ -128,7 +128,7 @@
                             评级类型：{{item.rateMain?item.rateMain:'暂无'}}
                         </p>
                         <p class="item">
-                            总资产规模（亿元）：{{item.totalAsset?item.totalAsset:'暂无'}}
+                            总资产规模（亿元）：{{item.totalAsset?Math.floor(item.totalAsset*100)/100:'暂无'}}
                         </p>
                     </div>
                     <p class="intro mt-10">
@@ -178,8 +178,8 @@
                     value: 'creationTime',
                 },
                 {
-                    label: '主营收入',
-                    value: 'businessCount',
+                    label: '营业收入',
+                    value: 'operatingReceipt',
                 },
             ];
             this.searchOptions = {
@@ -218,8 +218,8 @@
                         value: '地铁',
                     },
                     {
-                        label: '其他',
-                        value: '其他',
+                        label: '其它',
+                        value: '其它',
                     },
                 ],
                 rateMain: [
@@ -241,7 +241,7 @@
                         value: '其它',
                     },
                 ],
-                income: [
+                operatingReceipt: [
                     {
                         label: '10以下',
                         value: '1',
@@ -302,7 +302,7 @@
                     province: null,
                     mainType: null,
                     rateMain: null,
-                    income: null,
+                    operatingReceipt: null,
                     scale: null,
                 },
                 pagination: {
@@ -545,11 +545,11 @@
                 position: absolute;
                 top: 15px;
                 right: 15px;
-                width: 62px;
+                width: 75px;
                 line-height: 25px;
                 text-align: center;
                 font-size: 14px;
-                background: $sign-color;
+                background: rgba(5,103,255,0.5);
                 color: rgba(255, 255, 255, 1);
             }
 

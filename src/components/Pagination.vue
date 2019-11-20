@@ -3,6 +3,8 @@
             class="pagination"
             show-elevator
             size="small"
+            :total="total"
+            :page-size="pageSize"
             :page-size-opts="[3,6,9,10,20,30]"
             @on-change="handlePageChange"
             @on-page-size-change="handlePageSizeChange"
@@ -22,7 +24,14 @@
                 type: String,
                 default: 'limit',
             },
-
+            total:{
+                type: Number,
+                default:0
+            },
+            pageSize:{
+                type: Number,
+                default:10
+            }
             // events
             // @change
         },

@@ -127,10 +127,16 @@
         },
         data() {
             this.id = this.$route.params.id;
-
+            let arr=['main','wish','organization']
             function Render(h, {column, index, row}) {
-
-                return(<span>{row[column.key]!=null?row[column.key]:'-'}</span>)
+                console.log(column.key)
+                console.log(arr.indexOf(column.key))
+                if(arr.indexOf(column.key)>-1){
+                    return(<span>{row[column.key]!=null?row[column.key]:'-'}</span>)
+                }
+                else{
+                    return(<span>{row[column.key]!=null?Math.floor(row[column.key]*100)/100:'-'}</span>)
+                }
             }
             this.financialColumns = [
                 {
@@ -197,10 +203,12 @@
                 {
                     title: '主体评级',
                     key: 'main',
+                    width: 185,
                     render:Render
                 },
                 {
                     title: '评级展望',
+                    width: 185,
                     key: 'wish',
                     render:Render
                 },
@@ -212,6 +220,7 @@
                 {
                     title: '评级时间',
                     key: 'year',
+                    width: 185,
                     tooltip: true,
                     render:Render
                 },
@@ -305,7 +314,7 @@
                         key: fieldName,
                         children: [
                             {
-                                minWidth: 80,
+                                minWidth: 120,
                                 renderHeader(h) {
                                     return( <span style = "font-size:16px" > 金额 < /span>);
                                 },
@@ -314,7 +323,7 @@
                                 },
                             },
                             {
-                                minWidth: 80,
+                                minWidth: 120,
                                 renderHeader(h) {
                                     return (<span style = "font-size:16px" > 占比 < /span>);
                                 },

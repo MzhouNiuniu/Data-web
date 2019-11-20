@@ -20,6 +20,18 @@
                     <a class="toDetail" >查看详情</a>
                 </div>
             </div>
+            <div v-if="special[1]" class="first-list c" @click="toDetail(special[1]._id)">
+                <img v-if="!special[1].cover==''" class="listImg" :src="special[1].cover"/>
+                <!--<img class="listImg" :src="imgs"/>-->
+                <div v-else class="listImg" :style="{backgroundImage: 'url('+require('../../../public/image/noData.png')+')'}"></div>
+                <div class="listContent">
+                    <p class="title">{{special[1].name}}</p>
+                    <p class="man">研究人：{{special[1].human}}</p>
+                    <p class="man">研究人所属机构：{{special[1].organization}}</p>
+                    <p class="content">{{special[1].brief}}</p>
+                    <a class="toDetail" >查看详情</a>
+                </div>
+            </div>
             <div v-else class="first-list c" >
                 <div  class="listImg" :style="{backgroundImage: 'url('+require('../../../public/image/noData.png')+')'}"></div>
                 <div class="listContent">

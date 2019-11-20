@@ -69,13 +69,16 @@
                 <th>
                     还本方式
                 </th>
-                <td>
+                <td colspan="3">
                     {{detail.repaymentWay}}
                 </td>
+
+            </tr>
+            <tr>
                 <th>
                     付息方式
                 </th>
-                <td>
+                <td colspan="3">
                     {{detail.interestWay}}
                 </td>
             </tr>
@@ -245,10 +248,11 @@
         th, td {
             padding: 12px 0 12px 30px;
             line-height: 20px;
+
         }
 
         th {
-            width: 300px;
+            width: 200px;
             font-weight: 500;
             font-size: 20px;
             background: rgba(246, 251, 255, 1);
@@ -257,6 +261,8 @@
         td {
             font-weight: 400;
             font-size: 16px;
+            min-width: 300px;
+            line-height: 1.5;
         }
     }
 </style>

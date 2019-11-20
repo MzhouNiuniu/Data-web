@@ -77,7 +77,7 @@
                                 value: 0,
                                 name: '区县级',
                                 itemStyle: {
-                                    color: '#0000FC'
+                                    color: '#DFAC3D'
                                 },
                             },
                         ],

@@ -37,6 +37,8 @@
         <section class=" pages">
             <Pagination
                     class="mt-20"
+                    :pageSize="pageSize"
+                    :total="total"
                     v-bind="pagination"
                     @change="handlePageChange"
             />
@@ -61,7 +63,9 @@
                 title: '专题报告',
                 pagination: this.getPagination(),
                 newsType: 0,
-                data: []
+                data: [],
+                pageSize:3,
+                total:0
             }
         },
         components: {
@@ -96,6 +100,7 @@
             async getList(size, current, type) {
                 let res = await this.http.get(this.api.research.list, {limit: size, page: current, keyWords: '', type})
                 this.pagination.total = res.data.total
+                this.total = res.data.total
                 this.data = res.data.docs
             },
             toDetail(id) {

@@ -30,6 +30,8 @@
                     type: 'category',
                     boundaryGap: false,
                     data: ['城投', '新区城投', '交投', '水投', '文旅投', '工投', '农投', '地铁', '其它'],
+
+
                     axisLine: {
                         lineStyle: {
                             color: '#fff'
@@ -50,7 +52,7 @@
 
                 }],
                 yAxis: [{
-                    name: '总资产（亿元）',
+                    name: '金额（亿元）',
                     nameGap: Chart.getSize(26),
                     nameTextStyle: {
                         color: '#fff',
@@ -148,8 +150,9 @@
                             label: {
                                 show: true,
                                 position: 'end',
-                                align: 'left',
+                                align: 'center',
                                 color: '#fff',
+                                fontSize: Chart.getSize(14)
                             },
                             data: [],
                         },

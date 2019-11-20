@@ -18,6 +18,8 @@
             <Pagination
                     class="mt-20"
                     v-bind="pagination"
+                    :pageSize="pageSize"
+                    :total="total"
                     @change="handlePageChange"
             />
         </section>
@@ -34,7 +36,9 @@
             return {
                 pagination: this.getPagination(),
                 newsType:0,
-                data:[]
+                data:[],
+                total:0,
+                pageSize:6
             }
         },
         components: {
@@ -62,6 +66,7 @@
                 console.log(size)
                 let res = await this.http.get(this.api.researchScriptures.list,{limit:6,page:current})
                 this.pagination.total = res.data.total
+                this.total=res.data.total
                 this.data = res.data.docs
             },
             toDetail(id){

@@ -29,6 +29,8 @@
             <Pagination
                     class="mt-20"
                     v-bind="pagination"
+                    :total="total"
+                    :pageSize="pageSize"
                     @change="handlePageChange"
             />
         </section>
@@ -63,7 +65,9 @@
                 title:'政策法规',
                 pagination: this.getPagination(),
                 newsType:0,
-                data:[]
+                data:[],
+                total:0,
+                pageSize:8,
             }
         },
         components: {
@@ -103,6 +107,7 @@
                 console.log(this.api.statute.getList)
                 let res = await this.http.get(this.api.statute.list,{limit:size,page:current,type})
                 this.pagination.total = res.data.total
+                this.total = res.data.total
                 this.data = res.data.docs
             },
             toDetail(id,type){

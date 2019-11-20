@@ -56,7 +56,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                区域城投个数（个）：
+                                区域机构个数(个)：
                             </p>
                             <p class="value">
                                 {{currentGovDetail.count || '-'}}
@@ -68,8 +68,9 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-
                                 {{ Math.floor(currentGovDetail.GDP*100)/100|| '-'}}
+                            <div>(地区总GDP)</div>
+
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -78,7 +79,7 @@
                                 公共财政收入（亿元）：
                             </p>
                             <p class="value">
-                                {{ Math.floor(currentGovDetail.budget*100)/100|| '-'}}
+                                {{ Math.floor(currentGovDetail.income*100)/100|| '-'}}
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -88,6 +89,7 @@
                             </p>
                             <p class="value">
                                 {{ Math.floor(currentGovDetail.man*100)/100|| '-'}}
+                            <div>(地区常住人口)</div>
                             </p>
                             <div class="hr-dashed"></div>
                         </li>
@@ -125,6 +127,11 @@
             Pagination,
         },
         data() {
+            function Render(h, {column, index, row}) {
+
+                return ( < span > {row[column.key] != null ? Math.floor(row[column.key] * 100) / 100 : '-'} < /span>)
+            }
+
             this.map = null;
             this.columns = [
                 {
@@ -137,15 +144,19 @@
                     key: 'name',
                 },
                 {
+                    width: '220px',
                     title: '总资产规模（亿元）',
                     key: 'totalAsset',
+                    render: Render
                 },
                 {
                     title: '评级数据',
+                    width: '120px',
                     key: 'rateMain',
                 },
                 {
                     title: '主体类型',
+                    width: '120px',
                     key: 'mainType',
                 },
             ];
@@ -183,17 +194,17 @@
         methods: {
             // 底部表格
             handleTab(val) {
-                this.$router.push({ path: `/InvestComDetail/${val._id}` });
+                this.$router.push({path: `/InvestComDetail/${val._id}`});
             },
-            handlePageChange({ page, limit }) {
+            handlePageChange({page, limit}) {
                 this.loadList(page, limit);
             },
             loadList(page = 1, limit = 10) {
                 this.pagination.page = page;
                 this.pagination.limit = limit;
 
-                const { currentGovLevel, govNameStack } = this;
-                if(currentGovLevel=='区县级'&&!govNameStack[3]){
+                const {currentGovLevel, govNameStack} = this;
+                if (currentGovLevel == '区县级' && !govNameStack[3]) {
                     return
                 }
                 console.info('当前搜索关键词：' + this.currentSearchWords);
@@ -229,7 +240,7 @@
                 this.isLoadSearchOption = true;
                 clearTimeout(this.searchDebounceTimer);
                 this.searchDebounceTimer = setTimeout(() => {
-                    this.http.get(this.api.companyData.searchOptionList, { keyWords }).then(res => {
+                    this.http.get(this.api.companyData.searchOptionList, {keyWords}).then(res => {
                         if (res.status !== 200) {
                             this.searchOptionList = [];
                             return;
@@ -262,7 +273,7 @@
 
                 // 获取当前选择的山区
                 const blockStack = [option.province, option.city, option.district];
-                this.$refs.map.jumpTo(blockStack.slice(0, ({ '省级': 1, '地市级': 2, '区县级': 3 })[option.level])); // todo
+                this.$refs.map.jumpTo(blockStack.slice(0, ({'省级': 1, '地市级': 2, '区县级': 3})[option.level])); // todo
             },
 
             // 地图相关
@@ -304,7 +315,7 @@
                         </li>
                         <li class="item">
                             <p class="label">
-                                区域城投个数（个）：
+                               区域机构个数(个)：
                             </p>
                             <p class="value">
                                 ${detail.count}
@@ -315,7 +326,8 @@
                                 GDP（亿元）：
                             </p>
                             <p class="value">
-                                ${Math.floor(detail.GDP*100)/100}
+                                ${Math.floor(detail.GDP * 100) / 100}
+                                  <div>(地区总GDP)</div>
                             </p>
                         </li>
                         <li class="item">
@@ -323,7 +335,7 @@
                                 公共财政收入（亿元）：
                             </p>
                             <p class="value">
-                                 ${Math.floor(detail.budget*100)/100}
+                                 ${Math.floor(detail.income * 100) / 100}
                             </p>
                         </li>
                         <li class="item">
@@ -331,7 +343,8 @@
                                 人口（百万）：
                             </p>
                             <p class="value">
-                            ${Math.floor(detail.man*100)/100}
+                            ${Math.floor(detail.man * 100) / 100}
+                                <div>(地区常住人口)</div>
                             </p>
                         </li>
                     </ul>
@@ -359,7 +372,7 @@
                 });
             },
             loadMapData() {
-                const { currentYear, currentGovLevel, govNameStack } = this;
+                const {currentYear, currentGovLevel, govNameStack} = this;
                 const params = {
                     year: currentYear.getFullYear(),
                     directly: currentGovLevel, // 获取当前级别的所有数据
@@ -367,8 +380,7 @@
                     city: govNameStack[2] || '',
                     district: govNameStack[3] || '',
                 };
-                if(currentGovLevel=='区县级'&&!govNameStack[3])
-                {
+                if (currentGovLevel == '区县级' && !govNameStack[3]) {
                     return
                 }
                 this.http.get(this.api.companyData.govInfo, params).then(res => {
@@ -470,7 +482,6 @@
 
     .map-container {
         $right-width: 222px;
-
 
         overflow: hidden;
 
@@ -594,7 +605,6 @@
             cursor: pointer;
             border-radius: 0 4px 4px 0;
             background-color: $primary-color !important;
-
 
             &:hover {
                 background-color: $primary-color-light !important;

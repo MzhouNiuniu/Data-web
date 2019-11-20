@@ -1,6 +1,6 @@
 <template>
     <section class="home-banner">
-        <Carousel autoplay loop :height="498">
+        <Carousel  autoplay autoplay-speed="10000" loop :height="498">
             <CarouselItem v-for="(item,index) in imgList" :key="index">
                 <a class="trigger" href="#" :style="{backgroundImage:`url('${item}')`}"></a>
             </CarouselItem>
@@ -14,6 +14,7 @@
         data() {
             return {
                 imgList: [],
+                time:6000
             }
         },
         created() {
