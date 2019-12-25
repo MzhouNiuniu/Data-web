@@ -14,6 +14,7 @@
 </template>
 
 <script>
+
     import navList from '@/router/nav'
 
     export default {

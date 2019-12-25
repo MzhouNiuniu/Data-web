@@ -90,7 +90,7 @@
                         v-for="(item,index) in sortOptionList"
                         :key="index"
                         :class="{active:item.value === searchParams.sortField}"
-                        @click="searchParams.sortField=item.value;query()"
+                        @click="tabChange(item.value)"
                 >
                     {{item.label}}
                 </li>
@@ -112,33 +112,33 @@
         </div>
         <Row :gutter="30" class="com-list">
             <Col span="8" v-for="(item,index) in list" :key="index">
-                <div class="item">
-                    <p class="com-type">
-                    <p class="com-type">
-                        {{item.mainType}}
+            <div class="item">
+                <p class="com-type">
+                <p class="com-type">
+                    {{item.mainType}}
+                </p>
+                <router-link class="com-name ue-link" :to="`/InvestComDetail/${item._id}`">
+                    {{item.name}}
+                </router-link>
+                <p class="location">
+                    所在城市：{{item.province}}
+                </p>
+                <div class="tag-group mt-15">
+                    <p class="item">
+                        评级类型：{{item.rateMain?item.rateMain:'暂无'}}
                     </p>
-                    <router-link class="com-name ue-link" :to="`/InvestComDetail/${item._id}`">
-                        {{item.name}}
-                    </router-link>
-                    <p class="location">
-                        所在城市：{{item.province}}
-                    </p>
-                    <div class="tag-group mt-15">
-                        <p class="item">
-                            评级类型：{{item.rateMain?item.rateMain:'暂无'}}
-                        </p>
-                        <p class="item">
-                            总资产规模（亿元）：{{item.totalAsset?Math.floor(item.totalAsset*100)/100:'暂无'}}
-                        </p>
-                    </div>
-                    <p class="intro mt-10">
-                        <TextEllipsis
-                                fill
-                                :rows="2"
-                                :value="item.businessScope"
-                        />
+                    <p class="item">
+                        总资产规模（亿元）：{{item.totalAsset?Math.floor(item.totalAsset*100)/100:'暂无'}}
                     </p>
                 </div>
+                <p class="intro mt-10">
+                    <TextEllipsis
+                            fill
+                            :rows="2"
+                            :value="item.businessScope"
+                    />
+                </p>
+            </div>
             </Col>
         </Row>
         <Pagination
@@ -206,8 +206,8 @@
                         value: '文旅投',
                     },
                     {
-                        label: '工投',
-                        value: '工投',
+                        label: '房投',
+                        value: '房投',
                     },
                     {
                         label: '农投',
@@ -289,6 +289,7 @@
             this.list = [];
 
             return {
+
                 searchParams: {
                     keyWords: '',
                     min: null,
@@ -312,22 +313,42 @@
                 },
             };
         },
-        watch:{
-            'searchParams.sortField'(val){
-                console.log(val)
-                if(val=="totalAsset"){
-                    this.searchParams.sortFieldValue=-1
-                }
-                if(val=="creationTime"){
-                    this.searchParams.sortFieldValue=1
-                }
-                if(val=="businessCount"){
-                    this.searchParams.sortFieldValue=-1
-                }
-
-            }
+        watch: {
+            // 'searchParams.sortField'(val){
+            //     console.log(val)
+            //     if(val=="totalAsset"){
+            //         this.searchParams.sortFieldValue=-1
+            //
+            //     }
+            //     if(val=="creationTime"){
+            //         this.searchParams.sortFieldValue=1
+            //
+            //     }
+            //     if(val=="businessCount"){
+            //         this.searchParams.sortFieldValue=-1
+            //
+            //     }
+            //
+            // }
         },
         methods: {
+            tabChange(val) {
+
+                this.searchParams.sortField = val
+                if (val == "totalAsset") {
+                    this.searchParams.sortFieldValue = -1
+
+                }
+                if (val == "creationTime") {
+                    this.searchParams.sortFieldValue = 1
+
+                }
+                if (val == "businessCount") {
+                    this.searchParams.sortFieldValue = -1
+
+                }
+                this.query()
+            },
             search(value) {
                 console.log(value);
             },
@@ -343,7 +364,7 @@
                 });
 
             },
-            handlePageChange({ page, limit }) {
+            handlePageChange({page, limit}) {
                 this.query(page, limit);
             },
 
@@ -351,7 +372,7 @@
             getParams() {
                 // todo 字段之间的关联处理，将函数简化到了内联js，需要重新抽离。。
 
-                const result = { ...this.buttonParams, ...this.searchParams };
+                const result = {...this.buttonParams, ...this.searchParams};
 
                 // 时间范围选择器
                 console.log(result.createTime)
@@ -364,7 +385,7 @@
                 delete result.createTime;
 
                 // 筛选排序
-                result.sort = JSON.stringify({ [result.sortField]: result.sortFieldValue, stick: -1 });
+                result.sort = JSON.stringify({[result.sortField]: result.sortFieldValue, stick: -1});
                 delete result.sortField;
                 delete result.sortFieldValue;
 
@@ -504,7 +525,6 @@
                 li {
                     padding: 0 25px;
 
-
                     &:first-child {
                         padding: 0 58px;
                         @extend .base-active;
@@ -549,7 +569,7 @@
                 line-height: 25px;
                 text-align: center;
                 font-size: 14px;
-                background: rgba(5,103,255,0.5);
+                background: rgba(5, 103, 255, 0.5);
                 color: rgba(255, 255, 255, 1);
             }
 

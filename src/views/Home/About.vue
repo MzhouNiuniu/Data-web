@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="bottom">
-            <CardCarousel class="project-container" v-if="aptitude.length">
+            <CardCarousel class="project-container" v-if="aptitude&&aptitude.length">
                 <div v-for="(item,index) in aptitude" :key="index">
                     <img :src="item" alt="">
                 </div>

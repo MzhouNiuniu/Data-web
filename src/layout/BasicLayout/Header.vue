@@ -2,11 +2,19 @@
     <section class="project-container__wrapper">
         <section class="basic-layout__header clearfix project-container">
             <div class="project-info">
-                <router-link  to="/" class="name">
+                <router-link to="/" class="name">
                     <img class="logo" src="./logo.png">
                 </router-link>
+                <div style="float: right;position: relative"  @mouseenter="mouseOver" @mouseleave="mouseLeave"><img
+                                               style="width: 41px; margin-left: 20px;cursor: pointer"
+                                               src="../../../public/image/wx.png">
+                    <div class="" v-show="show">
+                        <img src="../../../public/image/wxgg.jpg" alt=""style="width: 115px; position: absolute;z-index: 106;top: 60px;left: -8px;">
+                    </div>
+                </div>
             </div>
             <Nav class="nav"/>
+
         </section>
     </section>
 </template>
@@ -19,6 +27,20 @@
         components: {
             Nav,
         },
+        data() {
+            return {
+                show: false
+            }
+        },
+        methods: {
+            mouseLeave() {
+                this.show = false
+            },
+            mouseOver() {
+                this.show = true
+
+            }
+        }
     };
 </script>
 

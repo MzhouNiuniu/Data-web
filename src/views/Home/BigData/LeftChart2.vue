@@ -106,11 +106,12 @@
                             },
                             {
                                 value: 0,
-                                name: '工投',
+                                name: '房投',
                                 itemStyle: {
                                     color: '#0486EE'
                                 },
                             },
+
                             {
                                 value: 0,
                                 name: '其它',
