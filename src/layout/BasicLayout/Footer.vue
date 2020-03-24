@@ -8,8 +8,14 @@
             </li>
         </ul>
         <h6 class="copy-right">
-          智慧城投（南京）信息科技有限公司 版权所有 苏ICP备19060746号
+            智慧城投（南京）信息科技有限公司 版权所有 苏ICP备19060746号
         </h6>
+        <div style="width:300px;margin:0 auto; padding:8px 0; text-align: center;">
+            <a  href="http://www.beian.miit.gov.cn" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;text-align: center">
+                <img src="../../../public/icon/jc.png" style="float:left;"/><p
+                        style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+                    32011302320840号</p></a>
+        </div>
     </section>
 </template>
 
