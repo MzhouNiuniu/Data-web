@@ -53,7 +53,7 @@
 
     .main {
         // padding-bottom: $layout-footer-height;
-        padding-bottom: 10px;
+        padding-bottom: 50px;
     }
 
     .footer {
